@@ -1,0 +1,25 @@
+From 0a44e0dc2a23bcde6a914219655d2563742df866 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Mon, 6 Jun 2016 11:29:09 +0800
+Subject: [PATCH] Fixed DDR parameter issue in SPL
+
+
+diff --git a/board/freescale/mx6advantech/mx6advantech.c b/board/freescale/mx6advantech/mx6advantech.c
+index 9e47b1a..3ead39f 100644
+--- a/board/freescale/mx6advantech/mx6advantech.c
++++ b/board/freescale/mx6advantech/mx6advantech.c
+@@ -1521,7 +1521,11 @@ void board_init_f(ulong dummy)
+ 	preloader_console_init();
+ 
+ 	/* DDR initialization */
++#if defined (CONFIG_ADVANTECH)	
++	//spl_dram_init();
++#else
+ 	spl_dram_init();
++#endif
+ 
+ 	/* Clear the BSS. */
+ 	memset(__bss_start, 0, __bss_end - __bss_start);
+-- 
+1.7.9.5
+

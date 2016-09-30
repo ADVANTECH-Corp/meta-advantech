@@ -1,0 +1,152 @@
+From 0421603286df499389d090bc02bf6ef0dd6d3d5b Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Fri, 5 Feb 2016 11:08:24 +0800
+Subject: [PATCH] spl5
+
+
+diff --git a/configs/mx6dlubc220a1_1G_defconfig b/configs/mx6dlubc220a1_1G_defconfig
+index 795c894..6edee96 100644
+--- a/configs/mx6dlubc220a1_1G_defconfig
++++ b/configs/mx6dlubc220a1_1G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6dlubc220_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,MX6DL,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6dlubc220_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,SPL,MX6DL,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6UBC220A1_1G=y
+ CONFIG_SYS_MALLOC_F=y
+diff --git a/configs/mx6qprom7421a1_1G_defconfig b/configs/mx6qprom7421a1_1G_defconfig
+index 3f8cddb..1ecf1fb 100644
+--- a/configs/mx6qprom7421a1_1G_defconfig
++++ b/configs/mx6qprom7421a1_1G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qprom7421a1_4x_MT41K128M16JT-125_1410022609-01.cfg,MX6QP,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qprom7421a1_4x_MT41K128M16JT-125_1410022609-01.cfg,SPL,MX6QP,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6ROM7421A1_1G=y
+ CONFIG_SYS_MALLOC_F=y
+diff --git a/configs/mx6qrom3420a1_1G_defconfig b/configs/mx6qrom3420a1_1G_defconfig
+index 2bf90a2..2492c40 100644
+--- a/configs/mx6qrom3420a1_1G_defconfig
++++ b/configs/mx6qrom3420a1_1G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom3420_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,MX6Q,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom3420_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,SPL,MX6Q,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6ROM3420A1_1G=y
+ CONFIG_DM=y
+diff --git a/configs/mx6qrom3420a1_2G_defconfig b/configs/mx6qrom3420a1_2G_defconfig
+index 586c14f..be59d34 100644
+--- a/configs/mx6qrom3420a1_2G_defconfig
++++ b/configs/mx6qrom3420a1_2G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom3420a1_4x_IM4G16D3FABG-125_1410025137-01.cfg,MX6Q,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom3420a1_4x_IM4G16D3FABG-125_1410025137-01.cfg,SPL,MX6Q,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6ROM3420A1_2G=y
+ CONFIG_DM=y
+diff --git a/configs/mx6qrom5420a1_1G_defconfig b/configs/mx6qrom5420a1_1G_defconfig
+index a84c6f3..6f63f73 100644
+--- a/configs/mx6qrom5420a1_1G_defconfig
++++ b/configs/mx6qrom5420a1_1G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom5420a1_4x_MT41K128M16JT-125_1410022609-01.cfg,MX6Q,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom5420a1_4x_MT41K128M16JT-125_1410022609-01.cfg,SPL,MX6Q,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6ROM5420A1_1G=y
+ CONFIG_DM=y
+diff --git a/configs/mx6qrom5420a1_2G_defconfig b/configs/mx6qrom5420a1_2G_defconfig
+index 77490a6..d7776f3 100644
+--- a/configs/mx6qrom5420a1_2G_defconfig
++++ b/configs/mx6qrom5420a1_2G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom5420a1_4x_IM4G16D3FABG-125_1410025137-01.cfg,MX6Q,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom5420a1_4x_IM4G16D3FABG-125_1410025137-01.cfg,SPL,MX6Q,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6ROM5420A1_2G=y
+ CONFIG_DM=y
+diff --git a/configs/mx6qrom5420b1_1G_defconfig b/configs/mx6qrom5420b1_1G_defconfig
+index 00303ab..88e9f35 100644
+--- a/configs/mx6qrom5420b1_1G_defconfig
++++ b/configs/mx6qrom5420b1_1G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom5420b1_4x_MT41K128M16JT-125_1410022609-01.cfg,MX6Q,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom5420b1_4x_MT41K128M16JT-125_1410022609-01.cfg,SPL,MX6Q,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6ROM5420B1_1G=y
+ CONFIG_DM=y
+diff --git a/configs/mx6qrom5420b1_2G_defconfig b/configs/mx6qrom5420b1_2G_defconfig
+index 92b2ba3..54884d2 100644
+--- a/configs/mx6qrom5420b1_2G_defconfig
++++ b/configs/mx6qrom5420b1_2G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom5420b1_4x_IM4G16D3FABG-125_1410025137-01.cfg,MX6Q,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom5420b1_4x_IM4G16D3FABG-125_1410025137-01.cfg,SPL,MX6Q,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6ROM5420B1_2G=y
+ CONFIG_DM=y
+diff --git a/configs/mx6qrom7420a1_1G_defconfig b/configs/mx6qrom7420a1_1G_defconfig
+index 4ee01fc..1aafb19 100644
+--- a/configs/mx6qrom7420a1_1G_defconfig
++++ b/configs/mx6qrom7420a1_1G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom7420_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,MX6Q,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom7420_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,SPL,MX6Q,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6ROM7420A1_1G=y
+ CONFIG_DM=y
+diff --git a/configs/mx6qrsb4410a1_1G_defconfig b/configs/mx6qrsb4410a1_1G_defconfig
+index cfb2334..8d0a773 100644
+--- a/configs/mx6qrsb4410a1_1G_defconfig
++++ b/configs/mx6qrsb4410a1_1G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrsb4410_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,MX6Q,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrsb4410_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,SPL,MX6Q,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6RSB4410A1_1G=y
+ CONFIG_DM=y
+diff --git a/configs/mx6qrsb4410a2_1G_defconfig b/configs/mx6qrsb4410a2_1G_defconfig
+index 57748e5..9f37073 100644
+--- a/configs/mx6qrsb4410a2_1G_defconfig
++++ b/configs/mx6qrsb4410a2_1G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrsb4410_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,MX6Q,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrsb4410_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,SPL,MX6Q,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6RSB4410A2_1G=y
+ CONFIG_DM=y
+diff --git a/configs/mx6qubcds31a1_1G_defconfig b/configs/mx6qubcds31a1_1G_defconfig
+index 5bdb57a..8adf8a9 100644
+--- a/configs/mx6qubcds31a1_1G_defconfig
++++ b/configs/mx6qubcds31a1_1G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qubcds31_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,MX6Q,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qubcds31_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,SPL,MX6Q,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6UBCDS31A1_1G=y
+ CONFIG_DM=y
+diff --git a/configs/mx6qwise3310a1_1G_defconfig b/configs/mx6qwise3310a1_1G_defconfig
+index dc8cb47..7ebd60c 100644
+--- a/configs/mx6qwise3310a1_1G_defconfig
++++ b/configs/mx6qwise3310a1_1G_defconfig
+@@ -1,4 +1,5 @@
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qwise3310_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,MX6Q,SYS_USE_SPINOR"
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qwise3310_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,SPL,MX6Q,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6WISE3310A1_1G=y
+ CONFIG_DM=y
+-- 
+1.7.9.5
+

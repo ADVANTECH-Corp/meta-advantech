@@ -1,0 +1,26 @@
+From 393c7f71784da3f06a4f27819f700fd0579317ea Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Wed, 20 Jan 2016 11:33:48 +0800
+Subject: [PATCH] 0014_emmc_001_emmc_clock_for_dual-lite
+
+
+diff --git a/drivers/mmc/fsl_esdhc.c b/drivers/mmc/fsl_esdhc.c
+index 6356bc5..88c98e9 100644
+--- a/drivers/mmc/fsl_esdhc.c
++++ b/drivers/mmc/fsl_esdhc.c
+@@ -668,8 +668,11 @@ int fsl_esdhc_initialize(bd_t *bis, struct fsl_esdhc_cfg *cfg)
+ #endif
+ 
+ 	cfg->cfg.f_min = 400000;
++#if defined(CONFIG_ADVANTECH) && defined(CONFIG_MMC_CLOCK_DOWNGRADE)
++	cfg->cfg.f_max = min(cfg->sdhc_clk, (u32)25000000);
++#else
+ 	cfg->cfg.f_max = min(cfg->sdhc_clk, (u32)52000000);
+-
++#endif
+ 	cfg->cfg.b_max = CONFIG_SYS_MMC_MAX_BLK_COUNT;
+ 
+ 	mmc = mmc_create(&cfg->cfg, cfg);
+-- 
+1.7.9.5
+

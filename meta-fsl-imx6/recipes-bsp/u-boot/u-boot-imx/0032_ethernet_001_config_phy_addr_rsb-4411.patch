@@ -1,0 +1,24 @@
+From 7f01b736f535c0962cefc1e275f936bfcbfb1919 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Tue, 3 May 2016 16:29:21 +0800
+Subject: [PATCH] phy
+
+
+diff --git a/include/configs/mx6rsb4411.h b/include/configs/mx6rsb4411.h
+index 44e1bd3..fc099b5 100755
+--- a/include/configs/mx6rsb4411.h
++++ b/include/configs/mx6rsb4411.h
+@@ -68,6 +68,10 @@
+ #define CONFIG_SF_DEFAULT_CS   0
+ #endif
+ 
++#undef CONFIG_FEC_MXC_PHYADDR
++#define CONFIG_FEC_MXC_PHYADDR  0
++
++
+ /*
+  * imx6 q/dl/solo pcie would be failed to work properly in kernel, if
+  * the pcie module is iniialized/enumerated both in uboot and linux
+-- 
+1.7.9.5
+

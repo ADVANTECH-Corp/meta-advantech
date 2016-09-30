@@ -1,0 +1,55 @@
+From 639351edf85bb2bda680c5dfe5d9a9b57e19edff Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Wed, 20 Jan 2016 11:24:12 +0800
+Subject: [PATCH] 0012-LVDS_001_setup_lvds_init
+
+
+diff --git a/board/freescale/mx6advantech/mx6advantech.c b/board/freescale/mx6advantech/mx6advantech.c
+index 7fffae2..ca96049 100755
+--- a/board/freescale/mx6advantech/mx6advantech.c
++++ b/board/freescale/mx6advantech/mx6advantech.c
+@@ -981,11 +981,40 @@ int board_early_init_f(void)
+ 	return 0;
+ }
+ 
++#if defined (CONFIG_ADVANTECH) && defined(CONFIG_SUPPORT_LVDS)
++void setup_lvds_init(void)
++{
++	imx_iomux_v3_setup_pad(IOMUX_LCD_BKLT_PWM); /* LCD_BKLT_PWM */
++	imx_iomux_v3_setup_pad(IOMUX_LCD_BKLT_EN); /* LCD_BKLT_EN */
++	imx_iomux_v3_setup_pad(IOMUX_LCD_VDD_EN); /* LCD_VDD_EN */
++
++	/* LCD_BKLT_PWM - disable pwm */
++	gpio_direction_output(LCD_BKLT_PWM, 0);
++
++	/* LCD_BKLT_EN - disable backlight */
++	gpio_direction_output(LCD_BKLT_EN, 0);
++
++	/* LCD_VDD_EN - disable VDD */
++	gpio_direction_output(LCD_VDD_EN, 0);
++}
++
++void setup_lvds_poweron(void)
++{
++	//LCD_BKLT_EN
++	gpio_direction_output(LCD_BKLT_EN, 1);
++
++	//LCD_VDD_EN
++	gpio_direction_output(LCD_VDD_EN, 1);
++}
++#endif
+ int board_init(void)
+ {
+ 	/* address of boot parameters */
+ 	gd->bd->bi_boot_params = PHYS_SDRAM + 0x100;
+-
++#if defined (CONFIG_ADVANTECH) && defined(CONFIG_SUPPORT_LVDS)
++       setup_lvds_init();
++       setup_lvds_poweron();
++#endif
+ #ifdef CONFIG_MXC_SPI
+ 	setup_spi();
+ #endif
+-- 
+1.7.9.5
+

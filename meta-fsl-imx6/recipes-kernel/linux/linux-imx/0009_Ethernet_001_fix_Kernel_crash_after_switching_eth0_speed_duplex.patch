@@ -1,0 +1,22 @@
+
+
+diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+index 76d96b9..72e2893 100644
+--- a/drivers/net/phy/phy.c
++++ b/drivers/net/phy/phy.c
+@@ -382,6 +382,12 @@ int phy_start_aneg(struct phy_device *phydev)
+ 	if (AUTONEG_DISABLE == phydev->autoneg)
+ 		phy_sanitize_settings(phydev);
+ 
++#ifdef CONFIG_ARCH_ADVANTECH
++	if (phydev->state == PHY_DOWN) {
++		err = 0;
++		goto out_unlock;
++	}
++#endif
+ 	err = phydev->drv->config_aneg(phydev);
+ 	if (err < 0)
+ 		goto out_unlock;
+-- 
+1.7.9.5
+
