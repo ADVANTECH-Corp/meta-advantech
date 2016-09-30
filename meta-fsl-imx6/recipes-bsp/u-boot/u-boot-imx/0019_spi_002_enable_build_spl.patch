@@ -1,0 +1,25 @@
+From 31c12221bda96c6e144ea03fe29f7789ba07387d Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Fri, 5 Feb 2016 11:05:45 +0800
+Subject: [PATCH] spl2
+
+
+diff --git a/arch/arm/include/asm/spl.h b/arch/arm/include/asm/spl.h
+index 6db405d..61dc4db 100644
+--- a/arch/arm/include/asm/spl.h
++++ b/arch/arm/include/asm/spl.h
+@@ -26,7 +26,11 @@ enum {
+ 	BOOT_DEVICE_SPI,
+ 	BOOT_DEVICE_SATA,
+ 	BOOT_DEVICE_I2C,
++#ifdef CONFIG_ADVANTECH
++	BOOT_DEVICE_AUTO,
++#else
+ 	BOOT_DEVICE_BOARD,
++#endif
+ 	BOOT_DEVICE_NONE
+ };
+ #endif
+-- 
+1.7.9.5
+

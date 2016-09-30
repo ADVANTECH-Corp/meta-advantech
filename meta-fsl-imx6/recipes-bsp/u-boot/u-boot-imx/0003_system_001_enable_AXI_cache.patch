@@ -1,0 +1,42 @@
+From 156d1fab758082353c4fb31d0e4d5f860afffcbc Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Thu, 7 Jan 2016 10:10:31 +0800
+Subject: [PATCH] AXI
+
+
+diff --git a/board/freescale/mx6advantech/mx6advantech.c b/board/freescale/mx6advantech/mx6advantech.c
+index bf93422..337bdf9 100755
+--- a/board/freescale/mx6advantech/mx6advantech.c
++++ b/board/freescale/mx6advantech/mx6advantech.c
+@@ -908,6 +908,18 @@ void epdc_power_off(void)
+ }
+ #endif
+ 
++#ifdef CONFIG_ADVANTECH
++int enable_AXI_cache(void)
++{
++	struct iomuxc_base_regs *const iomuxc_regs
++		= (struct iomuxc_base_regs *) IOMUXC_BASE_ADDR;
++
++	writel(0xF00000CF, &iomuxc_regs->gpr[4]);
++	writel(0x007F007F, &iomuxc_regs->gpr[6]);
++	writel(0x007F007F, &iomuxc_regs->gpr[7]);
++	return 0;
++}
++#endif
+ 
+ int mx6_rgmii_rework(struct phy_device *phydev)
+ {
+@@ -1141,6 +1153,9 @@ int board_early_init_f(void)
+ 	setup_spinor();
+ #endif
+ 
++#ifdef CONFIG_ADVANTECH
++	enable_AXI_cache();
++#endif
+ 	return 0;
+ }
+ 
+-- 
+1.7.9.5
+

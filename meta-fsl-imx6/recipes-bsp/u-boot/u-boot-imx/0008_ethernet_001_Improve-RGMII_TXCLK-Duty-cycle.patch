@@ -1,0 +1,29 @@
+From cf54c91f93f021c8cce43420c1909b358ddc5620 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Thu, 7 Jan 2016 10:14:43 +0800
+Subject: [PATCH] Improve RGMII_TXCLK Duty cycle
+
+
+diff --git a/board/freescale/mx6advantech/mx6advantech.c b/board/freescale/mx6advantech/mx6advantech.c
+index 337bdf9..7472579 100755
+--- a/board/freescale/mx6advantech/mx6advantech.c
++++ b/board/freescale/mx6advantech/mx6advantech.c
+@@ -55,8 +55,15 @@ DECLARE_GLOBAL_DATA_PTR;
+ 	PAD_CTL_SPEED_LOW | PAD_CTL_DSE_80ohm |			\
+ 	PAD_CTL_SRE_FAST  | PAD_CTL_HYS)
+ 
++/* Improve RGMII_TXCLK Duty cycle from HW Cindy */
++#ifdef CONFIG_ADVANTECH
++#define ENET_PAD_CTRL  (PAD_CTL_PUE |				\
++	PAD_CTL_PUS_100K_UP | PAD_CTL_SPEED_MED |		\
++	PAD_CTL_DSE_40ohm | PAD_CTL_HYS)
++#else
+ #define ENET_PAD_CTRL  (PAD_CTL_PUS_100K_UP |			\
+ 	PAD_CTL_SPEED_MED | PAD_CTL_DSE_40ohm | PAD_CTL_HYS)
++#endif
+ 
+ #define SPI_PAD_CTRL (PAD_CTL_HYS | PAD_CTL_SPEED_MED | \
+ 		      PAD_CTL_DSE_40ohm | PAD_CTL_SRE_FAST)
+-- 
+1.7.9.5
+

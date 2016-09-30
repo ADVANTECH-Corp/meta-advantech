@@ -1,0 +1,28 @@
+Index: fsl-rc-local/rc.local.etc
+===================================================================
+--- fsl-rc-local/rc.local.etc	(revision 1067)
++++ fsl-rc-local/rc.local.etc	(working copy)
+@@ -11,4 +11,23 @@
+ #
+ # By default this script does nothing.
+ 
++#key event poweroff module
++BOARD=$(cat /proc/board | cut -d ' ' -f 1)
++if [ "$BOARD" == "ROM-5420" ]
++then
++key_event &
++ec_uevent &
++fi
++
++if [ "$BOARD" == "ROM-3420" ]
++then
++key_event & 
++fi
++
++if [ "$BOARD" == "ROM-7421" ]
++then
++key_event &
++ec_uevent &
++fi
++
+ exit 0

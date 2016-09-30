@@ -1,0 +1,20 @@
+From 7c9dd8b39a0ed997e426060a936acce2bcb9ec13 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Tue, 3 May 2016 18:02:23 +0800
+Subject: [PATCH] Modify 2G defconfig file for i.MX6QP
+
+
+diff --git a/configs/mx6qprom7421a1_2G_defconfig b/configs/mx6qprom7421a1_2G_defconfig
+index ee704c3..575b5b4 100644
+--- a/configs/mx6qprom7421a1_2G_defconfig
++++ b/configs/mx6qprom7421a1_2G_defconfig
+@@ -1,5 +1,5 @@
+ CONFIG_SPL=y
+-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrom5420a1_4x_IM4G16D3FABG-125_1410025137-01.cfg,SPL,MX6QP,SYS_USE_SPINOR"
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qprom7421a1_4x_IM4G16D3FABG-125_1410025137-01.cfg,SPL,MX6QP,SYS_USE_SPINOR"
+ CONFIG_ARM=y
+ CONFIG_TARGET_MX6ROM7421A1_2G=y
+ CONFIG_SYS_MALLOC_F=y
+-- 
+1.7.9.5
+

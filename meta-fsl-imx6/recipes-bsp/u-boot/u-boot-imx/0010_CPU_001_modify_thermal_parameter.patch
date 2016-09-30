@@ -1,0 +1,27 @@
+From f0e41051a172bfe4745ef3584df19f56e4e2c336 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Wed, 20 Jan 2016 11:30:38 +0800
+Subject: [PATCH] 0013_CPU_001_modify_thermal_parameter
+
+
+diff --git a/drivers/thermal/imx_thermal.c b/drivers/thermal/imx_thermal.c
+index 5d7a1a8..c1dd6d5 100644
+--- a/drivers/thermal/imx_thermal.c
++++ b/drivers/thermal/imx_thermal.c
+@@ -20,8 +20,13 @@
+ 
+ #if defined(CONFIG_MX6)
+ #define TEMPERATURE_MIN		-40
++#ifdef CONFIG_ADVANTECH
++#define TEMPERATURE_HOT         195
++#define TEMPERATURE_MAX         200
++#else
+ #define TEMPERATURE_HOT		80
+ #define TEMPERATURE_MAX		125
++#endif
+ #define FACTOR0			10000000
+ #define FACTOR1			15423
+ #define FACTOR2			4148468
+-- 
+1.7.9.5
+

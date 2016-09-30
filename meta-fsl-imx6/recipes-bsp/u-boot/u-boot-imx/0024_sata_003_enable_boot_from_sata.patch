@@ -1,0 +1,131 @@
+From 257f416bb991c11ecf2e69966a3d6005dd930190 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Sun, 10 Apr 2016 20:44:55 +0800
+Subject: [PATCH] s3
+
+
+diff --git a/include/configs/imx6_spl_advantech.h b/include/configs/imx6_spl_advantech.h
+index 1692129..8792076 100755
+--- a/include/configs/imx6_spl_advantech.h
++++ b/include/configs/imx6_spl_advantech.h
+@@ -53,10 +53,6 @@
+ #ifdef CONFIG_SATA_BOOT
+ #define CONFIG_SPL_SATA_SUPPORT
+ #endif
+-#if defined(CONFIG_SPL_SATA_SUPPORT)
+-#define CONFIG_SPL_SATA_BOOT_DEVICE		0
+-#define CONFIG_SYS_SATA_FAT_BOOT_PARTITION	1
+-#endif
+ 
+ #if defined(CONFIG_MX6SX)
+ #define CONFIG_SPL_BSS_START_ADDR      0x88200000
+diff --git a/include/configs/mx6advantech_common.h b/include/configs/mx6advantech_common.h
+index b6ac99f..7784e8e 100644
+--- a/include/configs/mx6advantech_common.h
++++ b/include/configs/mx6advantech_common.h
+@@ -346,9 +346,18 @@
+ 	#define CONFIG_ENV_IS_NOWHERE	1
+ #endif
+ 
++/* SATA CONFIG */
+ #ifdef CONFIG_SATA_BOOT
+ #define CONFIG_CMD_SATA
+ #endif
++#ifdef CONFIG_CMD_SATA
++#define CONFIG_DWC_AHSATA
++#define CONFIG_SYS_SATA_MAX_DEVICE      1
++#define CONFIG_DWC_AHSATA_PORT_ID       0
++#define CONFIG_DWC_AHSATA_BASE_ADDR     SATA_ARB_BASE_ADDR
++#define CONFIG_LBA48
++#define CONFIG_LIBATA
++#endif
+ 
+ #else
+ #if defined CONFIG_SYS_BOOT_SPINOR
+diff --git a/include/configs/mx6rom3420.h b/include/configs/mx6rom3420.h
+index 5c943d2..11b1055 100644
+--- a/include/configs/mx6rom3420.h
++++ b/include/configs/mx6rom3420.h
+@@ -13,7 +13,10 @@
+ #include <asm/imx-common/gpio.h>
+ 
+ #ifdef CONFIG_SPL
++#define CONFIG_SATA_BOOT
+ #define CONFIG_SPL_LIBCOMMON_SUPPORT
++#define CONFIG_SPL_LIBGENERIC_SUPPORT
++#define CONFIG_SPL_LIBDISK_SUPPORT
+ #define CONFIG_SPL_MMC_SUPPORT
+ #include "imx6_spl_advantech.h"
+ #endif
+diff --git a/include/configs/mx6rom5420.h b/include/configs/mx6rom5420.h
+index 82471b2..d62c2cd 100644
+--- a/include/configs/mx6rom5420.h
++++ b/include/configs/mx6rom5420.h
+@@ -13,7 +13,10 @@
+ #include <asm/imx-common/gpio.h>
+ 
+ #ifdef CONFIG_SPL
++#define CONFIG_SATA_BOOT
+ #define CONFIG_SPL_LIBCOMMON_SUPPORT
++#define CONFIG_SPL_LIBGENERIC_SUPPORT
++#define CONFIG_SPL_LIBDISK_SUPPORT
+ #define CONFIG_SPL_MMC_SUPPORT
+ #include "imx6_spl_advantech.h"
+ #endif
+@@ -25,7 +28,7 @@
+ 
+ /* support SATA boot */
+ #define CONFIG_SATA_BOOT
+-#define CONFIG_SATA_GEN2        0x059180e6
++#define CONFIG_SATA_GEN2        0x05919552
+ #if defined(CONFIG_TARGET_MX6ROM5420A1_1G) || defined(CONFIG_TARGET_MX6ROM5420A1_2G)
+ #if defined(CONFIG_MX6QP)
+ #define CONFIG_DEFAULT_FDT_FILE	"imx6qp-rom5420-a1.dtb"
+diff --git a/include/configs/mx6rom7420.h b/include/configs/mx6rom7420.h
+index 7a50a09..938496a 100644
+--- a/include/configs/mx6rom7420.h
++++ b/include/configs/mx6rom7420.h
+@@ -13,7 +13,10 @@
+ #include <asm/imx-common/gpio.h>
+ 
+ #ifdef CONFIG_SPL
++#define CONFIG_SATA_BOOT
+ #define CONFIG_SPL_LIBCOMMON_SUPPORT
++#define CONFIG_SPL_LIBGENERIC_SUPPORT
++#define CONFIG_SPL_LIBDISK_SUPPORT
+ #define CONFIG_SPL_MMC_SUPPORT
+ #include "imx6_spl_advantech.h"
+ #endif
+diff --git a/include/configs/mx6rom7421.h b/include/configs/mx6rom7421.h
+index c1a1000..165c7c9 100644
+--- a/include/configs/mx6rom7421.h
++++ b/include/configs/mx6rom7421.h
+@@ -13,7 +13,10 @@
+ #include <asm/imx-common/gpio.h>
+ 
+ #ifdef CONFIG_SPL
++#define CONFIG_SATA_BOOT
+ #define CONFIG_SPL_LIBCOMMON_SUPPORT
++#define CONFIG_SPL_LIBGENERIC_SUPPORT
++#define CONFIG_SPL_LIBDISK_SUPPORT
+ #define CONFIG_SPL_MMC_SUPPORT
+ #include "imx6_spl_advantech.h"
+ #endif
+diff --git a/include/configs/mx6rsb4411.h b/include/configs/mx6rsb4411.h
+index f3fb4ba..a7c59ba 100755
+--- a/include/configs/mx6rsb4411.h
++++ b/include/configs/mx6rsb4411.h
+@@ -13,7 +13,10 @@
+ #include <asm/imx-common/gpio.h>
+ 
+ #ifdef CONFIG_SPL
++#define CONFIG_SATA_BOOT
+ #define CONFIG_SPL_LIBCOMMON_SUPPORT
++#define CONFIG_SPL_LIBGENERIC_SUPPORT
++#define CONFIG_SPL_LIBDISK_SUPPORT
+ #define CONFIG_SPL_MMC_SUPPORT
+ #include "imx6_spl_advantech.h"
+ #endif
+-- 
+1.7.9.5
+

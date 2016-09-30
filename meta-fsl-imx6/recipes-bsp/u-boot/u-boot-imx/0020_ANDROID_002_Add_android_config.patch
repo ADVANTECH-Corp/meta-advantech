@@ -1,0 +1,119 @@
+From de0f02b38eea6ad290b9e40f3b86a499d178c4e0 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Mon, 7 Mar 2016 10:55:23 +0800
+Subject: [PATCH] andorid_2
+
+
+diff --git a/common/board_r.c b/common/board_r.c
+index 57b0e93..8b5d15b 100644
+--- a/common/board_r.c
++++ b/common/board_r.c
+@@ -815,13 +815,57 @@ int board_set_boot_device(void)
+ 	}
+ 
+ 	sprintf(buf, "advboot_version=%s uboot_version=%s", advboot_version, uboot_version);
++#ifdef CONFIG_ANDROID_SUPPORT
++	setenv("bootargs_adv", buf);
++#else
+ 	setenv("bootargs", buf);
+-
++#endif
+ 	// check emmc exists or not
+ 	emmc_exist = check_emmc_exist();
+ 
+ 	switch(dev)
+ 	{
++#ifdef CONFIG_ANDROID_SUPPORT
++	/* Android */
++		case 1:
++		default:
++			/* booting from SD*/
++			printf("booting from SD\n");
++			sprintf(buf, "%s androidboot.selinux=disabled", getenv("bootargs_adv"));
++			setenv("bootargs_adv", buf);
++			setenv("fastboot_dev", "mmc0");
++			setenv("bootcmd", "boota mmc0");
++			break;
++		case 2:
++			/* booting from SATA*/
++			printf("booting from SATA\n");
++			sprintf(buf, "%s androidboot.selinux=disabled androidboot.fs=sata", getenv("bootargs_adv"));
++			setenv("bootargs_adv", buf);
++			setenv("fastboot_dev", "sata");
++			setenv("bootcmd", "boota sata");
++			break;
++		case 3:
++			/* booting from iNAND*/
++			printf("booting from iNAND\n");
++			sprintf(buf, "%s androidboot.selinux=disabled androidboot.fs=emmc", getenv("bootargs_adv"));
++			setenv("bootargs_adv", buf);
++			setenv("fastboot_dev", "mmc1");
++			setenv("bootcmd", "boota mmc1");
++			break;
++#ifdef CONFIG_SPI_BOOT_SUPPORT
++		case 4:
++			/* booting from SPI*/
++			printf("booting from SPI -> kernel boot form EMMC\n");
++			sprintf(buf, "%s androidboot.selinux=disabled androidboot.fs=emmc", getenv("bootargs_adv"));
++			setenv("bootargs_adv", buf);
++			if(emmc_exist) {
++				setenv("fastboot_dev", "mmc1");
++				setenv("bootcmd", "boota mmc1");
++			}
++			break;
++#endif
++#else
++	/* Linux */
+ 		case 1:
+ 		default:
+ 			/* booting from SD*/
+@@ -869,6 +913,7 @@ int board_set_boot_device(void)
+ 			setenv("mmcroot",buf);
+                         break;
+ #endif
++#endif /*CONFIG_ANDROID_SUPPORT*/
+ 	}
+ 
+ 	/*record ddr bit, 32 or 64 bit*/
+@@ -1057,6 +1102,9 @@ init_fnc_t init_sequence_r[] = {
+ #ifdef CONFIG_BOARD_LATE_INIT
+ 	board_late_init,
+ #endif
++#ifdef CONFIG_ADVANTECH
++	board_set_boot_device,
++#endif
+ #ifdef CONFIG_FSL_FASTBOOT
+ 	initr_fastboot_setup,
+ #endif
+@@ -1106,9 +1154,6 @@ init_fnc_t init_sequence_r[] = {
+ #ifdef CONFIG_FSL_FASTBOOT
+ 	initr_check_fastboot,
+ #endif
+-#ifdef CONFIG_ADVANTECH
+-	board_set_boot_device,
+-#endif
+ 	run_main_loop,
+ };
+ 
+diff --git a/common/image-android.c b/common/image-android.c
+index d56380d..b844dec 100644
+--- a/common/image-android.c
++++ b/common/image-android.c
+@@ -48,8 +48,13 @@ int android_image_get_kernel(const struct andr_img_hdr *hdr, int verify,
+ 	if (*hdr->cmdline) {
+ 		len += strlen(hdr->cmdline);
+ 	}
+-
++#ifdef CONFIG_ANDROID_SUPPORT
++	char *bootargs = getenv("bootargs");
++    char *adv_cmd_line = getenv("bootargs_adv");
++	sprintf(bootargs, "%s %s", bootargs, adv_cmd_line);
++#else
+ 	char *bootargs = getenv("bootargs");
++#endif
+ 	if (bootargs)
+ 		len += strlen(bootargs);
+ 
+-- 
+1.7.9.5
+

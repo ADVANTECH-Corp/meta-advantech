@@ -1,0 +1,55 @@
+From 631ad009ade09f1e050a997d0415a1c28ba9a1be Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Thu, 22 Sep 2016 14:08:07 +0800
+Subject: [PATCH] Modify LVDS power on sequence for SI test
+
+
+diff --git a/drivers/video/fbdev/mxc/mxc_ipuv3_fb.c b/drivers/video/fbdev/mxc/mxc_ipuv3_fb.c
+index 45bbabc..3afbada 100644
+--- a/drivers/video/fbdev/mxc/mxc_ipuv3_fb.c
++++ b/drivers/video/fbdev/mxc/mxc_ipuv3_fb.c
+@@ -64,6 +64,13 @@
+ 
+ #ifdef CONFIG_ARCH_ADVANTECH
+ char fb_vga_fix_id[30];
++
++#if defined(CONFIG_OF)
++int first_power_on = 1;
++extern void enable_lcd_vdd_en(void);
++extern void enable_ldb_bkl_pwm(void);
++#endif
++
+ #endif
+ 
+ /*!
+@@ -220,12 +227,6 @@ enum {
+ static bool g_dp_in_use[2];
+ LIST_HEAD(fb_alloc_list);
+ 
+-#if defined(CONFIG_OF) && defined(CONFIG_ARCH_ADVANTECH)
+-static int first_power_on = 1;
+-extern void enable_lcd_vdd_en(void);
+-extern void enable_ldb_bkl_pwm(void);
+-#endif
+-
+ /* Return default standard(RGB) pixel format */
+ static uint32_t bpp_to_pixfmt(int bpp)
+ {
+@@ -2633,14 +2634,6 @@ next:
+ 
+ 	dev_dbg(info->device, "Update complete\n");
+ 
+-#if defined(CONFIG_OF) && defined(CONFIG_ARCH_ADVANTECH)
+-	if(first_power_on)
+-	{
+-		enable_ldb_bkl_pwm();
+-		first_power_on = 0;
+-	}
+-#endif
+-
+ 	info->var.yoffset = var->yoffset;
+ 	mxc_fbi->cur_var.xoffset = var->xoffset;
+ 	mxc_fbi->cur_var.yoffset = var->yoffset;
+-- 
+2.1.2
+

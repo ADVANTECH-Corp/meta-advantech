@@ -1,0 +1,27 @@
+From 162e11a276f161e000bdaf1a1143b19bc5b8fdd4 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Thu, 17 Mar 2016 14:20:55 +0800
+Subject: [PATCH] 4411-1
+
+
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+old mode 100644
+new mode 100755
+index ee3d242..3b45108
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -533,6 +533,11 @@ config TARGET_MX6RSB4410A2_1G
+ 	select CPU_V7
+ 	select SUPPORT_SPL
+ 
++config TARGET_MX6RSB4411A1_1G
++	bool "Support mx6rsb4411a1 1G"
++	select CPU_V7
++	select SUPPORT_SPL
++
+ config TARGET_MX6UBCDS31A1_1G
+ 	bool "Support mx6ubcds31a1 1G"
+ 	select CPU_V7
+-- 
+1.7.9.5
+

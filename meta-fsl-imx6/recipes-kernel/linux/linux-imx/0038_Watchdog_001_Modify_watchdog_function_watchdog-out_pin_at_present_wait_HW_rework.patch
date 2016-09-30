@@ -1,0 +1,39 @@
+Add to define watchdog-out pin (MX6QDL_PAD_GPIO_17__GPIO7_IO12) at present for rom-7421.
+When Hardware reworks to connect internal watchdog-out pin, I will remove watchdog-out pin defined for rom-7421.
+
+
+diff --git a/drivers/watchdog/watchdog_advantech.c b/drivers/watchdog/watchdog_advantech.c
+index 079227a..7b38f9e 100644
+--- a/drivers/watchdog/watchdog_advantech.c
++++ b/drivers/watchdog/watchdog_advantech.c
+@@ -56,6 +56,8 @@
+ 
+ static int gpio_wdt_en;
+ static int gpio_wdt_ping;
++static int gpio_wdt_out;
++
+ 
+ struct i2c_client *adv_client;
+ 
+@@ -376,6 +378,18 @@ static int adv_wdt_i2c_probe(struct i2c_client *client, const struct i2c_device_
+ 	msleep(10);
+ 	gpio_direction_output(gpio_wdt_ping, flags);
+ 
++	/* We use common gpio pin to be watchdog-out pin (output-low) at present. We wait H/W rework, then remove.  */
++	gpio_wdt_out = of_get_named_gpio_flags(np, "wdt-out", 0, &flags);
++        if (!gpio_is_valid(gpio_wdt_ping))
++                return -ENODEV;
++
++	ret = devm_gpio_request_one(&client->dev, gpio_wdt_out, GPIOF_OUT_INIT_LOW, "adv_wdt.wdt_out`");
++
++	if (ret < 0) {
++		dev_err(&client->dev, "request gpio failed: %d\n", ret);
++		return ret;
++	}
++
+ 	adv_wdt.timeout = clamp_t(unsigned, timeout, 1, ADV_WDT_MAX_TIME);
+ 	if (adv_wdt.timeout != timeout)
+ 		dev_warn(&client->dev, "Initial timeout out of range! "
+-- 
+1.7.9.5
+

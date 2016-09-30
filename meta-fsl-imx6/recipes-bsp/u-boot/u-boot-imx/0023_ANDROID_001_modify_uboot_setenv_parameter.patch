@@ -1,0 +1,48 @@
+From 47484b24773eb5e3070a05b2cb9705ec6414d741 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Tue, 24 May 2016 14:58:12 +0800
+Subject: [PATCH] seconed version
+
+
+diff --git a/common/image-android.c b/common/image-android.c
+index b844dec..14465f3 100644
+--- a/common/image-android.c
++++ b/common/image-android.c
+@@ -48,13 +48,7 @@ int android_image_get_kernel(const struct andr_img_hdr *hdr, int verify,
+ 	if (*hdr->cmdline) {
+ 		len += strlen(hdr->cmdline);
+ 	}
+-#ifdef CONFIG_ANDROID_SUPPORT
+-	char *bootargs = getenv("bootargs");
+-    char *adv_cmd_line = getenv("bootargs_adv");
+-	sprintf(bootargs, "%s %s", bootargs, adv_cmd_line);
+-#else
+ 	char *bootargs = getenv("bootargs");
+-#endif
+ 	if (bootargs)
+ 		len += strlen(bootargs);
+ 
+@@ -76,10 +70,17 @@ int android_image_get_kernel(const struct andr_img_hdr *hdr, int verify,
+ 	struct tag_serialnr serialnr;
+ 	char commandline[ANDR_BOOT_ARGS_SIZE];
+ 	get_board_serial(&serialnr);
+-
++#ifdef CONFIG_ANDROID_SUPPORT
++	char *adv_cmd_line = getenv("bootargs_adv");
++#endif
+ 	sprintf(commandline,
+-					"%s androidboot.serialno=%08x%08x",
+-					newbootargs,
++#ifdef CONFIG_ANDROID_SUPPORT
++					"%s %s androidboot.serialno=%08x%08x",
++					newbootargs,adv_cmd_line,
++#else
++                                        "%s androidboot.serialno=%08x%08x",
++                                        newbootargs,
++#endif
+ 					serialnr.high,
+ 					serialnr.low);
+ #endif
+-- 
+1.7.9.5
+

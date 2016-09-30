@@ -1,0 +1,25 @@
+From 476f74e3cd8038bd7328343cdec293b792937bad Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Fri, 5 Feb 2016 11:09:42 +0800
+Subject: [PATCH] spl7
+
+
+diff --git a/include/spl.h b/include/spl.h
+index b2e5bf7..73edf13 100644
+--- a/include/spl.h
++++ b/include/spl.h
+@@ -52,7 +52,11 @@ void spl_onenand_load_image(void);
+ void spl_nor_load_image(void);
+ 
+ /* MMC SPL functions */
++#ifdef CONFIG_ADVANTECH
++int spl_mmc_load_image(unsigned int dev);
++#else
+ void spl_mmc_load_image(void);
++#endif
+ 
+ /* YMODEM SPL functions */
+ void spl_ymodem_load_image(void);
+-- 
+1.7.9.5
+

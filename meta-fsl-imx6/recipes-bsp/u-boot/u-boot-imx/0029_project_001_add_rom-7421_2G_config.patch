@@ -1,0 +1,25 @@
+From 58c27b055e97c6ba2b7ad2b4c5cdc2f0e361ac19 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Thu, 28 Apr 2016 16:55:31 +0800
+Subject: [PATCH 1/2] 7421
+
+
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 3b45108..ab3baea 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -588,6 +588,11 @@ config TARGET_MX6ROM7421A1_1G
+ 	select CPU_V7
+ 	select SUPPORT_SPL
+ 
++config TARGET_MX6ROM7421A1_2G
++	bool "Support mx6rom7421a1 2G"
++	select CPU_V7
++	select SUPPORT_SPL
++
+ config TARGET_MX6WISE3310A1_1G
+ 	bool "Support mx6romwise3310a1 1G"
+ 	select CPU_V7
+-- 
+1.7.9.5
+

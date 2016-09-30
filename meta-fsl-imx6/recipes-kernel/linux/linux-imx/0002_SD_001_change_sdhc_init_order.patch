@@ -1,0 +1,52 @@
+From e62fd18aeaba1f4ad355dc833d90a7caea83862c Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Fri, 29 Jul 2016 09:38:44 +0800
+Subject: [PATCH] revertsd
+
+
+diff --git a/arch/arm/boot/dts/imx6qdl.dtsi b/arch/arm/boot/dts/imx6qdl.dtsi
+index 7775047..12f381a 100644
+--- a/arch/arm/boot/dts/imx6qdl.dtsi
++++ b/arch/arm/boot/dts/imx6qdl.dtsi
+@@ -1059,6 +1059,19 @@
+ 				status = "disabled";
+ 			};
+ 
++			/* boot order: sd card > emmc */
++			usdhc4: usdhc@0219c000 {
++				compatible = "fsl,imx6q-usdhc";
++				reg = <0x0219c000 0x4000>;
++				interrupts = <0 25 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&clks IMX6QDL_CLK_USDHC4>,
++					 <&clks IMX6QDL_CLK_USDHC4>,
++					 <&clks IMX6QDL_CLK_USDHC4>;
++				clock-names = "ipg", "ahb", "per";
++				bus-width = <4>;
++				status = "disabled";
++			};
++
+ 			usdhc2: usdhc@02194000 {
+ 				compatible = "fsl,imx6q-usdhc";
+ 				reg = <0x02194000 0x4000>;
+@@ -1083,18 +1096,6 @@
+ 				status = "disabled";
+ 			};
+ 
+-			usdhc4: usdhc@0219c000 {
+-				compatible = "fsl,imx6q-usdhc";
+-				reg = <0x0219c000 0x4000>;
+-				interrupts = <0 25 IRQ_TYPE_LEVEL_HIGH>;
+-				clocks = <&clks IMX6QDL_CLK_USDHC4>,
+-					 <&clks IMX6QDL_CLK_USDHC4>,
+-					 <&clks IMX6QDL_CLK_USDHC4>;
+-				clock-names = "ipg", "ahb", "per";
+-				bus-width = <4>;
+-				status = "disabled";
+-			};
+-
+ 			i2c1: i2c@021a0000 {
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+-- 
+1.7.9.5
+

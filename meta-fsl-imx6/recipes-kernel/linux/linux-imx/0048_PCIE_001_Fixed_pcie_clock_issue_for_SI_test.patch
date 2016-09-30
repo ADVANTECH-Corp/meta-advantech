@@ -1,0 +1,30 @@
+From 267dbf8200eae1be5bd1b37613317c8184041cb1 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Fri, 15 Apr 2016 16:17:42 +0800
+Subject: [PATCH] Fixed pcie issue for SI test: Fixed pcie clock issue when it
+ doesn't insert pci device
+
+
+diff --git a/drivers/pci/host/pci-imx6.c b/drivers/pci/host/pci-imx6.c
+index e5db7fd..c7ae475 100644
+--- a/drivers/pci/host/pci-imx6.c
++++ b/drivers/pci/host/pci-imx6.c
+@@ -640,6 +640,7 @@ static int imx6_pcie_start_link(struct pcie_port *pp)
+ 		ret = -EINVAL;
+ 
+ out:
++#ifndef CONFIG_ARCH_ADVANTECH
+ 	if (ret) {
+ 		dev_err(pp->dev, "Failed to bring link up!\n");
+ 		clk_disable_unprepare(imx6_pcie->pcie);
+@@ -670,6 +671,7 @@ out:
+ 		tmp = readl(pp->dbi_base + 0x80);
+ 		dev_dbg(pp->dev, "Link up, Gen=%i\n", (tmp >> 16) & 0xf);
+ 	}
++#endif
+ 
+ 	return ret;
+ }
+-- 
+1.7.9.5
+

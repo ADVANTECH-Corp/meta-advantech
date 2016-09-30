@@ -1,0 +1,107 @@
+From 8f80d4193d0d43e436c345588117672ad68f81a1 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Thu, 17 Mar 2016 14:03:41 +0800
+Subject: [PATCH] modify sd3
+
+
+diff --git a/include/configs/mx6advantech_common.h b/include/configs/mx6advantech_common.h
+index cfa4741..b6ac99f 100644
+--- a/include/configs/mx6advantech_common.h
++++ b/include/configs/mx6advantech_common.h
+@@ -494,4 +494,11 @@
+ #if defined(CONFIG_ANDROID_SUPPORT)
+ #include "mx6sabreandroid_common.h"
+ #endif
++
++
++/* boot device dev number */
++#define	CONFIG_EMMC_DEV_NUM	1
++#define	CONFIG_SD_DEV_NUM	0
++#define	CONFIG_SATA_DEV_NUM	0
++
+ #endif                         /* __MX6QSABRE_COMMON_CONFIG_H */
+diff --git a/include/configs/mx6rom3420.h b/include/configs/mx6rom3420.h
+index 8844ae5..5c943d2 100644
+--- a/include/configs/mx6rom3420.h
++++ b/include/configs/mx6rom3420.h
+@@ -150,5 +150,4 @@
+ #define IOMUX_SPI_CS1           MX6_PAD_KEY_COL2__ENET_RX_DATA2
+ 
+ #define USDHC2_CD_GPIO          IMX_GPIO_NR(2, 2)
+-#define USDHC3_CD_GPIO          IMX_GPIO_NR(2, 0)
+ #endif                         /* __MX6QSABRESD_CONFIG_H */
+diff --git a/include/configs/mx6rom5420.h b/include/configs/mx6rom5420.h
+index 6cf4708..82471b2 100644
+--- a/include/configs/mx6rom5420.h
++++ b/include/configs/mx6rom5420.h
+@@ -159,5 +159,4 @@
+ #define IOMUX_SPI_CS0           MX6_PAD_EIM_EB2__ECSPI1_SS0
+ 
+ #define USDHC2_CD_GPIO          IMX_GPIO_NR(2, 2)
+-#define USDHC3_CD_GPIO          IMX_GPIO_NR(2, 0)
+ #endif                         /* __MX6QSABRESD_CONFIG_H */
+diff --git a/include/configs/mx6rom7420.h b/include/configs/mx6rom7420.h
+index f061af8..7a50a09 100644
+--- a/include/configs/mx6rom7420.h
++++ b/include/configs/mx6rom7420.h
+@@ -134,5 +134,4 @@
+ #define IOMUX_SPI_CS0           MX6_PAD_EIM_D19__ECSPI1_SS1
+ 
+ #define USDHC2_CD_GPIO          IMX_GPIO_NR(2, 2)
+-#define USDHC3_CD_GPIO          IMX_GPIO_NR(2, 0)
+ #endif                         /* __MX6QSABRESD_CONFIG_H */
+diff --git a/include/configs/mx6rom7421.h b/include/configs/mx6rom7421.h
+index c8970ec..c67144d 100644
+--- a/include/configs/mx6rom7421.h
++++ b/include/configs/mx6rom7421.h
+@@ -140,4 +140,7 @@
+ #define USDHC2_CD_GPIO		IMX_GPIO_NR(2, 0)
+ #define USDHC3_CD_GPIO		IMX_GPIO_NR(2, 1)
+ #define USDHC3_PWREN_GPIO	IMX_GPIO_NR(2, 2)
++#undef	CONFIG_EMMC_DEV_NUM 
++#define	CONFIG_EMMC_DEV_NUM		2	/* USDHC4 */
++#define	CONFIG_CARRIERSD_DEV_NUM	1	/* USDHC3 */		
+ #endif                         /* __MX6QSABRESD_CONFIG_H */
+diff --git a/include/configs/mx6rsb4410.h b/include/configs/mx6rsb4410.h
+index 2757536..3df785e 100644
+--- a/include/configs/mx6rsb4410.h
++++ b/include/configs/mx6rsb4410.h
+@@ -140,5 +140,4 @@
+ #define IOMUX_SPI_CS0           MX6_PAD_EIM_EB2__ECSPI1_SS0
+ 
+ #define USDHC2_CD_GPIO          IMX_GPIO_NR(2, 2)
+-#define USDHC3_CD_GPIO          IMX_GPIO_NR(2, 0)
+ #endif                         /* __MX6QSABRESD_CONFIG_H */
+diff --git a/include/configs/mx6ubc220.h b/include/configs/mx6ubc220.h
+index 365a33a..21a4ba4 100644
+--- a/include/configs/mx6ubc220.h
++++ b/include/configs/mx6ubc220.h
+@@ -129,5 +129,4 @@
+ #define IOMUX_SPI_CS0           MX6_PAD_EIM_EB2__ECSPI1_SS0
+ 
+ #define USDHC2_CD_GPIO		IMX_GPIO_NR(1, 4)
+-#define USDHC3_CD_GPIO          IMX_GPIO_NR(2, 0)
+ #endif                         /* __MX6QSABRESD_CONFIG_H */
+diff --git a/include/configs/mx6ubcds31.h b/include/configs/mx6ubcds31.h
+index 3debf9a..1bac0ba 100644
+--- a/include/configs/mx6ubcds31.h
++++ b/include/configs/mx6ubcds31.h
+@@ -116,5 +116,4 @@
+ #define IOMUX_SPI_CS0           MX6_PAD_EIM_EB2__ECSPI1_SS0
+ 
+ #define USDHC2_CD_GPIO          IMX_GPIO_NR(2, 2)
+-#define USDHC3_CD_GPIO          IMX_GPIO_NR(2, 0)
+ #endif                         /* __MX6QSABRESD_CONFIG_H */
+diff --git a/include/configs/mx6wise3310.h b/include/configs/mx6wise3310.h
+index 34b93b9..e6cb8ee 100644
+--- a/include/configs/mx6wise3310.h
++++ b/include/configs/mx6wise3310.h
+@@ -117,5 +117,4 @@
+ #define IOMUX_SPI_CS0           MX6_PAD_EIM_EB2__ECSPI1_SS0
+ 
+ #define USDHC2_CD_GPIO          IMX_GPIO_NR(2, 2)
+-#define USDHC3_CD_GPIO          IMX_GPIO_NR(2, 0)
+ #endif                         /* __MX6QSABRESD_CONFIG_H */
+-- 
+1.7.9.5
+

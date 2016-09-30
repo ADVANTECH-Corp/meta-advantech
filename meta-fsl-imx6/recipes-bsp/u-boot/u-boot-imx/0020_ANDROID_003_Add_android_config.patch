@@ -1,0 +1,32 @@
+From de0f02b38eea6ad290b9e40f3b86a499d178c4e0 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Mon, 7 Mar 2016 10:55:23 +0800
+Subject: [PATCH] android_3
+
+
+diff --git a/configs/mx6qrsb4410a1android_1G_defconfig b/configs/mx6qrsb4410a1android_1G_defconfig
+new file mode 100644
+index 0000000..4232ee5
+--- /dev/null
++++ b/configs/mx6qrsb4410a1android_1G_defconfig
+@@ -0,0 +1,5 @@
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrsb4410_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,MX6Q,SYS_USE_SPINOR,ANDROID_SUPPORT"
++CONFIG_ARM=y
++CONFIG_TARGET_MX6RSB4410A1_1G=y
++CONFIG_DM=y
++CONFIG_DM_THERMAL=y
+diff --git a/configs/mx6qrsb4410a2android_1G_defconfig b/configs/mx6qrsb4410a2android_1G_defconfig
+new file mode 100644
+index 0000000..0c1c9a2
+--- /dev/null
++++ b/configs/mx6qrsb4410a2android_1G_defconfig
+@@ -0,0 +1,6 @@
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6advantech/mx6qrsb4410_4x_K4B2G1646Q-BCK0_1410024420-01.cfg,MX6Q,SYS_USE_SPINOR,ANDROID_SUPPORT"
++CONFIG_ARM=y
++CONFIG_TARGET_MX6RSB4410A2_1G=y
++CONFIG_DM=y
++CONFIG_DM_THERMAL=y
++
+-- 
+1.7.9.5
+

@@ -1,0 +1,30 @@
+From 85d38bbf82f53cb310db67811baae08828e0c761 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Wed, 27 Jul 2016 17:11:57 +0800
+Subject: [PATCH 3/3] usbotg
+
+
+diff --git a/drivers/usb/phy/phy-mxs-usb.c b/drivers/usb/phy/phy-mxs-usb.c
+index 68eb8ab..122cfa8 100644
+--- a/drivers/usb/phy/phy-mxs-usb.c
++++ b/drivers/usb/phy/phy-mxs-usb.c
+@@ -248,13 +248,15 @@ static int mxs_phy_hw_init(struct mxs_phy *mxs_phy)
+ #ifdef CONFIG_ARCH_ADVANTECH
+ 	if(mxs_phy->port_id == 0) {
+ 		/* USB-OTG Port */
+-		if ( IS_ROM_3420 || IS_ROM_5420 || IS_ROM_7421) {
++		if ( IS_ROM_3420 || IS_ROM_5420 || IS_ROM_7421 || IS_RSB_4411) {
+ 			val = readl(base + HW_USBPHY_TX);
+ 
+ 			if (IS_ROM_3420)
+                 		val &= 0x10060603;
+ 			else if (IS_ROM_5420)
+ 				val &= 0x10060607;
++			else if (IS_RSB_4411)
++				val &= 0x10020207;
+ 			else /* IS_ROM_7421 */
+ 				val &= 0x10040406;
+ 
+-- 
+1.7.9.5
+

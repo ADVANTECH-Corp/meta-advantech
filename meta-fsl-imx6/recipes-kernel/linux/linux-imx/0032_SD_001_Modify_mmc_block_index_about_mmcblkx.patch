@@ -1,0 +1,49 @@
+From ac22bfcb990a0d470054579963e9c31df488487b Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Fri, 15 Jan 2016 15:20:34 +0800
+Subject: [PATCH] Modify_mmc_block_index_about_mmcblkx
+
+
+diff --git a/drivers/mmc/card/block.c b/drivers/mmc/card/block.c
+index 293ba0d..1730a29 100644
+--- a/drivers/mmc/card/block.c
++++ b/drivers/mmc/card/block.c
+@@ -46,6 +46,10 @@
+ 
+ #include "queue.h"
+ 
++#ifdef CONFIG_ARCH_ADVANTECH
++#include <linux/proc-board.h>
++#endif
++
+ MODULE_ALIAS("mmc:block");
+ #ifdef MODULE_PARAM_PREFIX
+ #undef MODULE_PARAM_PREFIX
+@@ -2046,8 +2050,22 @@ static struct mmc_blk_data *mmc_blk_alloc_req(struct mmc_card *card,
+ 	 */
+ 	if (!subname) {
+ #ifdef CONFIG_ARCH_ADVANTECH
+-		md->name_idx = find_first_zero_bit(name_use, max_devices);
+-		printk("MMC: md->name_idx = %d\n", md->name_idx);
++		if (IS_ROM_7421) {
++			int idx;
++
++			idx = mmc_get_reserved_index(card->host);
++
++			if(idx == 2)
++				md->name_idx = idx;
++			else
++				md->name_idx = find_first_zero_bit(name_use, max_devices);
++
++			printk("MMC: md->name_idx = %d\n", md->name_idx);
++		}
++		else {
++			md->name_idx = find_first_zero_bit(name_use, max_devices);
++			printk("MMC: md->name_idx = %d\n", md->name_idx);
++		}
+ #else
+ 		int idx;
+ 
+-- 
+1.7.9.5
+

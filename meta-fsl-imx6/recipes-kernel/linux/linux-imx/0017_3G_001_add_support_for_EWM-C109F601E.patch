@@ -1,0 +1,20 @@
+add support for EWM-C109F601E
+
+
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index 8b34841..c2dfb12 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -1620,6 +1620,9 @@ static const struct usb_device_id option_ids[] = {
+ 	{ USB_DEVICE_INTERFACE_CLASS(LONGCHEER_VENDOR_ID, SPEEDUP_PRODUCT_SU9800, 0xff) },
+ 	{ USB_DEVICE(LONGCHEER_VENDOR_ID, ZOOM_PRODUCT_4597) },
+ 	{ USB_DEVICE(LONGCHEER_VENDOR_ID, IBALL_3_5G_CONNECT) },
++#ifdef CONFIG_ARCH_ADVANTECH
++	{ USB_DEVICE(0x1546, 0x1102) }, //for EWM-C109F601E
++#endif
+ 	{ USB_DEVICE(HAIER_VENDOR_ID, HAIER_PRODUCT_CE100) },
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(HAIER_VENDOR_ID, HAIER_PRODUCT_CE81B, 0xff, 0xff, 0xff) },
+ 	/* Pirelli  */
+-- 
+1.7.9.5
+

@@ -1,0 +1,30 @@
+From 0e81b2301cbc27c4dde3290fa5c5652dfd1f23df Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Wed, 20 Jan 2016 17:49:52 +0800
+Subject: [PATCH] modify rom7420
+
+
+diff --git a/include/configs/mx6rom7420.h b/include/configs/mx6rom7420.h
+index 10edc39..a08f804 100755
+--- a/include/configs/mx6rom7420.h
++++ b/include/configs/mx6rom7420.h
+@@ -53,12 +53,10 @@
+ #endif
+ 
+ #ifdef CONFIG_CMD_SF
+-	#ifdef CONFIG_ROM7420
+-		#ifdef CONFIG_SPI_FLASH_CS
+-			#undef CONFIG_SPI_FLASH_CS
+-			#define CONFIG_SPI_FLASH_CS	1
+-		#endif
+-	#endif
++#ifdef CONFIG_SPI_FLASH_CS
++#undef CONFIG_SPI_FLASH_CS
++#define CONFIG_SPI_FLASH_CS	1
++#endif
+ #endif
+ /*
+  * imx6 q/dl/solo pcie would be failed to work properly in kernel, if
+-- 
+1.7.9.5
+

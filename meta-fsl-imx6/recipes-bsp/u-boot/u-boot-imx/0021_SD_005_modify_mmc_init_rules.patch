@@ -1,0 +1,23 @@
+From 7f9291addf9186a6f5b1ef17afd01bbe5c1e33ba Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Thu, 17 Mar 2016 14:16:29 +0800
+Subject: [PATCH] 7421
+
+
+diff --git a/include/configs/mx6rom7421.h b/include/configs/mx6rom7421.h
+index c67144d..c1a1000 100644
+--- a/include/configs/mx6rom7421.h
++++ b/include/configs/mx6rom7421.h
+@@ -27,9 +27,6 @@
+ #define CONFIG_SATA_BOOT
+ #define CONFIG_SATA_GEN2        0x0593e4c4
+ 
+-/* support two sd card boot*/
+-#define CONFIG_TWO_SD_BOOT
+-
+ #if defined(CONFIG_MX6QP)
+ #define CONFIG_DEFAULT_FDT_FILE	"imx6qp-rom7421-a1.dtb"
+ #define PHYS_SDRAM_SIZE		(1u * 1024 * 1024 * 1024)
+-- 
+1.7.9.5
+

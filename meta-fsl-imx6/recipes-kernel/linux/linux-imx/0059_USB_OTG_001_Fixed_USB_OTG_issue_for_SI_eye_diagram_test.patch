@@ -1,0 +1,22 @@
+From 15fb1be226ee0d0c06e21347ece09a7b403c3663 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Fri, 17 Jun 2016 10:47:57 +0800
+Subject: [PATCH] Fixed USB OTG issue for SI eye diagram test
+
+
+diff --git a/drivers/usb/phy/phy-mxs-usb.c b/drivers/usb/phy/phy-mxs-usb.c
+index 00e5035..65f6e37 100644
+--- a/drivers/usb/phy/phy-mxs-usb.c
++++ b/drivers/usb/phy/phy-mxs-usb.c
+@@ -272,8 +272,6 @@ static int mxs_phy_hw_init(struct mxs_phy *mxs_phy)
+ #ifdef CONFIG_ARCH_ADVANTECH
+ 		}
+ 	}
+-
+-	printk(KERN_INFO "FREESCALE USB PHY=0x%x\n", readl(base + HW_USBPHY_TX));
+ #endif
+ 
+ 	return 0;
+-- 
+1.7.9.5
+
