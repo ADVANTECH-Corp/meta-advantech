@@ -17,6 +17,8 @@ do_configure (){
 	./configure --libs="-lgif -ljpeg -lpng" --prefix /usr
 }
 
+EXTRA_OEMAKE = "-e MAKEFLAGS="
+
 do_compile (){
 	oe_runmake
 }

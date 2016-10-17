@@ -1,3 +1,4 @@
-IMAGE_INSTALL += "stress stress-ng stress-script thermal-script devmem2 fbv"
-IMAGE_INSTALL += "abootimg edid-bin"
+IMAGE_INSTALL_append = " stress-script thermal-script"
+IMAGE_INSTALL_append = " stress stress-ng devmem2 fbv i2c-tools"
+IMAGE_INSTALL_append = " abootimg kernel"
 
