@@ -1,0 +1,12 @@
+[Unit]
+Description=unblock script
+After=systemd-rfkill@.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/rfkill unblock all
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+
