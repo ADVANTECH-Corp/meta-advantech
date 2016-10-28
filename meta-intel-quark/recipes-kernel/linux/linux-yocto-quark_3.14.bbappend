@@ -9,5 +9,4 @@ SRC_URI += "${@base_contains('PACKAGECONFIG','quark-tpm','file://tpm.cfg','',d)}
 
 SRC_URI += "file://${DISTRO}.cfg"
 SRC_URI += "file://${BOARD}.cfg"
-# LINUX_VERSION_EXTENSION = "-yocto-standard"
-LINUX_VERSION_EXTENSION = "-advantech_quark_512M_2.011_svn171"
+LINUX_VERSION_EXTENSION = "-yocto-standard"
