@@ -6,8 +6,9 @@ SRCREV = "${AUTOREV}"
 # Skip getting GIT revision for local version
 SCMVERSION = "n"
 
-# Copy advantech defconfig
-do_configure_prepend() {
-    cp ${WORKDIR}/imx_v7_adv_defconfig ${B}/../defconfig
+do_copy_defconfig () {
+    cp ${S}/arch/arm/configs/imx_v7_adv_defconfig ${B}/.config
+    cp ${S}/arch/arm/configs/imx_v7_adv_defconfig ${B}/../defconfig
 }
+
 
