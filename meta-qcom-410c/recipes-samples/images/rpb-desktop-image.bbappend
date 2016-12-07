@@ -14,3 +14,6 @@ IMAGE_INSTALL_append = " xrdb "
 
 # Native Compiler
 IMAGE_INSTALL_append = " packagegroup-sdk-target "
+
+# SUSI 4.0
+IMAGE_INSTALL_append = " susi4 "
