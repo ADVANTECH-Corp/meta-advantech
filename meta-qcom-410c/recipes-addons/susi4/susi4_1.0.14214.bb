@@ -10,7 +10,7 @@ SRC_URI_rsb-4760 = "file://Susi4_qualcomm_dragon_yocto_Release__2016-12-09.tar.g
 SRC_URI_rsb-4760[md5sum] = "eb3f1f9d3b800892dbe4cffe48edfe4f"
 SRC_URI_epc-r4761 = "file://Susi4_qualcomm_dragon_yocto_Release__2016-12-09.tar.gz"
 SRC_URI_epc-r4761[md5sum] = "eb3f1f9d3b800892dbe4cffe48edfe4f"
-SRC_NAME = "SUSI4.0.14208"
+SRC_NAME = "SUSI4.0.14214"
 
 S = "${WORKDIR}/${SRC_NAME}"
 
