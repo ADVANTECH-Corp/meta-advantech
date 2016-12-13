@@ -13,6 +13,5 @@ wpa_supplicant -BDwext -iwlan0 -c/tmp/wpa.conf
 udhcpc -b -i wlan0
 ping 8.8.8.8 &
 
-stress -c 4 -m 2 &
+/tools/stress.sh
 
-top

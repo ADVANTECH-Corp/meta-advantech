@@ -1,5 +1,5 @@
 # Scripts
-IMAGE_INSTALL_append = " stress-script thermal-script "
+IMAGE_INSTALL_append = " stress-script thermal-script audio-script mac-script "
 
 # Tool for kernel parameters
 IMAGE_INSTALL_append = " abootimg "
