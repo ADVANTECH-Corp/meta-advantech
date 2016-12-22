@@ -12,3 +12,4 @@ KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/basic_functions.cfg"
 SRC_URI += "file://macvlan.cfg"
 KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/macvlan.cfg"
 
+SRC_URI += "file://0001_UART_001_add_RS-485_422_support.patch"
