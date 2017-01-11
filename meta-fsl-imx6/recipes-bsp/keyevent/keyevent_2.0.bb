@@ -4,8 +4,8 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
 SRC_URI = "https://github.com/ADVANTECH-Corp/RISC_tools_source/raw/master/${BPN}-${PV}.tar.gz"
-SRC_URI[md5sum] = "06557da72fada30a066ee6fd68ce2451"
-SRC_URI[sha256sum] = "da5b801b5234b814d53d096454161b1a47a6b4910e97696cff2a57362f3cbd18"
+SRC_URI[md5sum] = "1196c8c0e6b6e3900d7660cf21c7f345"
+SRC_URI[sha256sum] = "6e65f367a286249844684fdd49357d7ecba513c315bd33ad5e55be084f81acf2"
 
 
 S = "${WORKDIR}/key_event"
