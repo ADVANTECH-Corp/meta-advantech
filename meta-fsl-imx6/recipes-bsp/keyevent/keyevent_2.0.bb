@@ -3,7 +3,7 @@ SECTION = "base"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
-SRC_URI = "https://github.com/ADVANTECH-Corp/RISC_tools_source/raw/master/keyevent-2.0.tar.gz"
+SRC_URI = "https://github.com/ADVANTECH-Corp/RISC_tools_source/raw/master/${BPN}-${PV}.tar.gz"
 SRC_URI[md5sum] = "1196c8c0e6b6e3900d7660cf21c7f345"
 SRC_URI[sha256sum] = "6e65f367a286249844684fdd49357d7ecba513c315bd33ad5e55be084f81acf2"
 
