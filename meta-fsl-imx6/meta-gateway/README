@@ -1,0 +1,72 @@
+meta-gateway
+============
+
+This layer provides support for Advantech iGW solution.
+
+Dependencies
+------------
+This layer depends on:
+
+URI: https://github.com/imyller/meta-nodejs
+branch: master
+revision: 786d7d42415bce23f61d24bb22c92d3ef8922c85
+
+URI: git://git.yoctoproject.org/meta-java
+branch: master
+revision: 74811bbadaf55fd105ad092a1fcb4923afd4d41d
+modification: fix rhino fetch URL
+
+URI: git://git.yoctoproject.org/meta-oic
+branch: master (iotivity 0.9.2)
+revision: fc9e3e1c48aa7b11c214a1a8569e83010e5031d7
+
+URI: git://git.yoctoproject.org/meta-virtualization
+branch: master
+revision: 6ec960100fb39ace90e116786c85c6b4910c01cc
+modification: modified to fit dizzy
+
+URI: https://github.com/WindRiver-OpenSourceLabs/oe-meta-go.git
+branch: ovp7-20150902
+revision: b29b384eae4a40933d07cc64c51e890c289d9621
+modification: fix build dependency issue for gcc-runtime
+
+Usage instructions
+------------------
+1. Append sub-layers in meta-gateway to the list of layers in the
+   /conf/bblayers.conf for your target's BSP.  
+    ...
+    BBLAYERS ?= "\
+             ...
+             /meta-gateway/meta-nodejs \
+             /meta-gateway/meta-java \
+             /meta-gateway/meta-oic \
+             /meta-gateway/oe-meta-go \
+             /meta-gateway/meta-virtualization \
+             /meta-gateway/meta-advantech-addons \
+             \"
+
+2. Refer to each sub-layers to add related configurations.
+   For example, you have to define some variables for meta-java.
+    http://git.yoctoproject.org/cgit/cgit.cgi/meta-java/about/
+
+3. Modify /conf/local.conf by using IMAGE_INSTALL to include 
+   entire iGW solution in OS image.
+    IMAGE_INSTALL += "packagegroup-iGW"
+
+4. Set PREFERRED_VERSION of each packages for your platform in
+   meta-gateway/meta-advantech-addons/conf/layer.conf file.
+
+5. Remove redundant bbappend files for your platform, if necessary.
+   For example, you have to remove linux-imx_3.%.bbappend on x86 Yocto.
+   
+6. After initializing poky, run "bitbake" twice to build the OS image.
+   - bitbake lxc-image
+   - bitbake <your OS image name>
+
+License
+-------
+
+All metadata is MIT licensed unless otherwise stated. Source code included
+in tree for individual recipes is under the LICENSE stated in each recipe
+(.bb file) unless otherwise stated.
+
