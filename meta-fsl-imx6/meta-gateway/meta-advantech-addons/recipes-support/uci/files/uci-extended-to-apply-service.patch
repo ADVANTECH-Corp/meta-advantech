@@ -1,0 +1,610 @@
+From 68ad30c42e0f2cfa48b1a70f91d9188d0cc33887 Mon Sep 17 00:00:00 2001
+From: Haiqing Bai <Haiqing.Bai@windriver.com>
+Date: Wed, 16 Jan 2013 18:37:12 +0800
+Subject: [PATCH] uci extend to apply reconfig when commit.
+
+---
+ cli.c          |   25 ++++++++-
+ delta.c        |    3 +
+ libuci.c       |  161 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ list.c         |   39 +++++++++++++-
+ uci.h          |   46 ++++++++++++++++
+ uci_internal.h |    3 +
+ util.c         |  127 ++++++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 402 insertions(+), 2 deletions(-)
+
+diff --git a/cli.c b/cli.c
+index 144cdde..6e075e7 100644
+--- a/cli.c
++++ b/cli.c
+@@ -31,6 +31,9 @@ static enum {
+ } flags;
+ 
+ static FILE *input;
++#ifdef UCI_WR_EXTEND
++static int apply_config = 0;
++#endif
+ 
+ static struct uci_context *ctx;
+ enum {
+@@ -145,6 +148,9 @@ static void uci_usage(void)
+ 		"\t-c <path>  set the search path for config files (default: /etc/config)\n"
+ 		"\t-d <str>   set the delimiter for list values in uci show\n"
+ 		"\t-f <file>  use <file> as input instead of stdin\n"
++#ifdef UCI_WR_EXTEND
++		"\t-a         apply new configuration after commit\n"
++#endif
+ 		"\t-L         do not load any plugins\n"
+ 		"\t-m         when importing, merge data into an existing package\n"
+ 		"\t-n         name unnamed sections on export (default)\n"
+@@ -273,10 +279,22 @@ static int package_cmd(int cmd, char *tuple)
+ 	case CMD_COMMIT:
+ 		if (flags & CLI_FLAG_NOCOMMIT)
+ 			return 0;
++#ifdef UCI_WR_EXTEND
++                if (apply_config) {
++                    if (uci_commit_apply(ctx, &ptr.p, false) != UCI_OK) {
++                        ret = 1;
++                    }
++                } else {
++		    if (uci_commit(ctx, &ptr.p, false) != UCI_OK) {
++                        ret = 1;
++                    }
++                }
++#else
+ 		if (uci_commit(ctx, &ptr.p, false) != UCI_OK) {
+ 			cli_perror();
+ 			ret = 1;
+ 		}
++#endif
+ 		break;
+ 	case CMD_EXPORT:
+ 		uci_export(ctx, stdout, ptr.p, true);
+@@ -628,7 +646,7 @@ int main(int argc, char **argv)
+ 		return 1;
+ 	}
+ 
+-	while((c = getopt(argc, argv, "c:d:f:LmnNp:P:sSqX")) != -1) {
++	while((c = getopt(argc, argv, "c:d:f:aLmnNp:P:sSqX")) != -1) {
+ 		switch(c) {
+ 			case 'c':
+ 				uci_set_confdir(ctx, optarg);
+@@ -648,6 +666,11 @@ int main(int argc, char **argv)
+ 					return 1;
+ 				}
+ 				break;
++#ifdef UCI_WR_EXTEND
++                        case 'a':
++                                apply_config = 1;
++                                break;
++#endif
+ 			case 'L':
+ 				flags |= CLI_FLAG_NOPLUGINS;
+ 				break;
+diff --git a/delta.c b/delta.c
+index 24784f8..aa814a8 100644
+--- a/delta.c
++++ b/delta.c
+@@ -45,6 +45,9 @@ uci_add_delta(struct uci_context *ctx, struct uci_list *list, int cmd, const cha
+ 	h = uci_alloc_element(ctx, delta, option, size);
+ 	ptr = uci_dataptr(h);
+ 	h->cmd = cmd;
++#ifdef UCI_WR_EXTEND
++        h->e.dirty = UCI_OPTION_ADD;
++#endif
+ 	h->section = strcpy(ptr, section);
+ 	if (value) {
+ 		ptr += strlen(ptr) + 1;
+diff --git a/libuci.c b/libuci.c
+index 4c2bf96..a5f8ca2 100644
+--- a/libuci.c
++++ b/libuci.c
+@@ -18,12 +18,16 @@
+ 
+ #define _GNU_SOURCE
+ #include <sys/types.h>
++#include <sys/stat.h>
+ #include <stdbool.h>
+ #include <string.h>
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <dlfcn.h>
+ #include <glob.h>
++#include <syslog.h>
++#include <dirent.h>
++#include <unistd.h>
+ #include "uci.h"
+ 
+ static const char *uci_errstr[] = {
+@@ -213,6 +217,163 @@ int uci_commit(struct uci_context *ctx, struct uci_package **package, bool overw
+ 	return 0;
+ }
+ 
++#ifdef UCI_WR_EXTEND
++int uci_dirty(struct uci_context *ctx, struct uci_package **package, const char* name)
++{
++	struct uci_package *p;
++	struct uci_element *e, *oe;
++	struct uci_section *s;
++        char node_path[256] = {0};
++
++	UCI_HANDLE_ERR(ctx);
++	UCI_ASSERT(ctx, package != NULL);
++	p = *package;
++	UCI_ASSERT(ctx, p != NULL);
++	UCI_ASSERT(ctx, p->backend && p->backend->commit && name);
++
++	uci_foreach_element(&p->sections, e) {
++            s = uci_to_section(e);
++	    uci_foreach_element(&s->options, oe) {
++                sprintf(node_path, "%s.%s.%s", p->e.name, e->name, oe->name);
++                if (strcmp(node_path, name) == 0) {
++                    syslog(LOG_INFO, "query %s.%s.%s. dirty flag=%d.", p->e.name, e->name, oe->name, oe->dirty);
++                    return oe->dirty;
++                }
++            }
++        }
++	return 0;
++}
++
++int uci_package_dirty(struct uci_context *ctx, const char* package_name)
++{
++    struct uci_element *e;
++    UCI_HANDLE_ERR(ctx);
++
++    uci_foreach_element(&ctx->root, e) {
++        if (e->dirty) {
++            if (strcmp(e->name, package_name) == 0) {
++                syslog(LOG_INFO, "target package %s dirty.", package_name);
++                return 1;
++            }
++        }
++    }
++    return 0;
++}
++
++int probe_change_file(char *pkgname)
++{
++    int maxdelay = UCI_WR_POLL_MAX;
++    char *fname = NULL;
++
++    if ((asprintf(&fname, "%s/%s", UCI_WR_CHGDIR, pkgname) < 0) || !fname)
++        return -1;
++
++    while(maxdelay) {
++        if (access(fname, 0) != 0)
++            break;
++        sleep(UCI_WR_POLL_TIME); //seconds
++        maxdelay = maxdelay - UCI_WR_POLL_TIME; 
++    }
++    //something is wrong, remove changed log?
++    unlink(fname);
++    free(fname);
++    return 0;
++}
++
++char *save_change_log(char *pkgname)
++{
++    char *source = NULL, *dest = NULL;
++
++    if ((asprintf(&source, "%s/%s", UCI_SAVEDIR, pkgname) < 0) || !source)
++        return NULL;
++    
++    if ((asprintf(&dest, "%s/%s", UCI_WR_CHGDIR, pkgname) < 0) || !dest)
++        return NULL;
++
++    mkdir(UCI_WR_CHGDIR, S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
++    uci_copy_file(source, dest);
++    free(source);
++    return dest;
++}
++
++int uci_commit_apply(struct uci_context *ctx, struct uci_package **package, bool overwrite)
++{
++	struct uci_package *p;
++	struct uci_element *e, *oe;
++	struct uci_section *s;
++        char *changed_log = NULL;
++        char *config_cmd = NULL;
++        int ret=0;
++
++	UCI_HANDLE_ERR(ctx);
++	UCI_ASSERT(ctx, package != NULL);
++	p = *package;
++	UCI_ASSERT(ctx, p != NULL);
++
++        //Save changed log
++        if (probe_change_file(p->e.name))
++            return 1;
++        changed_log = save_change_log(p->e.name);
++        UCI_ASSERT(ctx, changed_log);
++
++	UCI_ASSERT(ctx, p->backend && p->backend->commit);
++	p->backend->commit(ctx, package, overwrite);
++
++	p = *package;
++        /*Check whether the package is updated, if yes invoke package service handler.*/
++        if ((asprintf(&config_cmd, "%s %s", UCI_WR_ROUTER, p->e.name) < 0) || !config_cmd)
++                            UCI_THROW(ctx, UCI_ERR_MEM);
++
++        if (p->e.dirty && p->e.name) {
++            syslog(LOG_DEBUG, "found package %s dirty.", p->e.name);
++            if (uci_util_system(config_cmd) != 0) {
++                syslog(LOG_ERR, "fail to apply new configuration.");
++                ret = 1;
++            }
++            goto clean;
++        }
++
++	uci_foreach_element(&p->sections, e) {
++            s = uci_to_section(e);
++            if (s->e.dirty) {
++                    syslog(LOG_DEBUG, "found section %s.%s dirty.", p->e.name, s->e.name);
++                    if (uci_util_system(config_cmd) != 0) {
++                        syslog(LOG_ERR, "fail to apply new configuration.");
++                        ret = 1;
++                    }
++                    goto clean;
++            }
++	    uci_foreach_element(&s->options, oe) {
++                if (oe->dirty) {
++                    syslog(LOG_DEBUG, "found %s.%s.%s dirty.\n", p->e.name, e->name, oe->name);
++                    if (uci_util_system(config_cmd) != 0) {
++                        syslog(LOG_ERR, "fail to apply new configuration.");
++                        ret = 1;
++                    }
++                    goto clean;
++                }
++            }
++        }
++
++clean:  unlink(changed_log);
++        free(changed_log);
++        free(config_cmd);
++        p->e.dirty = 0;
++	uci_foreach_element(&p->sections, e) {
++            s = uci_to_section(e);
++            if (s->e.dirty) {
++                s->e.dirty = 0;
++            }
++	    uci_foreach_element(&s->options, oe) {
++                if (oe->dirty) {
++                    oe->dirty = 0;
++                }
++            }
++        }
++	return ret;
++}
++#endif
++
+ int uci_load(struct uci_context *ctx, const char *name, struct uci_package **package)
+ {
+ 	struct uci_package *p;
+diff --git a/list.c b/list.c
+index cf6d970..d765e4a 100644
+--- a/list.c
++++ b/list.c
+@@ -505,6 +505,9 @@ int uci_rename(struct uci_context *ctx, struct uci_ptr *ptr)
+ 	if (e->name)
+ 		free(e->name);
+ 	e->name = n;
++#ifdef UCI_WR_EXTEND
++        e->dirty = 1;
++#endif
+ 
+ 	if (e->type == UCI_TYPE_SECTION)
+ 		uci_to_section(e)->anonymous = false;
+@@ -550,6 +553,9 @@ int uci_delete(struct uci_context *ctx, struct uci_ptr *ptr)
+ 	bool internal = ctx && ctx->internal;
+ 	struct uci_package *p;
+ 	struct uci_element *e;
++#ifdef UCI_WR_EXTEND
++	struct uci_section *s;
++#endif
+ 
+ 	UCI_HANDLE_ERR(ctx);
+ 
+@@ -558,13 +564,30 @@ int uci_delete(struct uci_context *ctx, struct uci_ptr *ptr)
+ 
+ 	UCI_ASSERT(ctx, ptr->s);
+ 
++#ifdef UCI_WR_EXTEND
++	if (e->type == UCI_TYPE_SECTION) {
++            syslog(LOG_DEBUG, "delete section=%s, set package %s to dirty.", e->name, p->e.name);
++            p->e.dirty = UCI_SECTION_DEL;
++        } else {
++            if (e->type == UCI_TYPE_OPTION) {
++                s = uci_to_section(e);
++                syslog(LOG_DEBUG, "delete option=%s, set section %s to dirty.", ptr->s->e.name, ptr->section);
++                s->e.dirty = UCI_OPTION_DEL;
++            }
++        }
++#endif
+ 	if (!internal && p->has_delta)
+ 		uci_add_delta(ctx, &p->delta, UCI_CMD_REMOVE, ptr->section, ptr->option, NULL);
+ 
+ 	uci_free_any(&e);
+ 
+-	if (ptr->option)
++	if (ptr->option) {
++#ifdef UCI_WR_EXTEND
++            ptr->s->e.dirty = UCI_OPTION_DEL;
++            syslog(LOG_DEBUG, "delete option=%s, set section %s to dirty.", ptr->option, ptr->s->e.name);
++#endif
+ 		ptr->o = NULL;
++        }
+ 	else if (ptr->section)
+ 		ptr->s = NULL;
+ 
+@@ -641,9 +664,20 @@ int uci_set(struct uci_context *ctx, struct uci_ptr *ptr)
+ 	} else if (!ptr->o && ptr->option) { /* new option */
+ 		ptr->o = uci_alloc_option(ptr->s, ptr->option, ptr->value);
+ 		ptr->last = &ptr->o->e;
++#ifdef UCI_WR_EXTEND
++                if (!internal) {
++		    ptr->last->dirty = UCI_OPTION_ADD;
++                }
++#endif
+ 	} else if (!ptr->s && ptr->section) { /* new section */
+ 		ptr->s = uci_alloc_section(ptr->p, ptr->value, ptr->section);
+ 		ptr->last = &ptr->s->e;
++#ifdef UCI_WR_EXTEND
++                if (!internal) {
++		    ptr->last->dirty = UCI_SECTION_ADD;
++                    syslog(LOG_DEBUG, "section added, name=%s.", ptr->last->name);
++                }
++#endif
+ 	} else if (ptr->o && ptr->option) { /* update option */
+ 		if ((ptr->o->type == UCI_TYPE_STRING) &&
+ 			!strcmp(ptr->o->v.string, ptr->value))
+@@ -651,6 +685,9 @@ int uci_set(struct uci_context *ctx, struct uci_ptr *ptr)
+ 		uci_free_option(ptr->o);
+ 		ptr->o = uci_alloc_option(ptr->s, ptr->option, ptr->value);
+ 		ptr->last = &ptr->o->e;
++#ifdef UCI_WR_EXTEND
++		ptr->last->dirty = UCI_OPTION_UPDATE;
++#endif
+ 	} else if (ptr->s && ptr->section) { /* update section */
+ 		char *s = uci_strdup(ctx, ptr->value);
+ 
+diff --git a/uci.h b/uci.h
+index 6d13ea6..49e87eb 100644
+--- a/uci.h
++++ b/uci.h
+@@ -40,6 +40,17 @@ extern "C" {
+ #define UCI_DIRMODE 0700
+ #define UCI_FILEMODE 0600
+ 
++#ifndef UCI_WR_EXTEND
++#define UCI_WR_EXTEND
++#endif
++
++#ifdef UCI_WR_EXTEND
++#define UCI_WR_CHGDIR "/tmp/.ucichg"
++#define UCI_WR_ROUTER "/etc/ucisa/confrouter"
++#define UCI_WR_POLL_TIME 3
++#define UCI_WR_POLL_MAX  3*100
++#endif
++
+ enum
+ {
+ 	UCI_OK = 0,
+@@ -382,6 +393,16 @@ enum uci_type {
+ 	UCI_TYPE_PLUGIN = 9,
+ };
+ 
++#ifdef UCI_WR_EXTEND
++typedef enum uci_wr_op_type {
++    UCI_OPTION_UPDATE = 1,
++    UCI_OPTION_ADD  = 2,
++    UCI_OPTION_DEL  = 3,
++    UCI_SECTION_ADD = 4,
++    UCI_SECTION_DEL = 5,
++} Operation;
++#endif
++
+ enum uci_option_type {
+ 	UCI_TYPE_STRING = 0,
+ 	UCI_TYPE_LIST = 1,
+@@ -399,6 +420,9 @@ struct uci_element
+ 	struct uci_list list;
+ 	enum uci_type type;
+ 	char *name;
++#ifdef UCI_WR_EXTEND
++        int dirty;
++#endif
+ };
+ 
+ struct uci_backend
+@@ -738,6 +762,28 @@ uci_lookup_option_string(struct uci_context *ctx, struct uci_section *s, const c
+ 	return o->v.string;
+ }
+ 
++#ifdef UCI_WR_EXTEND
++/**
++ * uci_commit_apply: commit changes to a package and apply new configuration
++ * @ctx: uci context
++ * @p: uci_package struct pointer
++ * @overwrite: overwrite existing config data and flush delta
++ *
++ * committing may reload the whole uci_package data,
++ * the supplied pointer is updated accordingly
++ */
++extern int uci_commit_apply(struct uci_context *ctx, struct uci_package **p, bool overwrite);
++
++/**
++ * uci_dirty: check whether a element is dirty.
++ * @ctx: uci context
++ * @package: target package pointer
++ * @name: name of the child element
++ */
++extern int uci_dirty(struct uci_context *ctx, struct uci_package **package, const char* name);
++
++#endif
++
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/uci_internal.h b/uci_internal.h
+index 02f81f5..2aa8fa9 100644
+--- a/uci_internal.h
++++ b/uci_internal.h
+@@ -50,6 +50,9 @@ __plugin bool uci_validate_str(const char *str, bool name);
+ __plugin void uci_add_delta(struct uci_context *ctx, struct uci_list *list, int cmd, const char *section, const char *option, const char *value);
+ __plugin void uci_free_delta(struct uci_delta *h);
+ __plugin struct uci_package *uci_alloc_package(struct uci_context *ctx, const char *name);
++__plugin int uci_copy_file(const char* source, const char* destination);
++__plugin char* uci_util_popen(const char* cmd_string); 
++__plugin int uci_util_system(const char* cmd_string); 
+ 
+ __private FILE *uci_open_stream(struct uci_context *ctx, const char *filename, int pos, bool write, bool create);
+ __private void uci_close_stream(FILE *stream);
+diff --git a/util.c b/util.c
+index 916f0c1..b23b35d 100644
+--- a/util.c
++++ b/util.c
+@@ -27,9 +27,12 @@
+ #include <errno.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <syslog.h>
++#include <sys/mman.h>
+ 
+ #include "uci.h"
+ #include "uci_internal.h"
++#define MAX_SCRIPT_RESP_LEN 128
+ 
+ __plugin void *uci_malloc(struct uci_context *ctx, size_t size)
+ {
+@@ -228,4 +231,128 @@ __private void uci_close_stream(FILE *stream)
+ 	fclose(stream);
+ }
+ 
++__private int copy_and_close(FILE* source, FILE* destination) {
++    int bread;
++    for (;;) {
++	char buf[1024];
++	bread = fread(buf, 1, sizeof(buf), source);
++	if (bread > 0) {
++	    if (fwrite(buf, 1, bread, destination) != bread)
++		return -1;
++	} else {
++	    if (feof(source)) {
++		fclose(source);
++		if (fclose(destination) != 0)
++		    return -1;
++		else
++		    return 0;
++	    } else {
++		int olderrno = errno;
++		fclose(source);
++		fclose(destination);
++		errno = olderrno;
++		return -1;
++	    }
++	}
++    }
++}
++
++__plugin int uci_copy_file(const char* source, const char* destination) {
++    FILE* s;
++    FILE* d;
++    if ((s = fopen(source, "r")) == NULL) {
++        syslog(LOG_ERR, "open source file %s failed.", source);
++	return -1;
++    }
++    if ((d = fopen(destination, "w+")) == NULL) {
++	int olderrno = errno;
++	fclose(s);
++	errno = olderrno;
++        syslog(LOG_ERR, "open destination file %s failed.", destination);
++	return -1;
++    }
++    return copy_and_close(s, d);
++}
+ 
++__plugin int uci_util_system(const char* cmd_string) 
++{
++    pid_t status;
++    int ret = 1;
++
++    if (cmd_string == NULL) {
++        syslog(LOG_ERR, "invalid command to run with uci util system.");
++        return ret;
++    }
++    syslog(LOG_DEBUG, "uci util system will run %s.", cmd_string);
++    
++    status = system(cmd_string);
++    if (status == -1) {
++        syslog(LOG_ERR, "execute %s error!", cmd_string);
++    } else {
++        if (WIFEXITED(status)) {
++            if ( 0 == WEXITSTATUS(status)) {
++                syslog(LOG_INFO, "execute %s ok.", cmd_string);
++                ret = 0;
++                return ret;
++            } else {
++                syslog(LOG_INFO, "execute %s failed.", cmd_string);
++            }
++        } else {
++            syslog(LOG_INFO, "execute %s exit error %s.", cmd_string, strerror(errno));
++        }
++    }
++    return ret;
++}
++
++__plugin char* uci_util_popen(const char* cmd_string) 
++{
++    char resbuf[MAX_SCRIPT_RESP_LEN] = {0};
++    FILE *in_stream = NULL,*out_stream = NULL;
++    char *resp = NULL;
++    int  resp_len = 0;
++   
++    if (cmd_string == NULL) {
++        syslog(LOG_ERR, "invalid command to run with uci util popen.");
++        return NULL;
++    }
++    
++    resp = (char*)malloc(sizeof(char)*MAX_SCRIPT_RESP_LEN);
++    if (resp == NULL) {
++        syslog(LOG_ERR, "out of memory when create response buffer.");
++        fclose(out_stream);
++        return NULL;
++    }
++    memset(resp, 0, MAX_SCRIPT_RESP_LEN);
++
++    syslog(LOG_DEBUG, "uci util popen will run %s.", cmd_string);
++    
++    if ((in_stream = popen(cmd_string, "r")) == NULL) {
++        syslog(LOG_ERR, "popen open %s error %s.", cmd_string, strerror(errno));
++        strcpy(resp, "101");
++    } else {
++        out_stream = fopen(".cmdret", "w+");
++        if (out_stream == NULL) {
++            syslog(LOG_ERR, "open .cmdret failed %s.",  strerror(errno));
++            pclose(in_stream);
++            strcpy(resp, "102");
++            return resp;
++        }
++        while (fread(resbuf, sizeof(char), sizeof(resbuf), in_stream) > 0) {
++            syslog(LOG_DEBUG, "exec result is %s.", resbuf);
++            fwrite(resbuf, sizeof(char), sizeof(resbuf), out_stream);
++            resp_len += strlen(resbuf);
++        }
++        pclose(in_stream);
++
++        fseek(out_stream, 0, SEEK_SET);
++        if (fread(resp, sizeof(char), resp_len, out_stream) != resp_len) {
++            syslog(LOG_DEBUG, "fread error %s.", strerror(errno));
++        }
++        fclose(out_stream);
++        syslog(LOG_DEBUG, "uci util popen run %s result %s.", cmd_string, resp);
++        if (strlen(resp) == 0) {
++            strcpy(resp, "103");
++        }
++    }
++    return resp;
++}
+-- 
+1.7.0.5
+
