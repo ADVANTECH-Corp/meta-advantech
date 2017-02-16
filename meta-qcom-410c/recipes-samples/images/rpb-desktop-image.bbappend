@@ -11,7 +11,7 @@ IMAGE_INSTALL_append = " abootimg "
 # Tools for function verification
 IMAGE_INSTALL_append = " stress stress-ng devmem2 fbv i2c-tools ethtool evtest "
 IMAGE_INSTALL_append = " minicom st boottimes alsa-utils fbida iperf memtester ppp "
-IMAGE_INSTALL_append = " netkit-ftp glmark2 "
+IMAGE_INSTALL_append = " netkit-ftp glmark2 ntpdate "
 
 # Misc
 # - X resource database manager
