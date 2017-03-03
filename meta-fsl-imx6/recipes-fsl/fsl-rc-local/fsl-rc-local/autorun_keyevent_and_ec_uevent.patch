@@ -14,7 +14,7 @@ Index: fsl-rc-local/rc.local.etc
 +ec_uevent &
 +fi
 +
-+if [ "$BOARD" == "ROM-3420" ]
++if [ "$BOARD" == "ROM-3420" ] || [ "$BOARD" == "ROM-7420" ]
 +then
 +key_event & 
 +fi
