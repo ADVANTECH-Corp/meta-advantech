@@ -3,11 +3,10 @@ SECTION = "base"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
-SRC_URI = "https://github.com/ADVANTECH-Corp/RISC_tools_source/raw/master/${BPN}-${PV}.tar.gz"
-SRC_URI[md5sum] = "9fb6954bed858e9f005d131f66d7b24f"
-SRC_URI[sha256sum] = "fe6d12e98b15b2ca2b81c7a63b05cd87e2091692d6c5f435dda41badb04c542d"
+SRC_URI = "git://github.com/ADVANTECH-Corp/RISC_tools_source;module=key_event_2.0;protocol=https"
+SRCREV = "${AUTOREV}"
 
-S = "${WORKDIR}/key_event"
+S = "${WORKDIR}/git/key_event_2.0"
 
 inherit autotools pkgconfig
 
