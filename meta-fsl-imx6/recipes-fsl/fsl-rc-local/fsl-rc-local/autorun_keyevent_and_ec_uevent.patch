@@ -1,28 +1,19 @@
-Index: fsl-rc-local/rc.local.etc
-===================================================================
---- fsl-rc-local/rc.local.etc	(revision 1067)
-+++ fsl-rc-local/rc.local.etc	(working copy)
-@@ -11,4 +11,23 @@
- #
- # By default this script does nothing.
+diff --git fsl-rc-local/rc.local.etc fsl-rc-local/rc.local.etc
+index 52838c0..669585e 100755
+--- fsl-rc-local/rc.local.etc
++++ fsl-rc-local/rc.local.etc
+@@ -22,5 +22,14 @@ fi
+ #For IR Application
+ mkdir -p /var/run/lirc
  
-+#key event poweroff module
-+BOARD=$(cat /proc/board | cut -d ' ' -f 1)
-+if [ "$BOARD" == "ROM-5420" ]
-+then
-+key_event &
-+ec_uevent &
++if [ -e /usr/bin/key_event ];then
++        key_event &
 +fi
 +
-+if [ "$BOARD" == "ROM-3420" ] || [ "$BOARD" == "ROM-7420" ]
-+then
-+key_event & 
++if [ -e /usr/bin/ec_uevent ];then
++        ec_uevent &
 +fi
 +
-+if [ "$BOARD" == "ROM-7421" ]
-+then
-+key_event &
-+ec_uevent &
-+fi
 +
  exit 0
+ 
