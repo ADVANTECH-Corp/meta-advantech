@@ -6,9 +6,9 @@ SECTION = "libs"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 PR = "r0"
 
-SRC_URI_mx6 = "file://IMX6_SUSI4__Release_2017_03_01_ubuntu12.04.1_x64_fsl_yocto.tar.gz"
-SRC_URI_mx6[md5sum] = "b19cc6695d8c120be8e7a9e663b22083"
-SRC_NAME_mx6 = "SUSI4.0.14382"
+SRC_URI_mx6 = "file://IMX6_SUSI4__Release_2017_03_17_ubuntu12.04.1_x64_fsl_yocto.tar.gz"
+SRC_URI_mx6[md5sum] = "2e613a7692fc8ebf2751d608db9bdc20"
+SRC_NAME_mx6 = "SUSI4.0.14408"
 
 S = "${WORKDIR}/${SRC_NAME}"
 
