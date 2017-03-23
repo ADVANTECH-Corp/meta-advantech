@@ -10,6 +10,10 @@ SRC_URI_mx6 = "file://IMX6_SUSI4__Release_2017_03_21_ubuntu12.04.1_x64_fsl_yocto
 SRC_URI_mx6[md5sum] = "867d15edb9fa830ef08aac1662860a60"
 SRC_NAME_mx6 = "SUSI4.0.14412"
 
+SRC_URI_dragonboard-410c = "file://Susi4_qualcomm_dragon_yocto_Release__2016-12-09.tar.gz"
+SRC_URI_dragonboard-410c[md5sum] = "eb3f1f9d3b800892dbe4cffe48edfe4f"
+SRC_NAME_dragonboard-410c = "SUSI4.0.14214"
+
 S = "${WORKDIR}/${SRC_NAME}"
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
