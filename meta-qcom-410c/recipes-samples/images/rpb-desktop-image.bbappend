@@ -22,3 +22,10 @@ IMAGE_INSTALL_append = " packagegroup-sdk-target "
 
 # SUSI 4.0
 IMAGE_INSTALL_append = " susi4 "
+
+#Install for building RMM
+TOOLCHAIN_TARGET_TASK += "\
+   curl curl-dev \
+   mosquitto mosquitto-dev \
+   c-ares \
+   "
