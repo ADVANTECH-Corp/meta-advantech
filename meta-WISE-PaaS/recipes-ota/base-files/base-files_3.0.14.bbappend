@@ -1,4 +1,4 @@
-CACHE_PARTITION ?= "/dev/mmcblk0p12"
+CACHE_PARTITION = "/dev/disk/by-label/cache"
 
 do_install_prepend() {
 
