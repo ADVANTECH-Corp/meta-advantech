@@ -66,10 +66,20 @@ IMAGE_CMD_uboot.mxsboot-nand = "mxsboot ${MXSBOOT_NAND_ARGS} nand \
                                              ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.uboot.mxsboot-nand"
 
 # Boot partition volume id
-BOOTDD_VOLUME_ID ?= "Boot ${MACHINE}"
+#BOOTDD_VOLUME_ID ?= "boot ${MACHINE}"
+BOOTDD_VOLUME_ID = "boot"
 
 # Boot partition size [in KiB]
 BOOT_SPACE ?= "8192"
+
+# Recovery partition size [in KiB]
+RECOVERY_SPACE ?= "32768"
+
+# Misc partition size [in KiB]
+MISC_SPACE ?= "1024"
+
+# Cache partition size [in KiB]
+CACHE_SPACE ?= "524288"
 
 # Barebox environment size [in KiB]
 BAREBOX_ENV_SPACE ?= "512"
@@ -86,6 +96,9 @@ IMAGE_DEPENDS_sdcard = "parted-native:do_populate_sysroot \
 SDCARD = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sdcard"
 # [Advantech] Add ENG image
 ENG_SDCARD = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.eng.sdcard"
+MISC_IMAGE= "${DEPLOY_DIR_IMAGE}/misc"
+CACHE_IMAGE= "${DEPLOY_DIR_IMAGE}/cache"
+RECOVERY_IMAGE="${DEPLOY_DIR_IMAGE}/recovery"
 
 SDCARD_GENERATION_COMMAND_mxs = "generate_mxs_sdcard"
 SDCARD_GENERATION_COMMAND_mx25 = "generate_imx_sdcard"
@@ -191,8 +204,18 @@ generate_imx_sdcard () {
 	# [Advantech] Change name of SDCARD_FILE parameter
 	bbnote "generate_imx_sdcard() Prepare mklabel"
 	parted -s ${SDCARD_FILE} mklabel msdos
+	# boot
 	parted -s ${SDCARD_FILE} unit KiB mkpart primary fat32 ${IMAGE_ROOTFS_ALIGNMENT} $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED})
-	parted -s ${SDCARD_FILE} unit KiB mkpart primary $(expr  ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED}) $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ $ROOTFS_SIZE)
+	# rootfs
+	parted -s ${SDCARD_FILE} unit KiB mkpart primary $(expr  ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ ${RECOVERY_SPACE_ALIGNED} \+ ${MISC_SPACE_ALIGNED} \+ ${CACHE_SPACE_ALIGNED}) $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ ${RECOVERY_SPACE_ALIGNED} \+ ${MISC_SPACE_ALIGNED} \+ ${CACHE_SPACE_ALIGNED} \+ $ROOTFS_SIZE)
+	# recovery
+	parted -s ${SDCARD_FILE} unit KiB mkpart primary ext4  $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED}) $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ ${RECOVERY_SPACE_ALIGNED})
+	# extended
+	parted -s ${SDCARD_FILE} unit KiB mkpart extended $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ ${RECOVERY_SPACE_ALIGNED}) $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ ${RECOVERY_SPACE_ALIGNED} \+ ${MISC_SPACE_ALIGNED} \+ ${CACHE_SPACE_ALIGNED})
+	# misc
+	parted -s ${SDCARD_FILE} unit KiB mkpart logical ext4 $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ ${RECOVERY_SPACE_ALIGNED} \+ 1) $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ ${RECOVERY_SPACE_ALIGNED} \+ ${MISC_SPACE_ALIGNED})
+	# cache
+	parted -s ${SDCARD_FILE} unit KiB mkpart logical ext4 $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ ${RECOVERY_SPACE_ALIGNED} \+ ${MISC_SPACE_ALIGNED} \+ 1) $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ ${RECOVERY_SPACE_ALIGNED} \+ ${MISC_SPACE_ALIGNED} \+ ${CACHE_SPACE_ALIGNED})
 	parted ${SDCARD_FILE} print
 
 	# Burn bootloader
@@ -241,7 +264,11 @@ generate_imx_sdcard () {
 	# Burn Partition
 	# [Advantech] Change name of SDCARD_FILE parameter
 	dd if=${WORKDIR}/boot.img of=${SDCARD_FILE} conv=notrunc,fsync seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024)
-	dd if=${SDCARD_ROOTFS} of=${SDCARD_FILE} conv=notrunc,fsync seek=1 bs=$(expr ${BOOT_SPACE_ALIGNED} \* 1024 + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024)
+	dd if=${RECOVERY_IMAGE} of=${SDCARD_FILE} conv=notrunc,fsync seek=1 bs=$(expr ${BOOT_SPACE_ALIGNED} \* 1024 + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024)
+	dd if=${MISC_IMAGE} of=${SDCARD_FILE} conv=notrunc,fsync seek=1 bs=$(expr ${BOOT_SPACE_ALIGNED} \* 1024 + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024 + ${RECOVERY_SPACE_ALIGNED} \* 1024 + 1024)
+	dd if=${CACHE_IMAGE} of=${SDCARD_FILE} conv=notrunc,fsync seek=1 bs=$(expr ${BOOT_SPACE_ALIGNED} \* 1024 + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024 + ${RECOVERY_SPACE_ALIGNED} \* 1024 + ${MISC_SPACE_ALIGNED} \* 1024 + 1024)
+	e2label ${SDCARD_ROOTFS} rootfs
+	dd if=${SDCARD_ROOTFS} of=${SDCARD_FILE} conv=notrunc,fsync seek=1 bs=$(expr ${BOOT_SPACE_ALIGNED} \* 1024 + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024 + ${RECOVERY_SPACE_ALIGNED} \* 1024 + ${MISC_SPACE_ALIGNED} \* 1024 + ${CACHE_SPACE_ALIGNED} \* 1024)
 }
 
 #
@@ -348,17 +375,34 @@ IMAGE_CMD_sdcard () {
 		bberror "SDCARD_ROOTFS is undefined. To use sdcard image from Freescale's BSP it needs to be defined."
 		exit 1
 	fi
-
 	# Align boot partition and calculate total SD card image size
 	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE} + ${IMAGE_ROOTFS_ALIGNMENT} - 1)
 	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE_ALIGNED} - ${BOOT_SPACE_ALIGNED} % ${IMAGE_ROOTFS_ALIGNMENT})
-	SDCARD_SIZE=$(expr ${IMAGE_ROOTFS_ALIGNMENT} + ${BOOT_SPACE_ALIGNED} + $ROOTFS_SIZE + ${IMAGE_ROOTFS_ALIGNMENT})
+	RECOVERY_SPACE_ALIGNED=$(expr ${RECOVERY_SPACE} + ${IMAGE_ROOTFS_ALIGNMENT} - 1)
+	RECOVERY_SPACE_ALIGNED=$(expr ${RECOVERY_SPACE_ALIGNED} - ${RECOVERY_SPACE_ALIGNED} % ${IMAGE_ROOTFS_ALIGNMENT})
+	MISC_SPACE_ALIGNED=$(expr ${MISC_SPACE} + ${IMAGE_ROOTFS_ALIGNMENT} - 1)
+	MISC_SPACE_ALIGNED=$(expr ${MISC_SPACE_ALIGNED} - ${MISC_SPACE_ALIGNED} % ${IMAGE_ROOTFS_ALIGNMENT})
+	CACHE_SPACE_ALIGNED=$(expr ${CACHE_SPACE} + ${IMAGE_ROOTFS_ALIGNMENT} - 1)
+	CACHE_SPACE_ALIGNED=$(expr ${CACHE_SPACE_ALIGNED} - ${CACHE_SPACE_ALIGNED} % ${IMAGE_ROOTFS_ALIGNMENT})
+	SDCARD_SIZE=$(expr ${IMAGE_ROOTFS_ALIGNMENT} + ${BOOT_SPACE_ALIGNED} + ${RECOVERY_SPACE_ALIGNED} + ${MISC_SPACE_ALIGNED} + ${CACHE_SPACE_ALIGNED} + $ROOTFS_SIZE + ${IMAGE_ROOTFS_ALIGNMENT})
 
 	# Initialize a sparse file
 	dd if=/dev/zero of=${SDCARD} bs=1 count=0 seek=$(expr 1024 \* ${SDCARD_SIZE})
 	# [Advantech] Initialize for ENG image
 	dd if=/dev/zero of=${ENG_SDCARD} bs=1 count=0 seek=$(expr 1024 \* ${SDCARD_SIZE})
 
+	# [Advantech] tim test
+	bbnote "[ADV] misc image"
+	dd if=/dev/zero of=${MISC_IMAGE} bs=1 count=0 seek=$(expr 1024 \* ${MISC_SPACE_ALIGNED} - 1024)
+	mkfs.ext2 -L misc ${MISC_IMAGE}
+	bbnote "[ADV] cache image"
+	dd if=/dev/zero of=${CACHE_IMAGE} bs=1 count=0 seek=$(expr 1024 \* ${CACHE_SPACE_ALIGNED} - 1024)
+	mkfs.ext2 -L cache ${CACHE_IMAGE}
+	bbnote "[ADV] recovery image"
+	dd if=/dev/zero of=${RECOVERY_IMAGE} bs=1 count=0 seek=$(expr 1024 \* ${RECOVERY_SPACE_ALIGNED} - 1024)
+	mkfs.ext4 -L recovery ${RECOVERY_IMAGE}
+	dd if=${DEPLOY_DIR_IMAGE}/recovery.img of=${RECOVERY_IMAGE}
+	
 	# [Advantech] Prepare both normal & eng images
 	${SDCARD_GENERATION_COMMAND} normal
 	${SDCARD_GENERATION_COMMAND} eng
