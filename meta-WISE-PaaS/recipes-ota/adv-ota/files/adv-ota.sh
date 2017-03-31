@@ -24,9 +24,7 @@ CACHE_ROOT="/cache"
 COMMAND_FILE="/cache/recovery/command"
 INTENT_FILE="/cache/recovery/intent"
 LAST_INSTALL_FILE="/cache/recovery/last_install"
-MAPPING_FILE="/cache/recovery/mapping"
 
-PACKAGE_FILE=""
 UPDATE_DIR="ota-update"
 UPDATE_SCRIPT="updater-script"
 
@@ -45,10 +43,13 @@ printMsg()
 cleanBCB()
 {
     printMsg "Cleaning BCB ..."
-    MISC_DEV=`grep misc $MAPPING_FILE | cut -d ':' -f 2`
+    MISC_DEV="${DISK_DIR}/${MISC_LABEL}"
     if [ -e ${MISC_DEV} ] ; then
         dd if=/dev/zero of=${MISC_DEV} bs=1 count=32; sync
         printMsg "BCB is clear!"
+    else
+        printMsg "Err: Cannot find misc partition!"
+        exit 1;
     fi
 }
 
@@ -62,11 +63,11 @@ exitRecovery()
 
     if [ -z $NOT_CLEAN ] ; then
         cleanBCB
-    fi
 
-    printMsg "Going to reboot ..."
-    sync; sync
-    /tools/adv-reboot
+        printMsg "Going to reboot ..."
+        sync; sync
+        /tools/adv-reboot
+    fi
 
     exit 1;
 }
@@ -94,7 +95,7 @@ updateBoot()
 {
     IMAGE_BT=`grep update-kernel $UPDATE_SCRIPT | cut -d ',' -f 2`
     IMAGE_DTB=`grep update-dtb $UPDATE_SCRIPT | cut -d ',' -f 2`
-    DISK_BT=`grep boot $MAPPING_FILE | cut -d ':' -f 2`
+    DISK_BT="${DISK_DIR}/${BOOT_LABEL}"
 
     BOOT_TYPE="zImage"
     if [ -z ${IMAGE_DTB} ] ; then
@@ -128,7 +129,7 @@ updateBoot()
 updateRootfs()
 {
     IMAGE_RF=`grep update-rootfs $UPDATE_SCRIPT | cut -d ',' -f 2`
-    DISK_RF=`grep rootfs $MAPPING_FILE | cut -d ':' -f 2`
+    DISK_RF="${DISK_DIR}/${ROOTFS_LABEL}"
 
     printMsg "Update rootfs partition ..."
     if [ -e ${DISK_RF} ] ; then
@@ -163,8 +164,12 @@ fi
 
 # [2] Check OTA package
 printMsg "Check OTA package ..."
-if [ ! -e ${MAPPING_FILE} ] ; then
-    exitRecovery "Err: ${MAPPING_FILE} does not exist!"
+if [ -e /dev/disk/by-partlabel ] ; then
+    DISK_DIR="/dev/disk/by-partlabel"
+elif [ -e /dev/disk/by-label ] ; then
+    DISK_DIR="/dev/disk/by-label"
+else
+    exitRecovery "Err: cannot find /dev/disk/by-partlabel or /dev/disk/by-label" true
 fi
 
 if [ ! -e ${PACKAGE_FILE} ] ; then

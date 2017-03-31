@@ -38,29 +38,12 @@ if [ -e $FILE_PATH ] ; then
     mkdir -p /cache/recovery/
     echo "--update_package=${FILE_PATH}" > /cache/recovery/command
 
-    echo "Create disk label mapping ..."
-    [ -e /cache/recovery/mapping ] && rm /cache/recovery/mapping
-
-    if [ -e /dev/disk/by-partlabel ] ; then
-        DISK_DIR="/dev/disk/by-partlabel"
-    elif [ -e /dev/disk/by-label ] ; then
-        DISK_DIR="/dev/disk/by-label"
-    else
-        echo "Error: cannot find /dev/disk/by-partlabel or /dev/disk/by-label" && exit 1;
-    fi
-    cd $DISK_DIR
-
-    DISK_LIST=`ls`
-    for DISK_LABEL in $DISK_LIST ; do
-        DISK_DEV=`readlink -f $DISK_LABEL`
-        echo "${DISK_LABEL}:${DISK_DEV}" >> /cache/recovery/mapping
-    done
-
     echo "Write BCB ..."
     echo -ne "\x62\x6f\x6f\x74\x2d\x72\x65\x63\x6f\x76\x65\x72\x79\x00" > /cache/boot-recovery
     dd if=/cache/boot-recovery of=${DISK_DIR}/misc
 
     echo "Setup OK. Reboot to recovery image!"
+    sync; sync
     reboot
 else
     echo "Error: $FILE_PATH does not exist!"
