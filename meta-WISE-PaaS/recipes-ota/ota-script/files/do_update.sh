@@ -30,6 +30,16 @@ if [ "result" == $1 ] ; then
     exit 0;
 fi
 
+
+if [ -e /dev/disk/by-partlabel ] ; then
+    DISK_DIR="/dev/disk/by-partlabel"
+elif [ -e /dev/disk/by-label ] ; then
+    DISK_DIR="/dev/disk/by-label"
+else
+    echo "Err: cannot find /dev/disk/by-partlabel or /dev/disk/by-label"
+    exit 0;
+fi
+
 # OTA Update Setup
 FILE_PATH="$1"
 
