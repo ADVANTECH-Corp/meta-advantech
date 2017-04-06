@@ -54,7 +54,6 @@ if [ -e $FILE_PATH ] ; then
 
     echo "Setup OK. Reboot to recovery image!"
     sync; sync
-    reboot
 else
     echo "Error: $FILE_PATH does not exist!"
     exit 1;
