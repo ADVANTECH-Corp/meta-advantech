@@ -7,7 +7,6 @@ SRCREV = "${AUTOREV}"
 SCMVERSION = "n"
 
 do_copy_defconfig () {
-    sed -i 's/CONFIG_FRAMEBUFFER_CONSOLE=m/CONFIG_FRAMEBUFFER_CONSOLE=y/g' ${S}/arch/arm/configs/imx_v7_adv_defconfig
     cp ${S}/arch/arm/configs/imx_v7_adv_defconfig ${B}/.config
     cp ${S}/arch/arm/configs/imx_v7_adv_defconfig ${B}/../defconfig
 }
