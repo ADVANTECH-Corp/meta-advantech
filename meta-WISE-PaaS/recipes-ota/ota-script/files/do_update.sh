@@ -23,6 +23,7 @@ EOF
 if [ "result" == $1 ] ; then
     if [ -e /cache/recovery/intent ] ; then
         OTA_RESULT=`cat /cache/recovery/intent`
+	rm /cache/recovery/intent
     else
         OTA_RESULT="N/A"
     fi
