@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+ROOTDIR=`pwd`
+
 usage()
 {
     cat << EOF
@@ -42,7 +44,7 @@ else
 fi
 
 # OTA Update Setup
-FILE_PATH="$1"
+FILE_PATH=$ROOTDIR/$1
 
 if [ -e $FILE_PATH ] ; then
     echo "Write recovery command ..."

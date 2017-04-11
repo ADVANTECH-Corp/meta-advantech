@@ -10,3 +10,9 @@ IMAGE_INSTALL += "\
 IMAGE_INSTALL += "\
    rmm susi4 susi-iot "
 
+update_issue() {
+	sed -i "s/Freescale/Yocto/g" ${IMAGE_ROOTFS}/etc/issue
+}
+
+ROOTFS_POSTPROCESS_COMMAND += " update_issue; "
+
