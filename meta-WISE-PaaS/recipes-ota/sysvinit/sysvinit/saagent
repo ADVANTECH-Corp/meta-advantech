@@ -29,10 +29,11 @@
 
 # be extra carefull cause connection fail if TMPDIR is not writeable
 export TMPDIR="/cache"
+export DBDIR="/cache/"
 
 . /etc/init.d/functions
 
-SAAGENT_DIR="/cache/AgentService/"
+SAAGENT_DIR="/usr/local/AgentService/"
 SAAGENT_BIN="${SAAGENT_DIR}cagent"
 SAAGENT_CONF="${SAAGENT_DIR}agent_config.xml"
 servername=$(sed -n 's:.*<ServiceName>\(.*\)</ServiceName>.*:\1:p' $SAAGENT_CONF)

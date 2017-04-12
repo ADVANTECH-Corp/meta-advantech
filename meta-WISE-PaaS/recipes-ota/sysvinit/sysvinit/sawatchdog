@@ -32,7 +32,7 @@ export TMPDIR="/cache"
 
 . /etc/init.d/functions
 
-SAAGENT_DIR="/cache/AgentService/"
+SAAGENT_DIR="/usr/local/AgentService/"
 SAAGENT_BIN="${SAAGENT_DIR}sawatchdog"
 SAAGENT_CONF="${SAAGENT_DIR}SAWatchdog_Config"
 SAAGENT_PID="/var/run/SAWatchdog.pid"
@@ -86,8 +86,9 @@ case "$1" in
 			echo -n "Starting RMM watchdog daemon..."
 			##daemon "${SAAGENT_BIN}"
 			cd ${SAAGENT_DIR}
-			./sawatchdog >/dev/null 2>&1 &		
-			RETVAL=$?
+			# jinxin mask
+			#./sawatchdog >/dev/null 2>&1 &		
+			RETVAL=0
 			[ $RETVAL -eq 0 ] && touch ${SAAGENT_LOCK}
 			echo
 		fi
@@ -97,15 +98,16 @@ case "$1" in
 		#check service status
 		if [ -f ${SAAGENT_LOCK} ]; then
 			echo -n "Shutting down RMM watchdog daemon..."		
-			getpid "${SAAGENT_BIN}"	
-			if [ "${pid}" = "0" ]; then
-				RETVAL=0
-			elif [ -z "${pid}" ]; then
-				RETVAL=0
-			else
-				killproc "${SAAGENT_BIN}"		
-				RETVAL=$?
-			fi
+			#getpid "${SAAGENT_BIN}"	
+			#if [ "${pid}" = "0" ]; then
+			#	RETVAL=0
+			#elif [ -z "${pid}" ]; then
+			#	RETVAL=0
+			#else
+			#	killproc "${SAAGENT_BIN}"		
+			#	RETVAL=$?
+			#fi
+			RETVAL=0
 			[ $RETVAL -eq 0 ] && rm -f ${SAAGENT_LOCK}
 			[ $RETVAL -eq 0 ] && rm -f ${SAAGENT_PID}
 			echo

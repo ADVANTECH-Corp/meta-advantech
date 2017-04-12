@@ -79,7 +79,7 @@ RECOVERY_SPACE ?= "32768"
 MISC_SPACE ?= "1024"
 
 # Cache partition size [in KiB]
-CACHE_SPACE ?= "524288"
+CACHE_SPACE ?= "786432"
 
 # Barebox environment size [in KiB]
 BAREBOX_ENV_SPACE ?= "512"

@@ -8,7 +8,7 @@ IMAGE_INSTALL += "\
    packagegroup-sdk-target python-paho-mqtt libxmu  "
 
 IMAGE_INSTALL += "\
-   rmm susi4 susi-iot "
+   ota-rmm susi4 susi-iot "
 
 update_issue() {
 	sed -i "s/Freescale/Yocto/g" ${IMAGE_ROOTFS}/etc/issue
