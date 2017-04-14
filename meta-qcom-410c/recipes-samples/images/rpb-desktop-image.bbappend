@@ -27,8 +27,8 @@ IMAGE_INSTALL_append = "\
    mosquitto mosquitto-dev libdmclient libdmclient-dev \
    packagegroup-sdk-target "
 
-IMAGE_INSTALL_append = "\
-   rmm susi4 susi-iot "
+#IMAGE_INSTALL_append = "\
+#   rmm susi4 susi-iot "
 
 #Install for building RMM
 TOOLCHAIN_TARGET_TASK += "\
