@@ -63,7 +63,7 @@ exitRecovery()
 
     if [ -z $NOT_CLEAN ] ; then
         cleanBCB
-
+	rm -rf $PACKAGE_FILE 
         printMsg "Going to reboot ..."
         sync; sync
         /tools/adv-reboot
