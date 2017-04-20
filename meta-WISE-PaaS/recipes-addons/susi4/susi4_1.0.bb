@@ -25,10 +25,13 @@ do_install() {
 	install -d ${D}/usr/lib/Advantech/Susi/ini
 	cp -axr ${S}/Driver/ini/*.ini ${D}/usr/lib/Advantech/Susi/ini
 	cp -axr ${S}/Driver/lib*.* ${D}/usr/lib/
+
+	install -d ${D}/usr/bin
+	cp -axr ${S}/Susi4Demo/susidemo4 ${D}/usr/bin/
 }
 
 # List the files for Package
-FILES_${PN} += "/usr/lib"
+FILES_${PN} += "/usr"
 
 # Put all SO files in main rpm package
 FILES_SOLIBSDEV = ""
