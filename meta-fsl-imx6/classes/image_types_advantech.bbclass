@@ -66,8 +66,7 @@ IMAGE_CMD_uboot.mxsboot-nand = "mxsboot ${MXSBOOT_NAND_ARGS} nand \
                                              ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.uboot.mxsboot-nand"
 
 # Boot partition volume id
-#BOOTDD_VOLUME_ID ?= "boot ${MACHINE}"
-BOOTDD_VOLUME_ID = "boot"
+BOOTDD_VOLUME_ID ?= "boot ${MACHINE}"
 
 # Boot partition size [in KiB]
 BOOT_SPACE ?= "8192"
@@ -391,7 +390,7 @@ IMAGE_CMD_sdcard () {
 	# [Advantech] Initialize for ENG image
 	dd if=/dev/zero of=${ENG_SDCARD} bs=1 count=0 seek=$(expr 1024 \* ${SDCARD_SIZE})
 
-	# [Advantech] tim test
+	# [Advantech] Add partitions and format
 	bbnote "[ADV] misc image"
 	dd if=/dev/zero of=${MISC_IMAGE} bs=1 count=0 seek=$(expr 1024 \* ${MISC_SPACE_ALIGNED} - 1024)
 	mkfs.ext2 -L misc ${MISC_IMAGE}
