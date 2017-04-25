@@ -58,6 +58,10 @@ exitRecovery()
     RETURN_LOG="$1"
     NOT_CLEAN="$2"
 
+    cd ${CACHE_ROOT}
+    rm $PACKAGE_FILE
+    rm -rf $UPDATE_DIR
+
     echo "$RETURN_LOG" > $INTENT_FILE
     printMsg "$RETURN_LOG"
 
@@ -224,10 +228,6 @@ if [ ! -z ${OTA_CMD_KL} ] || [ ! -z ${OTA_CMD_DTB} ] ; then
 fi
 
 # [4] Finish recovery
-cd ${CACHE_ROOT}
-rm $PACKAGE_FILE
-rm -rf $UPDATE_DIR
-
 echo $PACKAGE_FILE > $LAST_INSTALL_FILE
 exitRecovery "OK"
 
