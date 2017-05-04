@@ -35,7 +35,9 @@ export DBDIR="/cache/"
 
 SAAGENT_DIR="/usr/local/AgentService/"
 SAAGENT_BIN="${SAAGENT_DIR}cagent"
-SAAGENT_CONF="${SAAGENT_DIR}agent_config.xml"
+# jinxin modify the agent_config.xml path
+# SAAGENT_CONF="${SAAGENT_DIR}agent_config.xml"
+SAAGENT_CONF="/cache/agent_config.xml"
 servername=$(sed -n 's:.*<ServiceName>\(.*\)</ServiceName>.*:\1:p' $SAAGENT_CONF)
 SAAGENT_PID="/var/run/$servername.pid"
 SAAGENT_LOCK="/var/lock/subsys/cagent"

@@ -1,4 +1,4 @@
-IMAGE_INSTALL += " ota-script "
+IMAGE_INSTALL += " ota-script fsl-rc-local"
 
 #RMM & SUSI_4.0
 IMAGE_INSTALL += "\
@@ -10,9 +10,16 @@ IMAGE_INSTALL += "\
 IMAGE_INSTALL += "\
    ota-rmm susi4 susi-iot "
 
+ADDON_FILES_DIR:="${THISDIR}/files"
+
 update_issue() {
 	sed -i "s/Freescale/Yocto/g" ${IMAGE_ROOTFS}/etc/issue
 }
 
-ROOTFS_POSTPROCESS_COMMAND += " update_issue; "
+replace_rc_local() {
+	install -m 0755 ${ADDON_FILES_DIR}/rc.local ${IMAGE_ROOTFS}/etc
+}
+
+
+ROOTFS_POSTPROCESS_COMMAND += " update_issue; replace_rc_local"
 
