@@ -1,17 +1,29 @@
 # meta-advantech
 
-This repository contains Advantech layers for Yocto.
+This repository contains Advantech meta layers for Yocto.
 
 ## Introduction
 
-- meta-fsl-imx6:
- - This repo provides support for NXP i.MX6 platform.
+### meta-fsl-imx6
 
-- meta-intel-quark:
- - This repo provides support for Intel Quark platform.
+- Platform support for NXP i.MX6.
 
-- meta-qcom-410c:
- - This repo provides support for Qualcomm dragonboard 410c platform.
+### meta-intel-quark
 
-- meta-tools:
- - This layer provides the test scripts and utilities for all platforms.
+- Platform support for Intel Quark.
+
+### meta-qcom-410c
+
+- Platform support for Qualcomm dragonboard 410c.
+
+### meta-ti-57xx
+
+- Platform support for TI 57xx.
+
+### meta-tools
+
+- This layer provides the test scripts and utilities for all platforms.
+
+### meta-WISE-PaaS
+
+- This layer provides Advantech add-on features, e.g. RMM, SUSI & SUSI-IOT.
