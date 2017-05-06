@@ -8,7 +8,7 @@ do_configure() {
     # tree config
 
     #cp ${WORKDIR}/defconfig ${B}/.config
-    cp ${S}/arch/arm/configs/tisdk_am57xx-evm_defconfig ${B}/.config
+    cp ${S}/arch/arm/configs/tisdk_am57xx-adv_defconfig ${B}/.config
 
     echo ${KERNEL_LOCALVERSION} > ${B}/.scmversion
     echo ${KERNEL_LOCALVERSION} > ${S}/.scmversion
