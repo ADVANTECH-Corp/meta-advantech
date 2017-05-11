@@ -12,3 +12,6 @@ KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/basic_functions.cfg"
 SRC_URI += "file://macvlan.cfg"
 KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/macvlan.cfg"
 
+# Enable Quectel LTE module
+SRC_URI += "file://quectel.cfg"
+KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/quectel.cfg"

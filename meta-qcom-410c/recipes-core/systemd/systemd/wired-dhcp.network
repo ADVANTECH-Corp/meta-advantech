@@ -3,3 +3,4 @@ Name=e*
 
 [Network]
 DHCP=yes
+UseDNS=true
