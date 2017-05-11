@@ -11,9 +11,14 @@ IMAGE_INSTALL += "\
    ota-rmm susi4 susi-iot "
 
 ADDON_FILES_DIR:="${THISDIR}/files"
+CACHE_PARTITION = "/dev/disk/by-label/cache"
 
 update_issue() {
 	sed -i "s/Freescale/Yocto/g" ${IMAGE_ROOTFS}/etc/issue
+}
+
+modify_fstab() {
+	echo "${CACHE_PARTITION}      /cache               ext4       nosuid,nodev,nomblk_io_submit 0 0" >> ${IMAGE_ROOTFS}/etc/fstab
 }
 
 replace_rc_local() {
@@ -21,5 +26,5 @@ replace_rc_local() {
 }
 
 
-ROOTFS_POSTPROCESS_COMMAND += " update_issue; replace_rc_local"
+ROOTFS_POSTPROCESS_COMMAND += " update_issue; replace_rc_local; modify_fstab"
 
