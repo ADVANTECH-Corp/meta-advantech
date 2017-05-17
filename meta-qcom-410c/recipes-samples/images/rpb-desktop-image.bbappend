@@ -29,8 +29,7 @@ IMAGE_INSTALL_append = "\
    packagegroup-sdk-target "
 
 IMAGE_INSTALL_append = "\
-   susi4 "
-#   rmm susi-iot "
+   rmm susi-iot susi4 "
 
 #Install for building RMM
 TOOLCHAIN_TARGET_TASK += "\

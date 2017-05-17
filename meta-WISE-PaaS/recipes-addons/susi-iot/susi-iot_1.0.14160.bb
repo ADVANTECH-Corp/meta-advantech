@@ -9,6 +9,9 @@ PR = "r0"
 SRC_URI_mx6 = "file://SusiIoT_Release_14160.tar.gz"
 SRC_URI_mx6[md5sum] = "df6b5124295e3673701fea90bea431fe"
 
+SRC_URI_dragonboard-410c = "file://SusiIoT_qualcomm_dragon_yocto_Release_14489_2017-05-11.tar.gz"
+SRC_URI_dragonboard-410c[md5sum] = "ec1dd90e91063a64df32a7b2189d7cab"
+
 S = "${WORKDIR}/release"
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"

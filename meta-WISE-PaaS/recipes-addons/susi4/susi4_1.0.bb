@@ -10,9 +10,9 @@ SRC_URI_mx6 = "file://IMX6_SUSI4__Release_2017_04_19_ubuntu12.04.1_x64_fsl_yocto
 SRC_URI_mx6[md5sum] = "bbaf3feb8dcf88e098253dc97eee667b"
 SRC_NAME_mx6 = "SUSI4.0.14455"
 
-SRC_URI_dragonboard-410c = "file://Susi4_qualcomm_dragon_yocto_Release__2016-12-09.tar.gz"
-SRC_URI_dragonboard-410c[md5sum] = "eb3f1f9d3b800892dbe4cffe48edfe4f"
-SRC_NAME_dragonboard-410c = "SUSI4.0.14214"
+SRC_URI_dragonboard-410c = "file://Susi4_qualcomm_dragon_yocto_Release__2017-05-11.tar.gz"
+SRC_URI_dragonboard-410c[md5sum] = "a45b53f822ce18b77411ed66bd607a43"
+SRC_NAME_dragonboard-410c = "SUSI4.0.14490"
 
 S = "${WORKDIR}/${SRC_NAME}"
 
