@@ -66,7 +66,7 @@ IMAGE_CMD_uboot.mxsboot-nand = "mxsboot ${MXSBOOT_NAND_ARGS} nand \
                                              ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.uboot.mxsboot-nand"
 
 # Boot partition volume id
-BOOTDD_VOLUME_ID ?= "boot"
+BOOTDD_VOLUME_ID = "boot"
 
 # Boot partition size [in KiB]
 BOOT_SPACE ?= "8192"
