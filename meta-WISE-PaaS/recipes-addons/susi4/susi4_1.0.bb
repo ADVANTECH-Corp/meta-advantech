@@ -6,13 +6,17 @@ SECTION = "libs"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 PR = "r0"
 
-SRC_URI_mx6 = "file://IMX6_SUSI4__Release_2017_03_24_ubuntu12.04.1_x64_fsl_yocto.tar.gz"
-SRC_URI_mx6[md5sum] = "99a8af1179f85fb65dc97a9cf823466d"
-SRC_NAME_mx6 = "SUSI4.0.14428"
+SRC_URI_mx6 = "file://IMX6_SUSI4__Release_2017_04_19_ubuntu12.04.1_x64_fsl_yocto.tar.gz"
+SRC_URI_mx6[md5sum] = "bbaf3feb8dcf88e098253dc97eee667b"
+SRC_NAME_mx6 = "SUSI4.0.14455"
 
-SRC_URI_dragonboard-410c = "file://Susi4_qualcomm_dragon_yocto_Release__2016-12-09.tar.gz"
-SRC_URI_dragonboard-410c[md5sum] = "eb3f1f9d3b800892dbe4cffe48edfe4f"
-SRC_NAME_dragonboard-410c = "SUSI4.0.14214"
+SRC_URI_dragonboard-410c = "file://Susi4_qualcomm_dragon_yocto_Release__2017-05-11.tar.gz"
+SRC_URI_dragonboard-410c[md5sum] = "a45b53f822ce18b77411ed66bd607a43"
+SRC_NAME_dragonboard-410c = "SUSI4.0.14490"
+
+SRC_URI_quark = "file://Susi4_intel_quark_yocto_Release__2017-05-24.tar.gz"
+SRC_URI_quark[md5sum] = "281fbeba3558a1af9157b70ebf563ced"
+SRC_NAME_quark = "SUSI4.0.14511"
 
 S = "${WORKDIR}/${SRC_NAME}"
 
@@ -25,10 +29,13 @@ do_install() {
 	install -d ${D}/usr/lib/Advantech/Susi/ini
 	cp -axr ${S}/Driver/ini/*.ini ${D}/usr/lib/Advantech/Susi/ini
 	cp -axr ${S}/Driver/lib*.* ${D}/usr/lib/
+
+	install -d ${D}/usr/bin
+	cp -axr ${S}/Susi4Demo/susidemo4 ${D}/usr/bin/
 }
 
 # List the files for Package
-FILES_${PN} += "/usr/lib"
+FILES_${PN} += "/usr"
 
 # Put all SO files in main rpm package
 FILES_SOLIBSDEV = ""
