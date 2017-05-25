@@ -1,4 +1,4 @@
-YOCTO_VERSION = "Yocto 2.2 (morty)"
+YOCTO_VERSION = "Yocto 2.1 (krogoth)"
 
 BASEFILESISSUEINSTALL = "do_install_basefilesissue_yocto"
 
