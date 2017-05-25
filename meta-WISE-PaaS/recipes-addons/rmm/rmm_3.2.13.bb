@@ -20,6 +20,9 @@ DEPENDS = "avahi openssl libxext curl libxml2 libx11 jpeg libxrandr zlib \
 
 inherit autotools pkgconfig
 
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
+
 do_install() {
 	mkdir -p ${D}/tools
 	install -m 0775 ${S}/Wrapped/* ${D}/tools

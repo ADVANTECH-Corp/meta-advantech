@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=130f9d9dddfebd2c6ff59165f066e41c"
 
 SRC_URI = "http://s-tech.elsat.net.pl/fbv/${BPN}-${PV}.tar.gz \
            file://fbv_fix.patch \
+           file://fbv_gif_fix.patch \
            file://fbv_multi_fb.patch"
 
 SRC_URI[md5sum] = "3e466375b930ec22be44f1041e77b55d"
