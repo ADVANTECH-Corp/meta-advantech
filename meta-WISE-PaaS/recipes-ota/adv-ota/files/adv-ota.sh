@@ -138,6 +138,9 @@ updateRootfs()
     printMsg "Update rootfs partition ..."
     if [ -e ${DISK_RF} ] ; then
         doUpdate ${IMAGE_RF} ${DISK_RF} ${ROOTFS_LABEL}
+	umount ${DISK_RF} 
+	e2fsck -f -y ${DISK_RF}
+	resize2fs ${DISK_RF}
     else
         exitRecovery "Err: Cannot find rootfs partition in ${DISK_RF}"
     fi
