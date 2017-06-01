@@ -1,4 +1,4 @@
-IMAGE_INSTALL += " ota-script fsl-rc-local"
+IMAGE_INSTALL += " ota-script fsl-rc-local e2fsprogs-resize2fs"
 
 #RMM & SUSI_4.0
 IMAGE_INSTALL += "\

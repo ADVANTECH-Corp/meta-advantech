@@ -52,4 +52,4 @@ mk_recovery_img_qcom() {
 IMAGE_POSTPROCESS_COMMAND_dragonboard-410c += " mk_recovery_img_qcom ; "
 
 # Utilities
-PACKAGE_INSTALL += " adv-ota android-tools base-files boottimes e2fsprogs-tune2fs udev-extraconf util-linux "
+PACKAGE_INSTALL += " adv-ota android-tools base-files boottimes e2fsprogs-tune2fs udev-extraconf util-linux e2fsprogs-resize2fs e2fsprogs-e2fsck"
