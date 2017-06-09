@@ -97,7 +97,7 @@ SDCARD = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sdcard"
 ENG_SDCARD = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.eng.sdcard"
 MISC_IMAGE= "${DEPLOY_DIR_IMAGE}/misc"
 CACHE_IMAGE= "${DEPLOY_DIR_IMAGE}/cache"
-RECOVERY_IMAGE="${DEPLOY_DIR_IMAGE}/recovery"
+RECOVERY_IMAGE="${DEPLOY_DIR_IMAGE}/recovery.img"
 
 SDCARD_GENERATION_COMMAND_mxs = "generate_mxs_sdcard"
 SDCARD_GENERATION_COMMAND_mx25 = "generate_imx_sdcard"
