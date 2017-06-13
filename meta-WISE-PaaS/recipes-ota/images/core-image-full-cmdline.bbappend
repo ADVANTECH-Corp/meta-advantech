@@ -21,5 +21,8 @@ replace_rc_local() {
 	install -m 0755 ${ADDON_FILES_DIR}/rc.local ${IMAGE_ROOTFS}/etc
 }
 
-ROOTFS_POSTPROCESS_COMMAND += " replace_rc_local; modify_fstab"
+copy_env_config() {
+	install -m 0755 ${ADDON_FILES_DIR}/env_config.ini ${IMAGE_ROOTFS}/usr/local/AgentService
+}
+ROOTFS_POSTPROCESS_COMMAND += " replace_rc_local; modify_fstab; copy_env_config"
 

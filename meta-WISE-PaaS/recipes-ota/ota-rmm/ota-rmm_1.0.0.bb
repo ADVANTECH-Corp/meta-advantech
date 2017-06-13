@@ -22,7 +22,7 @@ DEPENDS = "avahi openssl libxext curl libxml2 libx11 jpeg libxrandr zlib \
 inherit autotools pkgconfig
 
 do_install() {
-	sh ${S}/rmm.run --noexec --target rmm
+	sh ${S}/otaagent-Poky\ \(Yocto\ Project\ Reference\ Distro\)\ 4.1.15\ armv7l-3.0.6.247.run --noexec --target rmm
 	install -d ${D}/usr/local
 	install -d ${D}/etc/init.d
 	cp -axr ${S}/build/rmm/saagent ${D}/etc/init.d
