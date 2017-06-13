@@ -12,9 +12,14 @@
 # By default this script does nothing.
 
 
-
-if [ ! -e /cache/agent_config.xml ];then
-        cp /usr/local/AgentService/agent_config.xml /cache
+if [ ! -e /cache/ota ];then
+	mkdir /cache/ota
+fi
+if [ ! -e /cache/ota/agent_config.xml ];then
+        cp /usr/local/AgentService/agent_config.xml /cache/ota
+fi
+if [ ! -e /cache/ota/agent_config_def.xml ];then
+        cp /usr/local/AgentService/agent_config_def.xml /cache/ota
 fi
 
 
