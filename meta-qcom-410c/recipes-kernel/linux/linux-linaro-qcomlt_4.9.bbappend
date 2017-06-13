@@ -15,3 +15,7 @@ KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/macvlan.cfg"
 # Enable Quectel LTE module
 SRC_URI += "file://quectel.cfg"
 KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/quectel.cfg"
+
+# Enable RNDIS
+SRC_URI += "file://usbtethering.cfg"
+KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/usbtethering.cfg"
