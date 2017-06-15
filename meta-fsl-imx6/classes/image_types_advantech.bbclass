@@ -97,7 +97,7 @@ SDCARD = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sdcard"
 ENG_SDCARD = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.eng.sdcard"
 MISC_IMAGE= "${DEPLOY_DIR_IMAGE}/misc"
 CACHE_IMAGE= "${DEPLOY_DIR_IMAGE}/cache"
-RECOVERY_IMAGE="${DEPLOY_DIR_IMAGE}/recovery.img"
+RECOVERY_IMAGE="${DEPLOY_DIR_IMAGE}/recovery"
 
 SDCARD_GENERATION_COMMAND_mxs = "generate_mxs_sdcard"
 SDCARD_GENERATION_COMMAND_mx25 = "generate_imx_sdcard"
@@ -400,7 +400,9 @@ IMAGE_CMD_sdcard () {
 	bbnote "[ADV] recovery image"
 	dd if=/dev/zero of=${RECOVERY_IMAGE} bs=1 count=0 seek=$(expr 1024 \* ${RECOVERY_SPACE_ALIGNED} - 1024)
 	mkfs.ext4 -L recovery ${RECOVERY_IMAGE}
-	dd if=${DEPLOY_DIR_IMAGE}/recovery.img of=${RECOVERY_IMAGE}
+	if [ -e ${DEPLOY_DIR_IMAGE}/recovery.img ];then	
+		dd if=${DEPLOY_DIR_IMAGE}/recovery.img of=${RECOVERY_IMAGE}
+	fi
 	
 	# [Advantech] Prepare both normal & eng images
 	${SDCARD_GENERATION_COMMAND} normal
