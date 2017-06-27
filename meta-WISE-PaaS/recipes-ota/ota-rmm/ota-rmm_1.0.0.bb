@@ -27,7 +27,7 @@ do_install() {
 	install -d ${D}/etc/init.d
 	cp -axr ${S}/build/rmm/saagent ${D}/etc/init.d
 	cp -axr ${S}/build/rmm/AgentService ${D}/usr/local
-	sed -i "s/127.0.0.1/172.21.73.89/g" ${D}/usr/local/AgentService/agent_config.xml
+	sed -i "s/127.0.0.1/wise-ota.eastasia.cloudapp.azure.com/g" ${D}/usr/local/AgentService/agent_config.xml
 }
 
 
