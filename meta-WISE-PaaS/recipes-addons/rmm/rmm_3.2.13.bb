@@ -12,8 +12,8 @@ SRC_URI_mx6[md5sum] = "686440396e9cae8bc95ad28d57f39f36"
 SRC_URI_dragonboard-410c = "file://rmmagent-inaro-aarch64-3.2.18.7253.run.tar.gz"
 SRC_URI_dragonboard-410c[md5sum] = "b049ccdf0169d1b13f29b5ae8e6f5991"
 
-SRC_URI_quark = "file://rmmagent-iot-devkit-i586-3.2.18.7276.run.tar.gz"
-SRC_URI_quark[md5sum] = "cb88f969b06a4ed8fd79362fd00f2af1"
+SRC_URI_quark = "file://rmmagent-iot-devkit-i586-3.2.19.7450.run.tar.gz"
+SRC_URI_quark[md5sum] = "ee440cae33300be58700b7d6a67a542c"
 
 S = "${WORKDIR}"
 
