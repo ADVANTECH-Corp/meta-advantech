@@ -16,6 +16,10 @@ KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/macvlan.cfg"
 SRC_URI += "file://quectel.cfg"
 KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/quectel.cfg"
 
+# Enable Telit 3G module
+SRC_URI += "file://telit.cfg"
+KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/telit.cfg"
+
 # Enable RNDIS
 SRC_URI += "file://usbtethering.cfg"
 KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/usbtethering.cfg"
