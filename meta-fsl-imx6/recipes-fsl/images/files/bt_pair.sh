@@ -20,7 +20,7 @@ if [[ ! $BTMAC =~ ^([0-9A-F]{2}:){5}([0-9A-F]{2})$ ]]; then
 fi
 
 if ! pidof bluetoothd &>/dev/null; then
-	/usr/lib/bluez5/bluetooth/bluetoothd -C &
+	/usr/libexec/bluetooth/bluetoothd -C &
 fi
 hciconfig hci0 up
 

@@ -13,6 +13,6 @@ if [ "$DBUS_SESSION_BUS_PID" == "" ]; then
    eval `dbus-launch --sh-syntax | tee /tmp/dbus-session.out`
    echo "D-Bus per-session daemon address is: $DBUS_SESSION_BUS_ADDRESS"
 fi
-/usr/lib/bluez5/bluetooth/obexd &
+/usr/libexec/bluetooth/obexd &
 killall bluetoothd
-/usr/lib/bluez5/bluetooth/bluetoothd -C &
+/usr/libexec/bluetooth/bluetoothd -C &
