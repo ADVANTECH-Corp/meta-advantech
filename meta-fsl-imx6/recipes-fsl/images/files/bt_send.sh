@@ -23,7 +23,7 @@ if [ ! -f $FILE ]; then
 fi
 
 if ! pidof bluetoothd &>/dev/null; then
-        /usr/lib/bluez5/bluetooth/bluetoothd -C &
+	/usr/libexec/bluetooth/bluetoothd -C &
 fi
 hciconfig hci0 up
 
@@ -38,6 +38,7 @@ hciconfig hci0 up
 sleep 3
 
 cat <<-EOF | expect
+	set timeout 600
 	spawn "obexctl"
 	expect "# "
 	sleep 2
