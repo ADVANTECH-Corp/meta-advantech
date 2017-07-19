@@ -13,6 +13,8 @@ IMAGE_INSTALL_append = " stress stress-ng devmem2 fbv i2c-tools ethtool evtest "
 IMAGE_INSTALL_append = " minicom st boottimes alsa-utils fbida iperf memtester ppp "
 IMAGE_INSTALL_append = " netkit-ftp glmark2 ntpdate v4l-utils mtd-utils expect "
 IMAGE_INSTALL_append = " packagegroup-tools-bluetooth "
+IMAGE_INSTALL_append = " inetutils inetutils-telnet inetutils-telnetd "
+IMAGE_INSTALL_append = " gimp "
 
 # Misc
 # - X resource database manager
