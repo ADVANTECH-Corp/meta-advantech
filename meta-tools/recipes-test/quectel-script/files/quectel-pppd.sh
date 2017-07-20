@@ -3,7 +3,7 @@
 #quectel-pppd devname apn user password
 echo "quectel-pppd options in effect:"
 QL_DEVNAME=/dev/ttyUSB3
-QL_APN=3gnet
+QL_APN=internet
 QL_USER=user
 QL_PASSWORD=passwd
 if [ $# -ge 1 ]; then
