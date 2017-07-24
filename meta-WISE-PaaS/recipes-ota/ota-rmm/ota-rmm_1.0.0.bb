@@ -26,7 +26,11 @@ do_install() {
 	install -d ${D}/usr/local
 	install -d ${D}/etc/init.d
 	cp -axr ${S}/build/rmm/saagent ${D}/etc/init.d
+	cp -axr ${S}/build/rmm/sawatchdog ${D}/etc/init.d
 	cp -axr ${S}/build/rmm/AgentService ${D}/usr/local
+        update-rc.d -r ${D} saagent start 99 2 3 4 5 .
+        update-rc.d -r ${D} sawatchdog start 99 2 3 4 5 .
+
 	sed -i "s/127.0.0.1/wise-ota.eastasia.cloudapp.azure.com/g" ${D}/usr/local/AgentService/agent_config.xml
 }
 
