@@ -22,7 +22,7 @@ replace_rc_local() {
 }
 
 copy_env_config() {
-	install -m 0755 ${ADDON_FILES_DIR}/env_config.ini ${IMAGE_ROOTFS}/usr/local/AgentService
+	install -m 0755 ${ADDON_FILES_DIR}/env_config.ini ${IMAGE_ROOTFS}/usr/local/OTA-Agent
 }
 ROOTFS_POSTPROCESS_COMMAND += " replace_rc_local; modify_fstab; copy_env_config"
 

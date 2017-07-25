@@ -6,7 +6,7 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/BSD;md5=3775480a712fc46a69647678acb234cb"
 PR = "r0"
 
-SRC_URI_mx6 = "file://rmm.run.tar.gz"
+SRC_URI_mx6 = "file://otaagent-Poky-4.1.15-armv7l-3.0.7.359.run.tar.gz"
 SRC_URI_mx6[md5sum] = "649d6ccf6fcc0c0ea12c3439e4015b22"
 
 S = "${WORKDIR}"
@@ -22,16 +22,13 @@ DEPENDS = "avahi openssl libxext curl libxml2 libx11 jpeg libxrandr zlib \
 inherit autotools pkgconfig
 
 do_install() {
-	sh ${S}/otaagent-Poky\ \(Yocto\ Project\ Reference\ Distro\)\ 4.1.15\ armv7l-3.0.6.247.run --noexec --target rmm
+	sh ${S}/otaagent-Poky-4.1.15-armv7l-3.0.7.359.run --noexec --target rmm
 	install -d ${D}/usr/local
 	install -d ${D}/etc/init.d
-	cp -axr ${S}/build/rmm/saagent ${D}/etc/init.d
-	cp -axr ${S}/build/rmm/sawatchdog ${D}/etc/init.d
-	cp -axr ${S}/build/rmm/AgentService ${D}/usr/local
-        update-rc.d -r ${D} saagent start 99 2 3 4 5 .
-        update-rc.d -r ${D} sawatchdog start 99 2 3 4 5 .
-
-	sed -i "s/127.0.0.1/wise-ota.eastasia.cloudapp.azure.com/g" ${D}/usr/local/AgentService/agent_config.xml
+	cp -axr ${S}/build/rmm/OTA-Agent/services/otaagent ${D}/etc/init.d
+	cp -axr ${S}/build/rmm/OTA-Agent/services/otawatchdog ${D}/etc/init.d
+	cp -axr ${S}/build/rmm/OTA-Agent ${D}/usr/local
+	sed -i "s/127.0.0.1/wise-ota.eastasia.cloudapp.azure.com/g" ${D}/usr/local/OTA-Agent/agent_config.xml
 }
 
 
@@ -41,5 +38,5 @@ FILES_SOLIBSDEV = ""
 RPROVIDES_${PN} = "libsueClient.so libsueClientCore.so libfileTransfer.so libminiUnzip.so libSAClient.so libSAConfig.so libSAGatherInfo.so libSAGeneralHandler.so libmqtthelper.so"
 
 # List the files for Package
-FILES_${PN} = "/usr/local/AgentService /etc"
+FILES_${PN} = "/usr/local/OTA-Agent /etc"
 
