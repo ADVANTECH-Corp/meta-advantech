@@ -18,7 +18,7 @@ modify_fstab() {
 }
 
 copy_env_config() {
-	install -m 0755 ${OTA_CONFIGS_DIR}/env_config.ini ${IMAGE_ROOTFS}/usr/local/AgentService
+	install -m 0755 ${OTA_CONFIGS_DIR}/env_config.ini ${IMAGE_ROOTFS}/usr/local/OTA-Agent
 }
 ROOTFS_POSTPROCESS_COMMAND += "modify_fstab; copy_env_config"
 

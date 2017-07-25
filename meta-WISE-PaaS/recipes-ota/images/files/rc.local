@@ -16,12 +16,11 @@ if [ ! -e /cache/ota ];then
 	mkdir /cache/ota
 fi
 if [ ! -e /cache/ota/agent_config.xml ];then
-        cp /usr/local/AgentService/agent_config.xml /cache/ota
-fi
-if [ ! -e /cache/ota/agent_config_def.xml ];then
-        cp /usr/local/AgentService/agent_config_def.xml /cache/ota
+        cp /usr/local/OTA-Agent/agent_config.xml /cache/ota
 fi
 
+/etc/init.d/otaagent start
+/etc/init.d/otawatchdog start
 
 exit 0
 

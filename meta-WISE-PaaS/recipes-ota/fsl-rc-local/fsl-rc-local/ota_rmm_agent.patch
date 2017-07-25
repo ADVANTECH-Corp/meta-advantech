@@ -2,7 +2,7 @@ Index: fsl-rc-local/rc.local.etc
 ===================================================================
 --- fsl-rc-local/rc.local.etc
 +++ fsl-rc-local/rc.local.etc
-@@ -30,6 +30,16 @@ if [ -e /usr/bin/ec_uevent ];then
+@@ -30,6 +30,13 @@ if [ -e /usr/bin/ec_uevent ];then
          ec_uevent &
  fi
  
@@ -10,10 +10,7 @@ Index: fsl-rc-local/rc.local.etc
 +        mkdir /cache/ota
 +fi
 +if [ ! -e /cache/ota/agent_config.xml ];then
-+        cp /usr/local/AgentService/agent_config.xml /cache/ota
-+fi
-+if [ ! -e /cache/ota/agent_config_def.xml ];then
-+        cp /usr/local/AgentService/agent_config_def.xml /cache/ota
++        cp /usr/local/OTA-Agent/agent_config.xml /cache/ota
 +fi
 +
  
