@@ -25,8 +25,8 @@ do_install() {
 	sh ${S}/otaagent-Poky-4.1.15-armv7l-3.0.7.359.run --noexec --target rmm
 	install -d ${D}/usr/local
 	install -d ${D}/etc/init.d
-	cp -axr ${S}/build/rmm/OTA-Agent/services/otaagent ${D}/etc/init.d
-	cp -axr ${S}/build/rmm/OTA-Agent/services/otawatchdog ${D}/etc/init.d
+	install -m 755 ${S}/build/rmm/OTA-Agent/services/otaagent ${D}/etc/init.d
+        install -m 755 ${S}/build/rmm/OTA-Agent/services/otawatchdog ${D}/etc/init.d
 	cp -axr ${S}/build/rmm/OTA-Agent ${D}/usr/local
 	sed -i "s/127.0.0.1/wise-ota.eastasia.cloudapp.azure.com/g" ${D}/usr/local/OTA-Agent/agent_config.xml
 }
