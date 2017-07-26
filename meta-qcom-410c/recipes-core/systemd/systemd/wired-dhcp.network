@@ -7,4 +7,4 @@ UseDNS=true
 
 [Address]
 Label=eth0:0
-Address=192.168.0.1/24
+Address=10.0.0.1/24
