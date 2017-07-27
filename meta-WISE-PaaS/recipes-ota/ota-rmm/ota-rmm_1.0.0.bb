@@ -8,6 +8,8 @@ PR = "r0"
 
 SRC_URI_mx6 = "file://otaagent-Poky-4.1.15-armv7l-3.0.7.359.run.tar.gz"
 SRC_URI_mx6[md5sum] = "649d6ccf6fcc0c0ea12c3439e4015b22"
+SRC_URI_dragonboard-410c = "file://otaagent-Poky-4.1.15-armv7l-3.0.9.379.run.tar.gz"
+SRC_URI_dragonboard-410c[md5sum] = "f43b4911d432e061982c3e0f89e7125c"
 
 S = "${WORKDIR}"
 
@@ -22,11 +24,11 @@ DEPENDS = "avahi openssl libxext curl libxml2 libx11 jpeg libxrandr zlib \
 inherit autotools pkgconfig
 
 do_install() {
-	sh ${S}/otaagent-Poky-4.1.15-armv7l-3.0.7.359.run --noexec --target rmm
+	sh ${S}/otaagent-*.run --noexec --target rmm
 	install -d ${D}/usr/local
 	install -d ${D}/etc/init.d
 	install -m 755 ${S}/build/rmm/OTA-Agent/services/otaagent ${D}/etc/init.d
-        install -m 755 ${S}/build/rmm/OTA-Agent/services/otawatchdog ${D}/etc/init.d
+	install -m 755 ${S}/build/rmm/OTA-Agent/services/otawatchdog ${D}/etc/init.d
 	cp -axr ${S}/build/rmm/OTA-Agent ${D}/usr/local
 	sed -i "s/127.0.0.1/wise-ota.eastasia.cloudapp.azure.com/g" ${D}/usr/local/OTA-Agent/agent_config.xml
 }
