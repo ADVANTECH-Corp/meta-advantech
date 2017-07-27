@@ -23,3 +23,7 @@ KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/telit.cfg"
 # Enable RNDIS
 SRC_URI += "file://usbtethering.cfg"
 KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/usbtethering.cfg"
+
+# Enable Sierra AirPrime MC7304
+SRC_URI += "file://sierra.cfg"
+KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/sierra.cfg"
