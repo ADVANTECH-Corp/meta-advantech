@@ -103,7 +103,7 @@ updateBoot()
 
     BOOT_TYPE="zImage"
     if [ -z ${IMAGE_DTB} ] ; then
-        BOOT_HEADER=`hexdump -C ${IMAGE_BT} -n 16 | grep ANDROID`
+        BOOT_HEADER=`hexdump -C ${IMAGE_BT} -n 16 | grep ANDROID | cut -d '|' -f 2`
         if [ ! -z ${BOOT_HEADER} ] ; then
             BOOT_TYPE="boot"
         fi
