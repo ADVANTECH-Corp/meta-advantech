@@ -1,7 +1,8 @@
 DEPNEDS += "${PREFERRED_PROVIDER_virtual/kernel}"
 
 BOOTIMG_PAGE_SIZE ?= "2048"
-CACHE_PARTITION = "/dev/disk/by-label/cache"
+CACHE_PARTITION_mx6 = "/dev/disk/by-label/cache"
+CACHE_PARTITION_dragonboard-410c = "/dev/disk/by-partlabel/cache"
 
 modify_fstab() {
         echo "${CACHE_PARTITION}      /cache               ext4       nosuid,nodev,nomblk_io_submit 0 0" >> ${IMAGE_ROOTFS}/etc/fstab
@@ -11,6 +12,7 @@ ROOTFS_POSTPROCESS_COMMAND += " modify_fstab"
 
 # [i.MX6]
 DEPENDS_mx6 += "android-tools-native"
+
 mk_recovery_img_mx6() {
 
     mkbootimg --kernel ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} \
@@ -46,8 +48,6 @@ mk_recovery_img_qcom() {
 
     ln -sf recovery-${MACHINE}.img ${DEPLOY_DIR_IMAGE}/recovery.img
 }
-
-
 
 IMAGE_POSTPROCESS_COMMAND_dragonboard-410c += " mk_recovery_img_qcom ; "
 
