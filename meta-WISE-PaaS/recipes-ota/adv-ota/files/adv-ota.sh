@@ -80,13 +80,11 @@ doUpdate()
 {
     IN_FILE=$1
     OUT_FILE=$2
-    LABEL=$3
 
     printMsg "dd if=${IN_FILE} of=${OUT_FILE} ..."
     dd if=${IN_FILE} of=${OUT_FILE}
     [ "$?" -ne 0 ] && exitRecovery "Err: 'dd' command failed!" true
     sync
-    e2label ${OUT_FILE} ${LABEL} 
     printMsg "Update done!"
 }
 
@@ -122,7 +120,7 @@ updateBoot()
             printMsg "Update done!"
             ;;
         "boot")
-            doUpdate ${IMAGE_BT} ${DISK_BT} ${BOOT_LABEL}
+            doUpdate ${IMAGE_BT} ${DISK_BT}
             ;;
         esac
     else
@@ -137,10 +135,11 @@ updateRootfs()
 
     printMsg "Update rootfs partition ..."
     if [ -e ${DISK_RF} ] ; then
-        doUpdate ${IMAGE_RF} ${DISK_RF} ${ROOTFS_LABEL}
-	umount ${DISK_RF} 
-	e2fsck -f -y ${DISK_RF}
-	resize2fs ${DISK_RF}
+        umount ${DISK_RF}
+        doUpdate ${IMAGE_RF} ${DISK_RF}
+        e2label ${DISK_RF} ${ROOTFS_LABEL}
+        e2fsck -f -y ${DISK_RF}
+        resize2fs ${DISK_RF}
     else
         exitRecovery "Err: Cannot find rootfs partition in ${DISK_RF}"
     fi
