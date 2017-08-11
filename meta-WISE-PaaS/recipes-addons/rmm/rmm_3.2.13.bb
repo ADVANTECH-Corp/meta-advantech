@@ -6,8 +6,8 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/BSD;md5=3775480a712fc46a69647678acb234cb"
 PR = "r0"
 
-SRC_URI_mx6 = "file://rmmagent-Poky-1.5.3-armv7l-3.2.13.6821.run.tar.gz"
-SRC_URI_mx6[md5sum] = "686440396e9cae8bc95ad28d57f39f36"
+SRC_URI_mx6 = "file://rmmagent-Distro-4.1.15-2.0.0-armv7l-3.2.19.7639.run.tar.gz"
+SRC_URI_mx6[md5sum] = "f4dc3b879742847fb6510ef5d2125086"
 
 SRC_URI_dragonboard-410c = "file://rmmagent-inaro-aarch64-3.2.18.7253.run.tar.gz"
 SRC_URI_dragonboard-410c[md5sum] = "b049ccdf0169d1b13f29b5ae8e6f5991"
