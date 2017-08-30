@@ -12,6 +12,9 @@ SRC_URI_mx6[md5sum] = "df6b5124295e3673701fea90bea431fe"
 SRC_URI_dragonboard-410c = "file://SusiIoT_qualcomm_dragon_yocto_Release_14555_2017-07-25.tar.gz"
 SRC_URI_dragonboard-410c[md5sum] = "76301989722e4799107a2d492cb04ecf"
 
+SRC_URI_dra7xx = "file://SusiIoT_Release_14532.tar.gz"
+SRC_URI_dra7xx[md5sum] = "ac05ba74e4acd54d5e64f6796a963d62"
+
 S = "${WORKDIR}/release"
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
