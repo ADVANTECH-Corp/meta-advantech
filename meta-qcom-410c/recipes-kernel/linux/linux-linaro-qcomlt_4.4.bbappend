@@ -31,3 +31,4 @@ KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/sierra.cfg"
 # Enable USB-4702/4704 ADC driver
 SRC_URI += "file://usb-4704.cfg"
 KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/usb-4704.cfg"
+
