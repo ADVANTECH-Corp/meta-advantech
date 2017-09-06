@@ -13,6 +13,10 @@ IMAGE_INSTALL += " packagegroup-core-eclipse-debug "
 IMAGE_INSTALL += " packagegroup-sdk-target "
 
 IMAGE_INSTALL += " boottimes st"
+
+# RPM package
+IMAGE_INSTALL += " rpm"
+
 # Depends on projects
 IMAGE_INSTALL_append_imx6qrom5420a1 = " ecuevent keyevent"
 IMAGE_INSTALL_append_imx6qrom5420b1 = " ecuevent keyevent"
