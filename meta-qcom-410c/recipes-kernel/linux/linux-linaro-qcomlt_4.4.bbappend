@@ -27,3 +27,7 @@ KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/usbtethering.cfg"
 # Enable Sierra AirPrime MC7304
 SRC_URI += "file://sierra.cfg"
 KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/sierra.cfg"
+
+# Enable USB-4702/4704 ADC driver
+SRC_URI += "file://USB-4704.cfg"
+KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/USB-4704.cfg"
