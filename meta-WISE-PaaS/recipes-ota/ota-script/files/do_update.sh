@@ -57,6 +57,10 @@ if [ -e $FILE_PATH ] ; then
     ZIP_FILE_PATH=`find /cache/ -name ${ZIP_FILE_NAME}.zip`
     echo "rm ${ZIP_FILE_PATH}"
     rm ${ZIP_FILE_PATH}
+    ZIP_2ND_FILE_PATH=${ZIP_FILE_PATH%.zip}
+    ZIP_2ND_FILE_NAME=`grep -r PackageType ${ZIP_2ND_FILE_PATH}/PackageInfo.xml | cut -d '>' -f 2 | cut -d '<' -f 1`
+    echo "rm ${ZIP_2ND_FILE_PATH}/${ZIP_2ND_FILE_NAME}.zip"
+    rm ${ZIP_2ND_FILE_PATH}/${ZIP_2ND_FILE_NAME}.zip
 
     echo "Write BCB ..."
     echo -ne "\x62\x6f\x6f\x74\x2d\x72\x65\x63\x6f\x76\x65\x72\x79\x00" > /cache/boot-recovery
