@@ -51,6 +51,7 @@ ARM_INSTRUCTION_SET_armv5 = "arm"
 inherit systemd
 
 SYSTEMD_SERVICE_${PN} = "android-tools-adbd.service"
+SYSTEMD_AUTO_ENABLE_${PN} = "disable"
 
 # Get rid of files uneeded to build Android tools
 do_unpack_extra() {

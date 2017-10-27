@@ -32,3 +32,6 @@ KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/sierra.cfg"
 SRC_URI += "file://usb-4704.cfg"
 KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/usb-4704.cfg"
 
+# Enable FunctionFS for ADB daemon
+SRC_URI += "file://adbd.cfg"
+KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/adbd.cfg"
