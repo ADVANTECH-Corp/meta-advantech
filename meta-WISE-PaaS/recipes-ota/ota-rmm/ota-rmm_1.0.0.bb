@@ -15,13 +15,16 @@ S = "${WORKDIR}"
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 INHIBIT_PACKAGE_STRIP = "1"
-INSANE_SKIP_${PN} += "dev-so libdir"
+INSANE_SKIP_${PN} += "dev-so libdir file-rdeps"
 
 DEPENDS = "avahi openssl libxext curl libxml2 libx11 jpeg libxrandr zlib \
            sqlite3 libxtst libxinerama libxdamage libxfixes mosquitto \
            libmodbus"
 
 inherit autotools pkgconfig
+
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
 do_install() {
 	sh ${S}/otaagent-*.run --noexec --target rmm
