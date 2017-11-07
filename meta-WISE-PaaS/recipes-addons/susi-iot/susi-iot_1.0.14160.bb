@@ -30,4 +30,4 @@ do_install() {
 FILES_${PN} += "/usr/lib"
 
 FILES_SOLIBSDEV = ""
-INSANE_SKIP_${PN} += "dev-so"
+INSANE_SKIP_${PN} += "dev-so host-user-contaminated libdir"

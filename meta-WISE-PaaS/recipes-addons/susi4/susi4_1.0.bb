@@ -41,5 +41,8 @@ FILES_${PN} += "/usr"
 FILES_SOLIBSDEV = ""
 INSANE_SKIP_${PN} += "dev-so"
 
+# Fix QA warning
+INSANE_SKIP_${PN} += "host-user-contaminated libdir"
+
 # Set alias of susi4 to libsusi-4.00 which is identical to the package name
 RPROVIDES_${PN} = "libsusi-4.00"

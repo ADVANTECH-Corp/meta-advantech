@@ -15,6 +15,7 @@ S = "${WORKDIR}"
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 INHIBIT_PACKAGE_STRIP = "1"
+FILES_SOLIBSDEV = ""
 INSANE_SKIP_${PN} += "dev-so libdir file-rdeps"
 
 DEPENDS = "avahi openssl libxext curl libxml2 libx11 jpeg libxrandr zlib \
@@ -34,13 +35,22 @@ do_install() {
 	install -m 755 ${S}/build/rmm/OTA-Agent/services/otawatchdog ${D}/etc/init.d
 	cp -axr ${S}/build/rmm/OTA-Agent ${D}/usr/local
 	sed -i "s/127.0.0.1/wise-ota.eastasia.cloudapp.azure.com/g" ${D}/usr/local/OTA-Agent/agent_config.xml
+
+	# rpm doesn't set the correct arch for symlinks.
+	# For this reason we have to use hardlinks vs symlinks.
+	cd ${D}/usr/local/OTA-Agent
+	ln -f libfileTransfer.so.1.0.13.106 libfileTransfer.so
+	ln -f libminiUnzip.so.1.0.13.106 libminiUnzip.so
+	ln -f libmqtthelper.so.3.0.9.423 libmqtthelper.so
+	ln -f libSAClient.so.3.0.9.423 libSAClient.so
+	ln -f libSAConfig.so.3.0.9.423 libSAConfig.so
+	ln -f libSAGatherInfo.so.3.0.9.423 libSAGatherInfo.so
+	ln -f libSAGeneralHandler.so.3.0.9.423 libSAGeneralHandler.so
+	ln -f libSAHandlerLoader.so.3.0.9.423 libSAHandlerLoader.so
+	ln -f libSAManager.so.3.0.9.423 libSAManager.so
+	ln -f libsueClientCore.so.1.0.13.106 libsueClientCore.so
+	ln -f libsueClient.so.1.0.13.106 libsueClient.so
 }
-
-
-FILES_SOLIBSDEV = ""
-
-# Avoid do_rootfs error "Can't install rmm: no package provides xxx.so"
-RPROVIDES_${PN} = "libsueClient.so libsueClientCore.so libfileTransfer.so libminiUnzip.so libSAClient.so libSAConfig.so libSAGatherInfo.so libSAGeneralHandler.so libmqtthelper.so"
 
 # List the files for Package
 FILES_${PN} = "/usr/local/OTA-Agent /etc"
