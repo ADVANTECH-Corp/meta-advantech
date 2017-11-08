@@ -1,0 +1,261 @@
+diff --git a/create-sdcard.sh b/create-sdcard.sh
+old mode 100644
+new mode 100755
+index 7ada332..1b1cc7d
+--- a/create-sdcard.sh
++++ b/create-sdcard.sh
+@@ -417,7 +417,7 @@ cat << EOM
+ 
+    Detected device has $PARTS partitions already
+ 
+-   Re-partitioning will allow the choice of 2 or 3 partitions
++   Re-partitioning will allow the choice of 2/3/5 partitions
+ 
+ ################################################################################
+ 
+@@ -450,6 +450,7 @@ cat << EOM
+ 	Select 2 partitions if only need boot and rootfs (most users).
+ 	Select 3 partitions if need SDK & other content on SD card.  This is
+         usually used by device manufacturers with access to partition tarballs.
++	Select 5 partitions. This is used to support Advantech OTA.
+ 
+ 	****WARNING**** continuing will erase all data on $DEVICEDRIVENAME
+ 
+@@ -460,13 +461,14 @@ EOM
+ 	while [ $ENTERCORRECTLY -ne 1 ]
+ 	do
+ 
+-		read -p 'Number of partitions needed [2/3] : ' CASEPARTITIONNUMBER
++		read -p 'Number of partitions needed [2/3/5] : ' CASEPARTITIONNUMBER
+ 		echo ""
+ 		echo " "
+ 		ENTERCORRECTLY=1
+ 		case $CASEPARTITIONNUMBER in
+ 		"2")  echo "Now partitioning $DEVICEDRIVENAME with 2 partitions...";PARTITION=2;;
+ 		"3")  echo "Now partitioning $DEVICEDRIVENAME with 3 partitions...";PARTITION=3;;
++		"5")  echo "Now partitioning $DEVICEDRIVENAME with 5 partitions...";PARTITION=5;;
+ 		"n")  exit;;
+ 		*)  echo "Please enter 2 or 3";ENTERCORRECTLY=0;;
+ 		esac
+@@ -585,6 +587,99 @@ EOM
+ 	sync
+ 	sync
+ 	INSTALLSTARTHERE=n
++
++#create only 5 partitions
++elif [ "$PARTITION" -eq "5" ]
++then
++
++# Set the PARTS value as well
++PARTS=5
++cat << EOM
++
++################################################################################
++
++		Now making 5 partitions
++
++################################################################################
++
++EOM
++
++dd if=/dev/zero of=$DRIVE bs=1024 count=1024
++
++SIZE=`fdisk -l $DRIVE | grep Disk | awk '{print $5}'`
++
++echo DISK SIZE - $SIZE bytes
++
++CYLINDERS=`echo $SIZE/255/63/512 | bc`
++ROOTFS_END=`expr $CYLINDERS - 133`
++RECOVERY_START=`expr $CYLINDERS - 132`
++RECOVERY_END=`expr $CYLINDERS - 124`
++EXT_START=`expr $CYLINDERS - 123`
++MISC_START=`expr $CYLINDERS - 123`
++MISC_END=`expr $CYLINDERS - 122`
++CACHE_START=`expr $CYLINDERS - 121`
++
++parted -s $DRIVE mklabel msdos
++parted -s $DRIVE unit cyl mkpart primary fat32 -- 0 9
++parted -s $DRIVE set 1 boot on
++parted -s $DRIVE unit cyl mkpart primary ext3 -- 10 $ROOTFS_END
++parted -s $DRIVE unit cyl mkpart primary ext3 -- $RECOVERY_START $RECOVERY_END
++parted -s $DRIVE unit cyl mkpart extended -- $EXT_START -2
++parted -s $DRIVE unit cyl mkpart logic ext3 -- $MISC_START $MISC_END
++parted -s $DRIVE unit cyl mkpart logic ext3 -- $CACHE_START -2
++
++cat << EOM
++
++################################################################################
++
++		Partitioning Boot
++
++################################################################################
++EOM
++	mkfs.vfat -F 32 -n "boot" ${DRIVE}${P}1
++cat << EOM
++
++################################################################################
++
++		Partitioning rootfs
++
++################################################################################
++EOM
++	mkfs.ext3 -L "rootfs" ${DRIVE}${P}2
++
++cat << EOM
++
++################################################################################
++
++		Partitioning recovery
++
++################################################################################
++EOM
++	mkfs.ext3 -L "recovery" ${DRIVE}${P}3
++
++cat << EOM
++
++################################################################################
++
++		Partitioning misc
++
++################################################################################
++EOM
++	mkfs.ext3 -L "misc" ${DRIVE}${P}5
++
++cat << EOM
++
++################################################################################
++
++		Partitioning cache
++
++################################################################################
++EOM
++	mkfs.ext3 -L "cache" ${DRIVE}${P}6
++
++	sync
++	sync
++	#INSTALLSTARTHERE=n
+ fi
+ 
+ 
+@@ -633,15 +728,28 @@ mkdir $START_DIR/tmp
+ export PATH_TO_SDBOOT=boot
+ export PATH_TO_SDROOTFS=rootfs
+ export PATH_TO_TMP_DIR=$START_DIR/tmp
++if [ "$PARTS" -eq "5" ]
++then
++mkdir $START_DIR/initramfstmp
++export PATH_TO_SDINITRAMFS=initramfs
++fi
+ 
+ 
+ echo " "
+ echo "Mount the partitions "
+ mkdir $PATH_TO_SDBOOT
+ mkdir $PATH_TO_SDROOTFS
++if [ "$PARTS" -eq "5" ]
++then
++mkdir $PATH_TO_SDINITRAMFS
++fi
+ 
+ sudo mount -t vfat ${DRIVE}${P}1 boot/
+ sudo mount -t ext3 ${DRIVE}${P}2 rootfs/
++if [ "$PARTS" -eq "5" ]
++then
++sudo mount -t ext3 ${DRIVE}${P}3 initramfs/
++fi
+ 
+ 
+ 
+@@ -650,6 +758,10 @@ echo "Emptying partitions "
+ echo " "
+ sudo rm -rf  $PATH_TO_SDBOOT/*
+ sudo rm -rf  $PATH_TO_SDROOTFS/*
++if [ "$PARTS" -eq "5" ]
++then
++sudo rm -rf  $PATH_TO_SDINITRAMFS/*
++fi
+ 
+ echo ""
+ echo "Syncing...."
+@@ -775,7 +887,32 @@ EOM
+ 		ROOTFSTAR=`ls  $ROOTFILEPARTH | grep "tisdk.*rootfs" | grep 'tar.xz' | awk {'print $1'}`
+ 	fi
+ 
++	#Make sure there is only 1 initramfs
++	CHECKNUMOFRAMFS=`ls $ROOTFILEPARTH | grep "initramfs.*debug" | grep 'cpio.gz' | grep -n '' | grep '2:' | awk {'print $1'}`
++	if [ -n "$CHECKNUMOFRAMFS" ]
++	then
++cat << EOM
++
++################################################################################
++
++   Multiple initramfs Tarballs found
++
++################################################################################
++
++EOM
++		ls $ROOTFILEPARTH | grep "initramfs.*debug" | grep 'cpio.gz' | grep -n '' | awk {'print "	" , $1'}
++		echo ""
++		read -p "Enter Number of rootfs Tarball: " TARNUMBER
++		echo " "
++		FOUNDTARFILENAME=`ls $ROOTFILEPARTH | grep "initramfs.*debug" | grep 'cpio.gz' | grep -n '' | grep "${TARNUMBER}:" | cut -c3- | awk {'print$1'}`
++		INITRAMFS=$FOUNDTARFILENAME
++
++	else
++		INITRAMFS=`ls  $ROOTFILEPARTH | grep "initramfs.*debug" | grep 'cpio.gz' | awk {'print $1'}`
++	fi
++
+ 	ROOTFSUSERFILEPATH=$ROOTFILEPARTH/$ROOTFSTAR
++	INITRAMFSUSERFILEPATH=$ROOTFILEPARTH/$INITRAMFS
+ 	BOOTPATHOPTION=1
+ 	ROOTFSPATHOPTION=2
+ 
+@@ -1053,6 +1190,25 @@ elif [ $ROOTFSPATHOPTION -eq 2  ] ; then
+ 	untar_progress $ROOTFSUSERFILEPATH $PATH_TO_SDROOTFS
+ fi
+ 
++if [ "$PARTS" -ne "5" ]
++then
++	sed -i '/cache/d' $PATH_TO_SDROOTFS/etc/fstab
++fi
++
++if [ "$PARTS" -eq "5" ]
++then
++	sudo cp $INITRAMFSUSERFILEPATH $START_DIR/initramfstmp
++	cd $START_DIR/initramfstmp
++	zcat *.cpio.gz | cpio -idmv  > /dev/zero 2>&1
++	sync
++	sudo rm *.cpio.gz
++	mv init sbin/
++	sudo cp -r $START_DIR/initramfstmp/* $START_DIR/$PATH_TO_SDINITRAMFS
++	sudo cp -r $START_DIR/$PATH_TO_SDROOTFS/boot $START_DIR/$PATH_TO_SDINITRAMFS
++	cd $START_DIR
++	sync
++fi
++
+ echo ""
+ echo ""
+ echo "Syncing..."
+@@ -1100,6 +1256,10 @@ echo " "
+ echo "Un-mount the partitions "
+ sudo umount -f $PATH_TO_SDBOOT
+ sudo umount -f $PATH_TO_SDROOTFS
++if [ "$PARTS" -eq "5" ]
++then
++sudo umount -f $PATH_TO_SDINITRAMFS
++fi
+ 
+ 
+ echo " "
+@@ -1107,6 +1267,11 @@ echo "Remove created temp directories "
+ sudo rm -rf $PATH_TO_TMP_DIR
+ sudo rm -rf $PATH_TO_SDROOTFS
+ sudo rm -rf $PATH_TO_SDBOOT
++if [ "$PARTS" -eq "5" ]
++then
++sudo rm -rf $PATH_TO_SDINITRAMFS
++sudo rm -rf $START_DIR/initramfstmp
++fi
+ 
+ 
+ echo " "

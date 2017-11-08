@@ -1,0 +1,33 @@
+diff --git a/adv-ota.sh b/adv-ota.sh
+index f8786ac..9ab4383 100755
+--- a/adv-ota.sh
++++ b/adv-ota.sh
+@@ -81,9 +81,9 @@ doUpdate()
+     IN_FILE=$1
+     OUT_FILE=$2
+ 
+-    printMsg "dd if=${IN_FILE} of=${OUT_FILE} ..."
+-    dd if=${IN_FILE} of=${OUT_FILE}
+-    [ "$?" -ne 0 ] && exitRecovery "Err: 'dd' command failed!" true
++    printMsg "tar -xJf ${IN_FILE} -C ${OUT_FILE} ..."
++    tar -xJf ${IN_FILE} -C ${OUT_FILE}
++    [ "$?" -ne 0 ] && exitRecovery "Err: 'tar' command failed!" true
+     sync
+     printMsg "Update done!"
+ }
+@@ -135,8 +135,13 @@ updateRootfs()
+ 
+     printMsg "Update rootfs partition ..."
+     if [ -e ${DISK_RF} ] ; then
+-        umount ${DISK_RF}
+-        doUpdate ${IMAGE_RF} ${DISK_RF}
++	mkdir -p /${ROOTFS_LABEL}
++        mount ${DISK_RF} /${ROOTFS_LABEL}
++	rm -rf /${ROOTFS_LABEL}/*
++	sync
++        doUpdate ${IMAGE_RF} /${ROOTFS_LABEL}
++	umount /${ROOTFS_LABEL}
++	rm -rf /${ROOTFS_LABEL}
+         e2label ${DISK_RF} ${ROOTFS_LABEL}
+         e2fsck -f -y ${DISK_RF}
+         resize2fs ${DISK_RF}
