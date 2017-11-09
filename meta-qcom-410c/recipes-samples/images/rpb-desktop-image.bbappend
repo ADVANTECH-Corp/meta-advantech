@@ -1,6 +1,3 @@
-# Remove Network Manager
-IMAGE_INSTALL_remove = " networkmanager networkmanager-nmtui "
-
 # Scripts
 IMAGE_INSTALL_append = " stress-script thermal-script audio-script mac-script "
 IMAGE_INSTALL_append = " boottimes-script emi-script 3g-script quectel-script "
