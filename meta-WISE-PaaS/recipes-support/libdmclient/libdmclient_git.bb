@@ -14,9 +14,10 @@ inherit autotools pkgconfig
 
 S = "${WORKDIR}/git"
 
-#RDEPENDS_${PN} += "unzip"
+INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
 FILES_${PN} += "/usr/lib"
-INSANE_SKIP_${PN} += "dev-so"
+FILES_SOLIBSDEV = ""
+INSANE_SKIP_${PN} += "dev-so staticdev libdir"
 
 BBCLASSEXTEND = "native"

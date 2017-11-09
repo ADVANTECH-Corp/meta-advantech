@@ -18,4 +18,4 @@ do_install() {
 }
 
 DEPENDS = "libaio"
-RDEPENDS_${PN} = "zlib"
+RDEPENDS_${PN} = "zlib libbsd"

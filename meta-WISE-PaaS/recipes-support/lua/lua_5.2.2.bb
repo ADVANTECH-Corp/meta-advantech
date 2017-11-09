@@ -31,3 +31,5 @@ do_install () {
 
 }
 
+FILES_${PN} += "/usr/lib"
+INSANE_SKIP_${PN} += "staticdev"
