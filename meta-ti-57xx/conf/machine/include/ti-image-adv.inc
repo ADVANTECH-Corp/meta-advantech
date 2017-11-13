@@ -11,5 +11,9 @@ IMAGE_INSTALL += "\
 IMAGE_INSTALL += "\
    rmm susi4 susi-iot  ota-script"
 
+IMAGE_INSTALL += "\
+   packagegroup-tools-bluetooth"
 
+IMAGE_INSTALL += "\
+   ppp"
 
