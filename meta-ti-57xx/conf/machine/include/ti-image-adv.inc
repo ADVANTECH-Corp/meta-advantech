@@ -17,3 +17,6 @@ IMAGE_INSTALL += "\
 IMAGE_INSTALL += "\
    ppp"
 
+IMAGE_INSTALL += "\
+   openobex obexd"
+
