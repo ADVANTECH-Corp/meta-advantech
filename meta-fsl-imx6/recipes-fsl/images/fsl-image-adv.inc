@@ -20,6 +20,7 @@ IMAGE_INSTALL_append_imx6dlrom5420b1 = " ecuevent keyevent"
 IMAGE_INSTALL_append_imx6qrom3420a1 = " keyevent"
 IMAGE_INSTALL_append_imx6qrom7420a1 = " keyevent"
 IMAGE_INSTALL_append_imx6qprom7421a1 = " ecuevent keyevent"
+IMAGE_INSTALL_append_imx6qrom7421a1 = " ecuevent keyevent"
 IMAGE_INSTALL_append_imx6dlrom7421a1 = " ecuevent keyevent"
 
 #RMM & SUSI_4.0
