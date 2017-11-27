@@ -42,6 +42,9 @@ TOOLCHAIN_TARGET_TASK += "\
    c-ares \
    "
 
+# Bluetooth power adjustment
+IMAGE_INSTALL_append = " wcnss-bt-pout-config "
+
 # Bluetooth OBEX test script
 ADDON_FILES_DIR:="${THISDIR}/files"
 
