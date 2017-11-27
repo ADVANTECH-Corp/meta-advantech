@@ -6,8 +6,8 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/BSD;md5=3775480a712fc46a69647678acb234cb"
 PR = "r0"
 
-SRC_URI_mx6 = "file://otaagent-Poky-4.1.15-armv7l-3.0.7.359.run.tar.gz"
-SRC_URI_mx6[md5sum] = "649d6ccf6fcc0c0ea12c3439e4015b22"
+SRC_URI_mx6 = "file://otaagent-Poky_2.1.1-imx6-3.0.9.14.run.tar.gz"
+SRC_URI_mx6[md5sum] = "7b0676a854827b8718ede2ab79e960bc"
 SRC_URI_dragonboard-410c = "file://otaagent-Poky_2.1.3-apq8016-3.0.9.14.run.tar.gz"
 SRC_URI_dragonboard-410c[md5sum] = "f503028499967c6020cd2f9521b5a2d2"
 
