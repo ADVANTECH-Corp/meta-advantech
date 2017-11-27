@@ -8,8 +8,8 @@ PR = "r0"
 
 SRC_URI_mx6 = "file://otaagent-Poky-4.1.15-armv7l-3.0.7.359.run.tar.gz"
 SRC_URI_mx6[md5sum] = "649d6ccf6fcc0c0ea12c3439e4015b22"
-SRC_URI_dragonboard-410c = "file://otaagent-Poky-2.1-aarch64-3.0.9.423.run.tar.gz"
-SRC_URI_dragonboard-410c[md5sum] = "84c2924eb633f1cf64f058e0867863f1"
+SRC_URI_dragonboard-410c = "file://otaagent-Poky_2.1.3-apq8016-3.0.9.14.run.tar.gz"
+SRC_URI_dragonboard-410c[md5sum] = "f503028499967c6020cd2f9521b5a2d2"
 
 S = "${WORKDIR}"
 
