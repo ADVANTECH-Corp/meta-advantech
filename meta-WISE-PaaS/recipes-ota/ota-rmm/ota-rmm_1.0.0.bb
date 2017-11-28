@@ -20,6 +20,7 @@ INSANE_SKIP_${PN} += "dev-so libdir"
 DEPENDS = "avahi openssl libxext curl libxml2 libx11 jpeg libxrandr zlib \
            sqlite3 libxtst libxinerama libxdamage libxfixes mosquitto \
            libmodbus"
+RDEPENDS_${PN} = "bash"
 
 inherit autotools pkgconfig
 
@@ -37,7 +38,7 @@ do_install() {
 FILES_SOLIBSDEV = ""
 
 # Avoid do_rootfs error "Can't install rmm: no package provides xxx.so"
-RPROVIDES_${PN} = "libsueClient.so libsueClientCore.so libfileTransfer.so libminiUnzip.so libSAClient.so libSAConfig.so libSAGatherInfo.so libSAGeneralHandler.so libmqtthelper.so"
+RPROVIDES_${PN} = "libsueClient.so libsueClientCore.so libfileTransfer.so libminiUnzip.so libsaClient.so libsaConfig.so libsaGatherInfo.so libsaGeneralHandler.so libmqttHelper.so"
 
 # List the files for Package
 FILES_${PN} = "/usr/local/OTA-Agent /etc"
