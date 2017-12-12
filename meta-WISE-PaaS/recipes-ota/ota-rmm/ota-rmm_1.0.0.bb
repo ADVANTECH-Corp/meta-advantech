@@ -6,8 +6,8 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/BSD;md5=3775480a712fc46a69647678acb234cb"
 PR = "r0"
 
-SRC_URI_quark = "file://otaagent-Poky_1.7.2-quark-3.0.9.415.run.tar.gz"
-SRC_URI_quark[md5sum] = "d2cec1bdd5deff4d85ff8c9f972a87a6"
+SRC_URI_quark = "file://otaagent-Poky_1.7.2-quark-3.0.9.14.run.tar.gz"
+SRC_URI_quark[md5sum] = "53a169e86cf9aafa769ecf72117148a3"
 
 S = "${WORKDIR}"
 
@@ -46,7 +46,7 @@ do_install() {
 FILES_SOLIBSDEV = ""
 
 # Avoid do_rootfs error "Can't install rmm: no package provides xxx.so"
-RPROVIDES_${PN} = "libsueClient.so libsueClientCore.so libfileTransfer.so libminiUnzip.so libSAClient.so libSAConfig.so libSAGatherInfo.so libSAGeneralHandler.so libmqtthelper.so"
+RPROVIDES_${PN} = "libsueClient.so libsueClientCore.so libfileTransfer.so libminiUnzip.so libsaClient.so libsaConfig.so libsaGatherInfo.so libsaGeneralHandler.so libmqttHelper.so"
 
 # List the files for Package
 FILES_${PN} = "/usr/local/OTA-Agent /etc"
