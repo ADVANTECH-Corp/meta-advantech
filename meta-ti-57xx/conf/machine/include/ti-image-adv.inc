@@ -1,4 +1,5 @@
 
+
 IMAGE_INSTALL += "\
     linux-firmware-sd8897 "
 
@@ -9,13 +10,20 @@ IMAGE_INSTALL += "\
    packagegroup-sdk-target "
 
 IMAGE_INSTALL += "\
-   rmm susi4 susi-iot  ota-script"
-
-IMAGE_INSTALL += "\
-   packagegroup-tools-bluetooth"
+   ota-rmm rmm susi4 susi-iot  ota-script "
 
 IMAGE_INSTALL += "\
    ppp"
+
+IMAGE_INSTALL += "\
+   libcap-ng libcap"
+
+
+IMAGE_INSTALL += "\
+   autoconf autoconf-archive"
+
+IMAGE_INSTALL += "\
+   packagegroup-tools-bluetooth"
 
 IMAGE_INSTALL += "\
    openobex obexd"

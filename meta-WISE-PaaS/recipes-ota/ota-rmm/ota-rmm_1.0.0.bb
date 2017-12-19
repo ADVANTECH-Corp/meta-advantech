@@ -6,10 +6,12 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/BSD;md5=3775480a712fc46a69647678acb234cb"
 PR = "r0"
 
-SRC_URI_mx6 = "file://otaagent-Poky_2.1.1-imx6-3.0.9.14.run.tar.gz"
-SRC_URI_mx6[md5sum] = "7b0676a854827b8718ede2ab79e960bc"
-SRC_URI_dragonboard-410c = "file://otaagent-Poky_2.1.3-apq8016-3.0.9.14.run.tar.gz"
-SRC_URI_dragonboard-410c[md5sum] = "f503028499967c6020cd2f9521b5a2d2"
+SRC_URI_mx6 = "file://otaagent-Poky-4.1.15-armv7l-3.0.7.359.run.tar.gz"
+SRC_URI_mx6[md5sum] = "649d6ccf6fcc0c0ea12c3439e4015b22"
+SRC_URI_dragonboard-410c = "file://otaagent-Poky-2.1-aarch64-3.0.9.423.run.tar.gz"
+SRC_URI_dragonboard-410c[md5sum] = "84c2924eb633f1cf64f058e0867863f1"
+SRC_URI_dra7xx = "file://otaagent-TI_yocto_2016.08-2.0.0-am57xx-3.0.9.13.run.tar.gz"
+SRC_URI_dra7xx[md5sum] = "5e9eb7b38d0012912b60bc2f8520098b"
 
 S = "${WORKDIR}"
 
@@ -20,7 +22,6 @@ INSANE_SKIP_${PN} += "dev-so libdir"
 DEPENDS = "avahi openssl libxext curl libxml2 libx11 jpeg libxrandr zlib \
            sqlite3 libxtst libxinerama libxdamage libxfixes mosquitto \
            libmodbus"
-RDEPENDS_${PN} = "bash"
 
 inherit autotools pkgconfig
 
@@ -38,7 +39,7 @@ do_install() {
 FILES_SOLIBSDEV = ""
 
 # Avoid do_rootfs error "Can't install rmm: no package provides xxx.so"
-RPROVIDES_${PN} = "libsueClient.so libsueClientCore.so libfileTransfer.so libminiUnzip.so libsaClient.so libsaConfig.so libsaGatherInfo.so libsaGeneralHandler.so libmqttHelper.so"
+RPROVIDES_${PN} = "libsueClient.so libsueClientCore.so libfileTransfer.so libminiUnzip.so libSAClient.so libSAConfig.so libSAGatherInfo.so libSAGeneralHandler.so libmqtthelper.so"
 
 # List the files for Package
 FILES_${PN} = "/usr/local/OTA-Agent /etc"
