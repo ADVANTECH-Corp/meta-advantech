@@ -1,6 +1,8 @@
 
 ADDON_MK_EMMC_DIR:="${THISDIR}/files/mk_emmc"
 
+TARGET_IMAGES = "arago-base-tisdk-image tisdk-rootfs-image initramfs-debug-image"
+
 tisdk_image_build_add_initramfs () {
     
     cp ${DEPLOY_DIR_IMAGE}/initramfs-debug-image-${MACHINE}.cpio.gz ${IMAGE_ROOTFS}/filesystem/
