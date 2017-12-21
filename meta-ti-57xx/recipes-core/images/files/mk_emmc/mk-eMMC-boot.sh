@@ -50,15 +50,15 @@ cat << EOM
 
 ################################################################################
 
-This script will create a bootable SD card from custom or pre-built binaries.
+This script will create a bootable eMMC from custom or pre-built binaries.
 
 The script must be run with root permissions and from the bin directory of
 the SDK
 
 Example:
- $ sudo ./create-sdcard.sh
+ $ sudo ./mk-eMMC-boot.sh
 
-Formatting can be skipped if the SD card is already formatted and
+Formatting can be skipped if the eMMC card is already formatted and
 partitioned properly.
 
 ################################################################################
@@ -110,9 +110,9 @@ check_for_sdcards()
         ROOTDRIVE=`mount | grep 'on / ' | awk {'print $1'} |  cut -c6-12`
         PARTITION_TEST=`cat /proc/partitions | grep -v $ROOTDRIVE | grep '\<sd.\>\|\<mmcblk.\>' | grep -n ''`
         if [ "$PARTITION_TEST" = "" ]; then
-	        echo -e "Please insert a SD card to continue\n"
+	        echo -e "No eMMC found\n"
 	        while [ "$PARTITION_TEST" = "" ]; do
-		        read -p "Type 'y' to re-detect the SD card or 'n' to exit the script: " REPLY
+		        read -p "Type 'y' to re-detect the eMMC or 'n' to exit the script: " REPLY
 		        if [ "$REPLY" = 'n' ]; then
 		            exit 1
 		        fi
@@ -126,7 +126,7 @@ populate_3_partitions() {
     ENTERCORRECTLY="0"
 	while [ $ENTERCORRECTLY -ne 1 ]
 	do
-		read -e -p 'Enter path where SD card tarballs were downloaded : '  TARBALLPATH
+		read -e -p 'Enter path where eMMC tarballs were downloaded : '  TARBALLPATH
 
 		echo ""
 		ENTERCORRECTLY=1
@@ -248,7 +248,7 @@ EOM
 }
 
 
-# find the avaible SD cards
+# find the avaible eMMC cards
 ROOTDRIVE=`mount | grep 'on / ' | awk {'print $1'} |  cut -c6-13`
 if [ "$ROOTDRIVE" = "root" ]; then
     ROOTDRIVE=`readlink /dev/root | cut -c1-3`
@@ -313,7 +313,7 @@ cat << EOM
 
 	Selected Device is greater then 16GB
 	Continuing past this point will erase data from device
-	Double check that this is the correct SD Card
+	Double check that this is the correct eMMC
 
 ################################################################################
 
@@ -399,12 +399,12 @@ if [ -n "$SIZE1" -a -n "$SIZE2" ] ; then
 			PARTS=3
 
 		else
-			echo "SD Card is not correctly partitioned"
+			echo "eMMC is not correctly partitioned"
 			PARTITION=0
 		fi
 	fi
 else
-	echo "SD Card is not correctly partitioned"
+	echo "eMMC is not correctly partitioned"
 	PARTITION=0
 	PARTS=0
 fi
@@ -450,7 +450,7 @@ cat << EOM
 ################################################################################
 
 	Select 2 partitions if only need boot and rootfs (most users).
-	Select 3 partitions if need SDK & other content on SD card.  This is
+	Select 3 partitions if need SDK & other content on eMMC.  This is
         usually used by device manufacturers with access to partition tarballs.
 	Select 5 partitions. This is used to support Advantech OTA.
 

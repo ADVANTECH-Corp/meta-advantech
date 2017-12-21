@@ -1,11 +1,17 @@
 
 CACHE_PARTITION = "/dev/disk/by-label/cache"
-
 ADDON_TEST_FILES_DIR:="${THISDIR}/files/tests"
-
 ADDON_3G_PROVIDER_DIR:="${THISDIR}/files/peers"
-
 ADDON_OTA_START:="${THISDIR}/files/ota"
+ADDON_NB136_FW_DIR:="${THISDIR}/files/nb136"
+
+add_nb136_files() {
+        mkdir -p ${IMAGE_ROOTFS}/lib/firmware/brcm
+        install -m 0755 ${ADDON_NB136_FW_DIR}/brcm_patchram_plus ${IMAGE_ROOTFS}/usr/sbin
+        install -m 0644 ${ADDON_NB136_FW_DIR}/bcm43241b4.hcd ${IMAGE_ROOTFS}/lib/firmware/brcm
+        install -m 0644 ${ADDON_NB136_FW_DIR}/brcmfmac43241b4-sdio.bin ${IMAGE_ROOTFS}/lib/firmware/brcm
+        install -m 0644 ${ADDON_NB136_FW_DIR}/brcmfmac43241b4-sdio.txt ${IMAGE_ROOTFS}/lib/firmware/brcm
+}
 
 modify_fstab() {
 	echo "${CACHE_PARTITION}      /cache               ext3       nosuid,nodev,nomblk_io_submit 0 0" >> ${IMAGE_ROOTFS}/etc/fstab
@@ -36,5 +42,5 @@ add_ota_start() {
 	install -m 0755 ${ADDON_OTA_START}/ota-start.sh ${IMAGE_ROOTFS}/usr/sbin
 }
 
-ROOTFS_POSTPROCESS_COMMAND += " modify_fstab; modify_do_update; add_test_tools; add_3G_provider; copy_env_config; add_ota_start"
+ROOTFS_POSTPROCESS_COMMAND += "add_nb136_files; modify_fstab; modify_do_update; add_test_tools; add_3G_provider; copy_env_config; add_ota_start;"
 
