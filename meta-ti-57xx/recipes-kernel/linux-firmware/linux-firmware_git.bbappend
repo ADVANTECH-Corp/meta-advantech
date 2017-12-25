@@ -21,9 +21,16 @@ do_install() {
 	rm ${D}/lib/firmware/ti-connectivity/ -rf
 }
 
-
-PACKAGES =+ "${PN}-sd8897 \
+PACKAGES =+ "${PN}-bcm43241b4 \
             "
+
+LICENSE_${PN}-bcm43241b4 = "Firmware-broadcom_bcm43xx"
+FILES_${PN}-bcm43241b4 = " \
+  /lib/firmware/brcm/brcmfmac43241b4-sdio.bin \
+"
+RDEPENDS_${PN}-bcm43241b4 += "${PN}-broadcom-license"
+
+PACKAGES =+ "${PN}-sd8897 \            "
 
 LICENSE_${PN}-sd8897 = "Firmware-Marvell"
 FILES_${PN}-sd8897 = " \

@@ -11,7 +11,6 @@ add_nb136_files() {
         mkdir -p ${IMAGE_ROOTFS}/lib/firmware/brcm
         install -m 0755 ${ADDON_NB136_FW_DIR}/brcm_patchram_plus ${IMAGE_ROOTFS}/usr/sbin
         install -m 0644 ${ADDON_NB136_FW_DIR}/bcm43241b4.hcd ${IMAGE_ROOTFS}/lib/firmware/brcm
-        install -m 0644 ${ADDON_NB136_FW_DIR}/brcmfmac43241b4-sdio.bin ${IMAGE_ROOTFS}/lib/firmware/brcm
         install -m 0644 ${ADDON_NB136_FW_DIR}/brcmfmac43241b4-sdio.txt ${IMAGE_ROOTFS}/lib/firmware/brcm
 }
 
