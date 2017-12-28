@@ -35,3 +35,7 @@ KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/usb-4704.cfg"
 # Enable FunctionFS for ADB daemon
 SRC_URI += "file://adbd.cfg"
 KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/adbd.cfg"
+
+# Enable RTL8188EE WIFI Module (USB interface)
+SRC_URI += "file://rtl8188ee.cfg"
+KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/rtl8188ee.cfg"

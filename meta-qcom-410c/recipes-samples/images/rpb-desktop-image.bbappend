@@ -15,6 +15,7 @@ IMAGE_INSTALL_append = " netkit-ftp glmark2 ntpdate v4l-utils mtd-utils expect "
 IMAGE_INSTALL_append = " packagegroup-tools-bluetooth "
 IMAGE_INSTALL_append = " inetutils inetutils-telnet inetutils-telnetd "
 IMAGE_INSTALL_append = " gimp "
+IMAGE_INSTALL_append = " libevent "
 
 # X resource database manager
 IMAGE_INSTALL_append = " xrdb "
