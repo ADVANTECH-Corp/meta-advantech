@@ -155,6 +155,19 @@ _generate_boot_image() {
 			fi
 		done
 	fi
+
+	# Copy normal u-boot file
+	bbnote "_generate_boot_image() SDCARD_IMAGE_TYPE=${SDCARD_IMAGE_TYPE}"
+	case "${SDCARD_IMAGE_TYPE}" in
+		eng)
+		bbnote "do nothing for eng mode"
+		;;
+		normal)
+		bbnote "copy normal u-boot file"
+		mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/u-boot_crc.bin.crc ::/u-boot_crc.bin.crc
+		mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/u-boot_crc.bin ::/u-boot_crc.bin
+		;;
+	esac
 }
 
 #
