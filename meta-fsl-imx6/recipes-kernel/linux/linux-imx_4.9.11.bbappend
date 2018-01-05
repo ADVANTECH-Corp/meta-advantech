@@ -7,6 +7,8 @@ SRCREV = "${AUTOREV}"
 SCMVERSION = "n"
 
 do_copy_defconfig () {
+    install -d ${B}
+    mkdir -p ${B}
     cp ${S}/arch/arm/configs/imx_v7_adv_defconfig ${B}/.config
     cp ${S}/arch/arm/configs/imx_v7_adv_defconfig ${B}/../defconfig
 }
