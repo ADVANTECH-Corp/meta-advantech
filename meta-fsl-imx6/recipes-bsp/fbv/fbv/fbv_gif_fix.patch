@@ -1,0 +1,80 @@
+From ba33735aa5ad46f1515187aaaad5067e29f51d5f Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Thu, 25 May 2017 05:59:28 +0000
+Subject: [PATCH] [Advantech] Add support for libgif 5.1.x and later
+
+This commit fixes the build problem which is caused by new libgif
+---
+ gif.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/gif.c b/gif.c
+index 689e549..dcc2e81 100644
+--- a/gif.c
++++ b/gif.c
+@@ -31,10 +31,10 @@
+ #include <string.h>
+ #define min(a,b) ((a) < (b) ? (a) : (b))
+ #define gflush return(FH_ERROR_FILE);
+-#define grflush { DGifCloseFile(gft); return(FH_ERROR_FORMAT); }
+-#define mgrflush { free(lb); free(slb); DGifCloseFile(gft); return(FH_ERROR_FORMAT); }
++#define grflush { DGifCloseFile(gft, &error); return(FH_ERROR_FORMAT); }
++#define mgrflush { free(lb); free(slb); DGifCloseFile(gft, &error); return(FH_ERROR_FORMAT); }
+ #define agflush return(FH_ERROR_FORMAT);
+-#define agrflush { DGifCloseFile(gft); return(FH_ERROR_FORMAT); }
++#define agrflush { DGifCloseFile(gft, &error); return(FH_ERROR_FORMAT); }
+ 
+ 
+ int fh_gif_id(char *name)
+@@ -80,8 +80,9 @@ int fh_gif_load(char *name,unsigned char *buffer, unsigned char ** alpha, int x,
+     GifRecordType rt;
+     ColorMapObject *cmap;
+     int cmaps;
++    int error;
+ 
+-    gft=DGifOpenFileName(name);
++    gft=DGifOpenFileName(name, &error);
+     if(gft==NULL){printf("err5\n"); gflush;} //////////
+     do
+     {
+@@ -170,7 +171,7 @@ int fh_gif_load(char *name,unsigned char *buffer, unsigned char ** alpha, int x,
+ 	}
+     }
+     while( rt!= TERMINATE_RECORD_TYPE );
+-    DGifCloseFile(gft);
++    DGifCloseFile(gft, &error);
+     return(FH_ERROR_OK);
+ }
+ 
+@@ -183,8 +184,9 @@ int fh_gif_getsize(char *name,int *x,int *y)
+     GifByteType *extension;
+     int extcode;
+     GifRecordType rt;
++    int error;
+ 
+-    gft=DGifOpenFileName(name);
++    gft=DGifOpenFileName(name, &error);
+     if(gft==NULL) gflush;
+     do
+     {
+@@ -197,7 +199,7 @@ int fh_gif_getsize(char *name,int *x,int *y)
+ 		px=gft->Image.Width;
+ 		py=gft->Image.Height;
+ 		*x=px; *y=py;
+-		DGifCloseFile(gft);
++		DGifCloseFile(gft, &error);
+ 		return(FH_ERROR_OK);
+ 		break;
+ 	    case EXTENSION_RECORD_TYPE:
+@@ -210,7 +212,7 @@ int fh_gif_getsize(char *name,int *x,int *y)
+ 	}  
+     }
+     while( rt!= TERMINATE_RECORD_TYPE );
+-    DGifCloseFile(gft);
++    DGifCloseFile(gft, &error);
+     return(FH_ERROR_FORMAT);
+ }
+ #endif
+-- 
+1.9.1
+

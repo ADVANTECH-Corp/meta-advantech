@@ -8,8 +8,6 @@ SRC_URI = "file://usb_mount.patch"
 
 S = "${WORKDIR}/tools"
 
-inherit autotools pkgconfig
-
 do_install() {
 	mkdir -p ${D}/tools
 	install -m 0775 ${S}/usb_mount ${D}/tools
