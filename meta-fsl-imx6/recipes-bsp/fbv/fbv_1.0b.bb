@@ -32,4 +32,3 @@ do_install() {
 
 DEPENDS = "giflib jpeg libpng"
 
-COMPATIBLE_MACHINE = "(mx6)"
