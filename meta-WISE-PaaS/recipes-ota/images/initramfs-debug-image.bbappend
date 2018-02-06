@@ -3,7 +3,7 @@ DEPNEDS += "${PREFERRED_PROVIDER_virtual/kernel}"
 BOOTIMG_PAGE_SIZE ?= "2048"
 CACHE_PARTITION_mx6 = "/dev/disk/by-label/cache"
 CACHE_PARTITION_dragonboard-410c = "/dev/disk/by-partlabel/cache"
-CACHE_PARTITION_dra7xx = "/dev/disk/by-label/cache"
+CACHE_PARTITION_arago = "/dev/disk/by-label/cache"
 
 modify_fstab() {
         echo "${CACHE_PARTITION}      /cache               ext4       nosuid,nodev,nomblk_io_submit 0 0" >> ${IMAGE_ROOTFS}/etc/fstab

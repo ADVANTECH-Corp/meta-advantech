@@ -12,8 +12,8 @@ SRC_URI_mx6[md5sum] = "f4dc3b879742847fb6510ef5d2125086"
 SRC_URI_dragonboard-410c = "file://rmmagent-inaro-aarch64-3.2.18.7253.run.tar.gz"
 SRC_URI_dragonboard-410c[md5sum] = "b049ccdf0169d1b13f29b5ae8e6f5991"
 
-SRC_URI_dra7xx = "file://rmmagent-risc_yocto_ti_am57xx-3.3.11.7698.run.tar.gz"
-SRC_URI_dra7xx[md5sum] = "e2adff98f69af90ea6df24b8dd6cb14a"
+SRC_URI_arago = "file://rmmagent-risc_yocto_ti_am57xx-3.3.11.7698.run.tar.gz"
+SRC_URI_arago[md5sum] = "e2adff98f69af90ea6df24b8dd6cb14a"
 
 S = "${WORKDIR}"
 
