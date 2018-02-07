@@ -44,8 +44,13 @@ add_ota_start() {
         install -m 0755 ${ADDON_OTA_START}/ota-start.sh ${IMAGE_ROOTFS}/usr/sbin
 }
 
+matrix_patch() {
+        sed -i "5a PLATFORM=\"-platform linuxfb\"" ${IMAGE_ROOTFS}/etc/init.d/matrix-gui-2.0
+        sed -i 's/start-stop-daemon --start --quiet --background -m --pidfile $PIDFILE --exec $matrixgui -- $GUI_OPTS/start-stop-daemon --start --quiet --background -m --pidfile $PIDFILE --exec $matrixgui -- $PLATFORM $GUI_OPTS/g' ${IMAGE_ROOTFS}/etc/init.d/matrix-gui-2.0
+}
+
 ROOTFS_POSTPROCESS_COMMAND_am57xxrom7510a2 += " add_nb136_files; modify_fstab; modify_do_update; add_test_tools; add_3G_provider; copy_env_config; add_ota_start;"
 
-ROOTFS_POSTPROCESS_COMMAND_am335xrsb4220a1 += "  modify_fstab; modify_do_update; copy_env_config; add_ota_start;"
+ROOTFS_POSTPROCESS_COMMAND_am335xrsb4220a1 += "  modify_fstab; modify_do_update; copy_env_config; add_ota_start;matrix_patch;"
 
 
