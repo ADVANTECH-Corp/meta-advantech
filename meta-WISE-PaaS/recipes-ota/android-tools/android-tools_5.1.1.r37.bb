@@ -18,11 +18,11 @@ LIBSELINUX_REPO = "${ANDROID_MIRROR}/platform/external/libselinux"
 BUILD_REPO = "${ANDROID_MIRROR}/platform/build"
 
 SRC_URI = " \
-    git://${CORE_REPO};name=core;protocol=https;nobranch=1;destsuffix=git/system/core;tag=${ANDROID_TAG} \
-    git://${EXTRAS_REPO};name=extras;protocol=https;nobranch=1;destsuffix=git/system/extras;tag=${ANDROID_TAG} \
-    git://${LIBHARDWARE_REPO};name=libhardware;protocol=https;nobranch=1;destsuffix=git/hardware/libhardware;tag=${ANDROID_TAG} \
-    git://${LIBSELINUX_REPO};name=libselinux;protocol=https;nobranch=1;destsuffix=git/external/libselinux;tag=${ANDROID_TAG} \
-    git://${BUILD_REPO};name=build;protocol=https;nobranch=1;destsuffix=git/build;tag=${ANDROID_TAG} \
+    git://${CORE_REPO};name=core;protocol=https;nobranch=1;destsuffix=git/system/core \
+    git://${EXTRAS_REPO};name=extras;protocol=https;nobranch=1;destsuffix=git/system/extras \
+    git://${LIBHARDWARE_REPO};name=libhardware;protocol=https;nobranch=1;destsuffix=git/hardware/libhardware \
+    git://${LIBSELINUX_REPO};name=libselinux;protocol=https;nobranch=1;destsuffix=git/external/libselinux \
+    git://${BUILD_REPO};name=build;protocol=https;nobranch=1;destsuffix=git/build \
     file://remove-selinux-android.patch \
     file://use-capability.patch \
     file://use-local-socket.patch \
@@ -40,6 +40,12 @@ SRC_URI = " \
     file://fastboot.mk;subdir=${BPN} \
     file://mkbootimg.mk;subdir=${BPN} \
 "
+
+SRCREV_core = "81df1cc77722000f8d0025c1ab00ced123aa573c"
+SRCREV_extras = "8e9fa76016a34ec53b83157032e38fad06af1135"
+SRCREV_libhardware = "64a2b7534486c509d0e13b91b12d52b42166080e"
+SRCREV_libselinux = "6608a1875b07370733d0f93f3a52febcef3442bf"
+SRCREV_build = "04f82d5e3692231eb8bfaa57712841bfd76daa12"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/${BPN}"
