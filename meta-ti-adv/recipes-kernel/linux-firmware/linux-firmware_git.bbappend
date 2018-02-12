@@ -30,13 +30,13 @@ FILES_${PN}-bcm43241b4 = " \
 "
 RDEPENDS_${PN}-bcm43241b4 += "${PN}-broadcom-license"
 
-#PACKAGES =+ "${PN}-sd8897 \
-#            "
+PACKAGES =+ "${PN}-sd8897 \
+            "
 
-#LICENSE_${PN}-sd8897 = "Firmware-Marvell"
-#FILES_${PN}-sd8897 = " \
-#  /lib/firmware/mrvl/sd8897_uapsta.bin \
-#"
-#RDEPENDS_${PN}-sd8897 += "${PN}-marvell-license"
+LICENSE_${PN}-sd8897 = "Firmware-Marvell"
+FILES_${PN}-sd8897 = " \
+  /lib/firmware/mrvl/sd8897_uapsta.bin \
+"
+RDEPENDS_${PN}-sd8897 += "${PN}-marvell-license"
 
 
