@@ -8,8 +8,11 @@ do_configure() {
     # tree config
 
     #cp ${WORKDIR}/defconfig ${B}/.config
-    #cp ${S}/arch/arm/configs/am57xx-adv_defconfig ${B}/.config
-    cp ${S}/arch/arm/configs/am335x-adv_defconfig ${B}/.config
+    if [ "${SOC_FAMILY}" = "omap-a15" ] ; then
+        cp ${S}/arch/arm/configs/am57xx-adv_defconfig ${B}/.config
+    elif [ "${SOC_FAMILY}" = "ti33x" ] ; then
+        cp ${S}/arch/arm/configs/am335x-adv_defconfig ${B}/.config
+    fi
 
     echo ${KERNEL_LOCALVERSION} > ${B}/.scmversion
     echo ${KERNEL_LOCALVERSION} > ${S}/.scmversion

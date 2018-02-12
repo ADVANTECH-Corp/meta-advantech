@@ -49,8 +49,12 @@ matrix_patch() {
 	sed -i 's/start-stop-daemon --start --quiet --background -m --pidfile $PIDFILE --exec $matrixgui -- $GUI_OPTS/start-stop-daemon --start --quiet --background -m --pidfile $PIDFILE --exec $matrixgui -- $PLATFORM $GUI_OPTS/g' ${IMAGE_ROOTFS}/etc/init.d/matrix-gui-2.0
 }
 
-ROOTFS_POSTPROCESS_COMMAND_am57xxrom7510a2 += " add_nb136_files; modify_fstab; modify_do_update; add_test_tools; add_3G_provider; copy_env_config; add_ota_start;"
+weston_patch() {
+        sed -i "42a sleep 2" ${IMAGE_ROOTFS}/etc/init.d/weston
+}
 
-ROOTFS_POSTPROCESS_COMMAND_am335xrsb4220a1 += "  modify_fstab; modify_do_update; copy_env_config; add_ota_start; matrix_patch;"
+ROOTFS_POSTPROCESS_COMMAND_append_omap-a15 += " add_nb136_files; modify_fstab; modify_do_update; add_test_tools; add_3G_provider; copy_env_config; add_ota_start; weston_patch;"
+
+ROOTFS_POSTPROCESS_COMMAND_append_ti33x = "  modify_fstab; modify_do_update; copy_env_config; add_ota_start; matrix_patch;"
 
 

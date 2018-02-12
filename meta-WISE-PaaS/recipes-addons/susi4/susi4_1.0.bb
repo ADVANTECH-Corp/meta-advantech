@@ -14,8 +14,8 @@ SRC_URI_dragonboard-410c = "file://Susi4_qualcomm_dragon_yocto_Release__2017-05-
 SRC_URI_dragonboard-410c[md5sum] = "a45b53f822ce18b77411ed66bd607a43"
 SRC_NAME_dragonboard-410c = "SUSI4.0.14490"
 
-SRC_URI_arago = "file://TI_SUSI4_Release_2018_02_05_ubuntu14.04_x64_ti_yocto.tar.gz"
-SRC_URI_arago[md5sum] = "9617cc41622c559da771141a649850a1"
+SRC_URI_arago = "file://TI_SUSI4_Release_2018_02_12_ubuntu14.04_x64_ti_yocto.tar.gz"
+SRC_URI_arago[md5sum] = "aa13f5deb3c35d0623dbb489854cc974"
 SRC_NAME_arago = "SUSI4.0.14533"
 
 S = "${WORKDIR}/${SRC_NAME}"
