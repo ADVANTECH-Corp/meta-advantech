@@ -7,6 +7,7 @@ IMAGE_INSTALL += " linux-firmware-ralink "
 IMAGE_INSTALL += " linux-firmware-rtl8188ee "
 IMAGE_INSTALL += " linux-firmware-sd8897 "
 IMAGE_INSTALL += " linux-firmware-ar3k "
+IMAGE_INSTALL += " linux-firmware-rtl8821ae "
 IMAGE_INSTALL += " packagegroup-core-eclipse-debug "
 
 # Native Compiler

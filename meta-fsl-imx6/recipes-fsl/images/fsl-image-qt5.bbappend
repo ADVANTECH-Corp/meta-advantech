@@ -14,6 +14,8 @@ install_utils() {
     install -m 0755 ${ADDON_FILES_DIR}/bt_send.sh ${IMAGE_ROOTFS}/usr/local/bin
     install -m 0755 ${ADDON_FILES_DIR}/bt_obexd_start.sh ${IMAGE_ROOTFS}/usr/local/bin
     install -m 0755 ${ADDON_FILES_DIR}/bt_obexd_stop.sh ${IMAGE_ROOTFS}/usr/local/bin
+    mkdir -p ${IMAGE_ROOTFS}/lib/firmware/rtlwifi/rtl8821ae
+    install -m 0755 ${ADDON_FILES_DIR}/wifi_ant_isolation.txt ${IMAGE_ROOTFS}/lib/firmware/rtlwifi/rtl8821ae
 }
 
 ROOTFS_POSTPROCESS_COMMAND += "fbi_rootfs_postprocess; install_utils;"
