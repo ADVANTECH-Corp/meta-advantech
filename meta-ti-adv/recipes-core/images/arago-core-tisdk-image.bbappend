@@ -10,8 +10,7 @@ tisdk_image_build_add_initramfs () {
 tisdk_add_mkemmc_script() {
         install -m 0755 ${ADDON_MK_EMMC_DIR}/mk-eMMC-boot.sh ${IMAGE_ROOTFS}/bin  
 
-        if [ "${MACHINE}" == "am335xrsb4220a1" ]
-        then
+        if [ "${MACHINE}" == "am335xrsb4220a1" ] || [ "${MACHINE}" == "am335xrom3310a1" ]; then
                 sed -i "262a  sysctl vm.min_free_kbytes=16384" ${IMAGE_ROOTFS}/bin/mk-eMMC-boot.sh
         fi 
 }
@@ -48,5 +47,5 @@ tisdk_image_build_append () {
 
 }
 
-ROOTFS_POSTPROCESS_COMMAND += "tisdk_image_build_add_initramfs;tisdk_add_mkemmc_script; "
+ROOTFS_POSTPROCESS_COMMAND_append = "tisdk_image_build_add_initramfs;tisdk_add_mkemmc_script; "
 

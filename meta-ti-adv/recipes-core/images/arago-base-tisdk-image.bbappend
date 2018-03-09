@@ -44,8 +44,8 @@ add_ota_start() {
         install -m 0755 ${ADDON_OTA_START}/ota-start.sh ${IMAGE_ROOTFS}/usr/sbin
 }
 
-ROOTFS_POSTPROCESS_COMMAND_append_omap-a15 = " add_nb136_files; modify_fstab; modify_do_update; add_test_tools; add_3G_provider; copy_env_config; add_ota_start;"
+ROOTFS_POSTPROCESS_COMMAND_append = "  modify_fstab; modify_do_update; copy_env_config; add_ota_start;"
 
-ROOTFS_POSTPROCESS_COMMAND_append_ti33x = "  modify_fstab; modify_do_update; copy_env_config; add_ota_start;"
+ROOTFS_POSTPROCESS_COMMAND_append_omap-a15 = " add_nb136_files; add_test_tools; add_3G_provider; "
 
 

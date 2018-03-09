@@ -11,7 +11,6 @@ IMAGE_INSTALL += "\
 
 IMAGE_INSTALL += "\
     ota-rmm ota-script rmm susi4 susi-iot "
-#   ota-rmm rmm susi4 susi-iot  ota-script "
 
 IMAGE_INSTALL += "\
    ppp"

@@ -8,7 +8,7 @@ do_configure() {
     # tree config
 
     #cp ${WORKDIR}/defconfig ${B}/.config
-    if [ "${SOC_FAMILY}" = "omap-a15" ] ; then
+    if [ "${SOC_FAMILY}" = "omap-a15:dra7xx" ] ; then
         cp ${S}/arch/arm/configs/am57xx-adv_defconfig ${B}/.config
     elif [ "${SOC_FAMILY}" = "ti33x" ] ; then
         cp ${S}/arch/arm/configs/am335x-adv_defconfig ${B}/.config
