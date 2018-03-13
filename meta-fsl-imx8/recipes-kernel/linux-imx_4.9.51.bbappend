@@ -1,0 +1,5 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+SRCBRANCH = "imx_4.9.51_imx8_beta2"
+KERNEL_SRC = "git://github.com/ADVANTECH-Corp/linux-imx8.git;protocol=https"
+SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
+SRCREV = "${AUTOREV}"
