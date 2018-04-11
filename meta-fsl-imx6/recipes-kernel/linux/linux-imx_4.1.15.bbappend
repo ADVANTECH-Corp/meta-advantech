@@ -12,3 +12,4 @@ do_copy_defconfig () {
 }
 
 
+LOCALVERSION = "-RS03A1LIV8540"
