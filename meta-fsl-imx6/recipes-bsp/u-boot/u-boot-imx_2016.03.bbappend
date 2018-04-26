@@ -13,3 +13,4 @@ do_deploy_append() {
     install ${S}/${config}/u-boot_crc.bin.crc ${DEPLOYDIR}/u-boot_crc.bin.crc
     install ${S}/${config}/u-boot_crc.bin ${DEPLOYDIR}/u-boot_crc.bin
 }
+UBOOT_LOCALVERSION = "-7421A1LIV8590"
