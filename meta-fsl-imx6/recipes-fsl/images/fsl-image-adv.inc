@@ -32,3 +32,8 @@ IMAGE_INSTALL += "\
 
 IMAGE_INSTALL += "\
    rmm susi4 susi-iot "
+
+#mbed edge
+IMAGE_INSTALL += "\
+		libevent libevent-dev libc6-dev"
+	
