@@ -12,3 +12,4 @@ do_copy_defconfig () {
 }
 
 
+LOCALVERSION = "-U220A1LIV8620"
