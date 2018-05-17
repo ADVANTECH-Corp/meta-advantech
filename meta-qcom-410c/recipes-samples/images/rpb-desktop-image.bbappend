@@ -36,11 +36,23 @@ IMAGE_INSTALL_append = "\
 IMAGE_INSTALL_append = "\
    rmm susi-iot susi4 "
 
+# Mbed edge
+IMAGE_INSTALL_append += "\
+   libevent libevent-dev libc6-dev"
+
+
 # Install for building RMM
 TOOLCHAIN_TARGET_TASK += "\
    curl curl-dev \
    mosquitto mosquitto-dev \
    c-ares \
+   "
+
+# Install for building Mbed-edge
+TOOLCHAIN_TARGET_TASK += "\
+   libevent libevent-dev \
+   jansson \
+   libc6-dev\
    "
 
 # Bluetooth power adjustment
