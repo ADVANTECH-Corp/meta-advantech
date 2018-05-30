@@ -10,16 +10,17 @@ SRC_URI = "file://telit3g.sh \
 do_install() {
     # Telit
     install -d ${D}/tools
-    install -m 755 ${WORKDIR}/telit3g.sh ${D}/tools/
+    install -d ${D}/tools/ppp
+    install -m 755 ${WORKDIR}/telit3g.sh ${D}/tools/ppp/
 
     # EWM-C106
-    install -m 755 ${WORKDIR}/ewm-c106.sh ${D}/tools/
+    install -m 755 ${WORKDIR}/ewm-c106.sh ${D}/tools/ppp/
     install -d ${D}/etc/ppp/peers
     install -m 644 ${WORKDIR}/3glink ${D}/etc/ppp/peers/
     install -d ${D}/etc/chatscripts
     install -m 644 ${WORKDIR}/3g.chat ${D}/etc/chatscripts/
 }
 
-FILES_${PN} = "/tools"
+FILES_${PN} = "/tools/ppp"
 FILES_${PN} += "/etc/ppp/peers"
 FILES_${PN} += "/etc/chatscripts"

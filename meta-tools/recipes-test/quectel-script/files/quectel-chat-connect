@@ -9,6 +9,6 @@ TIMEOUT 30
 OK ATE0
 OK ATI;+CSUB;+CSQ;+CPIN?;+COPS?;+CGREG?;&D2
 # Insert the APN provided by your network operator, default apn is 3gnet
-OK AT+CGDCONT=1,"IP","3gnet",,0,0
+OK AT+CGDCONT=1,"IP","internet",,0,0
 OK ATD*99#
 CONNECT

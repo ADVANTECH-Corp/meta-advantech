@@ -1,3 +1,3 @@
 #!/bin/sh
 
-pppd call quectel-pppd &
+pppd call quectel-ppp &
