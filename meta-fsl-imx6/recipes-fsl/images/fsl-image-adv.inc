@@ -25,7 +25,7 @@ IMAGE_INSTALL_append_imx6qprom7421a1 = " ecuevent keyevent"
 IMAGE_INSTALL_append_imx6qrom7421a1 = " ecuevent keyevent"
 IMAGE_INSTALL_append_imx6dlrom7421a1 = " ecuevent keyevent"
 
-#RMM & SUSI_4.0
+# RMM & SUSI_4.0
 IMAGE_INSTALL += "\
    sqlite3 lua uci \
    curl curl-dev libxml2 libxml2-dev openssl openssl-dev lsb \
@@ -34,7 +34,10 @@ IMAGE_INSTALL += "\
 IMAGE_INSTALL += "\
    rmm susi4 susi-iot "
 
-#mbed edge
+# Mbed edge
 IMAGE_INSTALL += "\
-		libevent libevent-dev libc6-dev"
-	
+   libevent libevent-dev libc6-dev "
+
+# Browser
+IMAGE_INSTALL += " firefox "
+
