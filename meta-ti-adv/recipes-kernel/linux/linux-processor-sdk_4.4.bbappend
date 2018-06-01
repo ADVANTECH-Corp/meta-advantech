@@ -1,6 +1,6 @@
 BRANCH = "processor-sdk-linux-03.01.00"
 SRC_URI = "git://github.com/ADVANTECH-Corp/linux-ti.git;protocol=git;branch=${BRANCH}"
-SRCREV = "${AUTOREV}"
+SRCREV = "908a4cd51de51d9ca08272871f04907dfad86efb"
 
 do_configure() {
     # Always copy the defconfig file to .config to keep consistency
@@ -14,8 +14,6 @@ do_configure() {
         cp ${S}/arch/arm/configs/am335x-adv_defconfig ${B}/.config
     fi
 
-    echo ${KERNEL_LOCALVERSION} > ${B}/.scmversion
-    echo ${KERNEL_LOCALVERSION} > ${S}/.scmversion
 
     # Zero, when using "tisdk" configs, pass control to defconfig_builder
     config=`cat ${B}/.config | grep use-tisdk-config | cut -d= -f2`
@@ -83,3 +81,4 @@ do_configure() {
         yes '' | oe_runmake -C ${S} O=${B} oldconfig
     fi
 }
+LOCALVERSION = "-RSB4221A1LIV1020"
