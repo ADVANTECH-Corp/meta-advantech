@@ -12,3 +12,4 @@ do_copy_defconfig () {
 }
 
 
+LOCALVERSION = "-5420B1LIV8680"
