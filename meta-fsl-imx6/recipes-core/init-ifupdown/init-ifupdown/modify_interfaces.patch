@@ -7,7 +7,7 @@ Index: init-ifupdown-1.0/interfaces
 
  # Wired or wireless interfaces
 -auto eth0
-+auto eth0 eth0:0
++auto eth0 eth0:0 eth1
  iface eth0 inet dhcp
 +iface eth0:0 inet static
 +       address 192.168.0.1
