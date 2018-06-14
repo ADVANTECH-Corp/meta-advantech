@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
 
 SRC_URI = "file://telit3g.sh \
 	   file://ewm-c106.sh \
+	   file://sierra-em7565.sh \
 	   file://3glink \
 	   file://3g.chat"
 
@@ -19,6 +20,9 @@ do_install() {
     install -m 644 ${WORKDIR}/3glink ${D}/etc/ppp/peers/
     install -d ${D}/etc/chatscripts
     install -m 644 ${WORKDIR}/3g.chat ${D}/etc/chatscripts/
+
+    # Sierra EM7565
+    install -m 755 ${WORKDIR}/sierra-em7565.sh ${D}/tools/ppp/
 }
 
 FILES_${PN} = "/tools/ppp"

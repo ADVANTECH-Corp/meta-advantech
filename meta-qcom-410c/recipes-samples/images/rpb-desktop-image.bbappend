@@ -26,6 +26,9 @@ IMAGE_INSTALL_append = " packagegroup-sdk-target "
 # ADB service
 IMAGE_INSTALL_append = " android-tools "
 
+# Kernel Modules
+IMAGE_INSTALL_append = " gobinet gobiserial "
+
 # RMM & SUSI_4.0
 IMAGE_INSTALL_append = "\
    sqlite3 lua uci \
