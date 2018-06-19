@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
 
 inherit module deploy
 
-SRC_URI = "file://gobiserial.tar.gz"
+SRC_URI = "file://gobiserial.tgz"
 SRCPV = "S2.31N2.50"
 PV = "${SRCPV}"
 
