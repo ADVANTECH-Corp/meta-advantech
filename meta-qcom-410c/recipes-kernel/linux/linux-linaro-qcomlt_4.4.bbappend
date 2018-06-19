@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 # Get kernel source from Advantech GitHub
 LINUX_LINARO_QCOM_GIT = "git://github.com/ADVANTECH-Corp/linux-linaro-qcomlt.git;protocol=https"
-SRCREV = "${AUTOREV}"
+SRCREV = "d8fa532d22d4520aeea5bd898fa01c694ae8bdbf"
 
 # Enable basic functions
 SRC_URI += "file://basic_functions.cfg"
@@ -39,3 +39,4 @@ KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/adbd.cfg"
 # Enable RTL8188EE WIFI Module (USB interface)
 SRC_URI += "file://rtl8188ee.cfg"
 KERNEL_CONFIG_FRAGMENTS += "${WORKDIR}/rtl8188ee.cfg"
+LOCALVERSION = "-4760LIV1130"
