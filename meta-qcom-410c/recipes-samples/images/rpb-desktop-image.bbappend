@@ -29,35 +29,6 @@ IMAGE_INSTALL_append = " android-tools "
 # Kernel Modules
 IMAGE_INSTALL_append = " gobinet gobiserial "
 
-# RMM & SUSI_4.0
-IMAGE_INSTALL_append = "\
-   sqlite3 lua uci \
-   curl curl-dev libxml2 libxml2-dev openssl openssl-dev lsb \
-   mosquitto mosquitto-dev libdmclient libdmclient-dev \
-   packagegroup-sdk-target "
-
-IMAGE_INSTALL_append = "\
-   rmm susi-iot susi4 "
-
-# Mbed edge
-IMAGE_INSTALL_append += "\
-   libevent libevent-dev libc6-dev"
-
-
-# Install for building RMM
-TOOLCHAIN_TARGET_TASK += "\
-   curl curl-dev \
-   mosquitto mosquitto-dev \
-   c-ares \
-   "
-
-# Install for building Mbed-edge
-TOOLCHAIN_TARGET_TASK += "\
-   libevent libevent-dev \
-   jansson \
-   libc6-dev\
-   "
-
 # Bluetooth power adjustment
 IMAGE_INSTALL_append = " wcnss-bt-pout-config "
 
