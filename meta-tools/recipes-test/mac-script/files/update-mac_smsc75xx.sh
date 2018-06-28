@@ -26,7 +26,7 @@ ethtool -E ${ETH_IF} magic 0x7500 offset 0x06 value 0x${MAC_47_40}
 # Others
 ethtool -E ${ETH_IF} magic 0x7500 offset 0x07 value 0x01
 ethtool -E ${ETH_IF} magic 0x7500 offset 0x08 value 0x01
-ethtool -E ${ETH_IF} magic 0x7500 offset 0x09 value 0x1E
+ethtool -E ${ETH_IF} magic 0x7500 offset 0x09 value 0x1A
 ethtool -E ${ETH_IF} magic 0x7500 offset 0x0A value 0x09
 ethtool -E ${ETH_IF} magic 0x7500 offset 0x0B value 0x04
 ethtool -E ${ETH_IF} magic 0x7500 offset 0x0C value 0x0A
