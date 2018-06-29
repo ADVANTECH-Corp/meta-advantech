@@ -1,5 +1,5 @@
 IMAGE_INSTALL += "\
-   linux-firmware-sd8897 linux-firmware-bcm43241b4 "
+   linux-firmware-sd8897 linux-firmware-bcm43241b4 firmware-bin"
 
 IMAGE_INSTALL += "\
    ppp"
