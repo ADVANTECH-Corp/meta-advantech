@@ -1,3 +1,17 @@
+# Copyright (C) 2017 Advantech
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
+SRC_URI += "file://EWM-W170H01E.tgz"
+SRC_URI[md5sum] = "f72305e1634a2412747af82300eae3ad"
+
+# Overwrite WiFi calibration file
+PACKAGES =+ "${PN}-ewm"
+FILES_${PN}-ewm = "\
+                /lib/firmware/otp.bin \
+                /lib/firmware/fakeboar.bin \
+                /lib/firmware/athwlan.bin \
+                /lib/firmware/athsetup.bin \
+                /lib/firmware/wlan"
 
 do_install() {
         install -d  ${D}/lib/firmware/
@@ -19,6 +33,13 @@ do_install() {
         # fixup wl12xx location, after 2.6.37 the kernel searches a different location for it
         ( cd ${D}/lib/firmware ; ln -sf ti-connectivity/* . )
 	rm ${D}/lib/firmware/ti-connectivity/ -rf
+
+        install -d ${D}/lib/firmware/wlan
+        cp -r ${WORKDIR}/firmware_bin/otp.bin ${D}/lib/firmware/
+        cp -r ${WORKDIR}/firmware_bin/fakeboar.bin ${D}/lib/firmware/
+        cp -r ${WORKDIR}/firmware_bin/athwlan.bin ${D}/lib/firmware/
+        cp -r ${WORKDIR}/firmware_bin/athsetup.bin ${D}/lib/firmware/
+        cp -r ${WORKDIR}/firmware_bin/wlan/ ${D}/lib/firmware/
 }
 
 PACKAGES =+ "${PN}-bcm43241b4 \
