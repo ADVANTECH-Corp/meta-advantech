@@ -9,6 +9,17 @@ SRCREV = "89aee4b0d9c418a022a85fb3713481659d1cefa5"
 
 S = "${WORKDIR}/git"
 
+# Fix "no package provides /usr/local/bin/node-bench" issue
+SRC_URI += "file://node-bench"
+
+do_install_append() {
+    install -d ${D}/usr/local/bin
+    install -m 755 ${WORKDIR}/node-bench ${D}/usr/local/bin
+}
+
+FILES_${PN} = "/usr/local/bin"
+
+
 inherit npm-install-global
 
 do_configure() {
