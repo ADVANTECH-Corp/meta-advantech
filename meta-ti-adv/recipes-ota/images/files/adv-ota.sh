@@ -97,7 +97,7 @@ updateBoot()
 {
     IMAGE_BT=`grep update-kernel $UPDATE_SCRIPT | cut -d ',' -f 2`
     IMAGE_DTB=`grep update-dtb $UPDATE_SCRIPT | cut -d ',' -f 2`
-    DISK_BT="${DISK_DIR}/${BOOT_LABEL}"
+    DISK_BT="${DISK_DIR}/${ROOTFS_LABEL}"
 
     BOOT_TYPE="zImage"
     if [ -z ${IMAGE_DTB} ] ; then
@@ -113,8 +113,8 @@ updateBoot()
         "zImage")
             mount $DISK_BT /mnt/
             [ "$?" -ne 0 ] && exitRecovery "Err: 'mount' command failed!"
-            rm /mnt/*
-            cp ${IMAGE_BT} ${IMAGE_DTB} /mnt/
+            #rm /mnt/*
+            cp ${IMAGE_BT} ${IMAGE_DTB} "/mnt/${BOOT_LABEL}"
             [ "$?" -ne 0 ] && exitRecovery "Err: 'cp' command failed!" true
             umount /mnt
             printMsg "Update done!"
