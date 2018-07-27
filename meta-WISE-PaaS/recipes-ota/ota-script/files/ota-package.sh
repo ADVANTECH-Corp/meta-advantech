@@ -12,6 +12,7 @@ Generate package file to be used for OTA update on Yocto Linux
  -k <file>  Kernel or Boot image file
  -d <file>  DTB (device tree) file
  -r <file>  Rootfs image file
+ -f <file>  .tgz file
  -o <file>  Output file
  -h         Show help
 EOF
@@ -20,7 +21,7 @@ EOF
 
 OUTPUT="update"
 
-while getopts "b:k:d:r:o:h" o; do
+while getopts "b:k:d:r:o:f:h" o; do
     case "${o}" in
     b)
         BOOTLOADER=${OPTARG}
@@ -34,6 +35,9 @@ while getopts "b:k:d:r:o:h" o; do
     r)
         ROOTFS=${OPTARG}
         ;;
+    f)
+        FILES=${OPTARG}
+        ;;
     o)
         OUTPUT=${OPTARG}
         ;;
@@ -43,7 +47,7 @@ while getopts "b:k:d:r:o:h" o; do
     esac
 done
 
-if [ -z ${BOOTLOADER} ] && [ -z ${KERNEL} ] && [ -z ${DTB} ] && [ -z ${ROOTFS} ] ; then
+if [ -z ${BOOTLOADER} ] && [ -z ${KERNEL} ] && [ -z ${DTB} ] && [ -z ${ROOTFS} ] && [ -z ${FILES} ] ; then
     echo "Please specify at least one image file"
     echo ""
     usage
@@ -54,6 +58,7 @@ CMD_BOOTLOADER="update-bootloader"
 CMD_KERNEL="update-kernel"
 CMD_DTB="update-dtb"
 CMD_ROOTFS="update-rootfs"
+CMD_FILES="update-files"
 
 UPDATE_DIR="ota-update"
 UPDATE_SCRIPT="updater-script"
@@ -80,6 +85,13 @@ if [ ! -z ${ROOTFS} ] ; then
     cp ${ROOTFS} ${UPDATE_DIR}
     MD5_SUM=`md5sum -b ${ROOTFS} | cut -d ' ' -f 1`
     echo "${CMD_ROOTFS},${ROOTFS},${MD5_SUM}" >> ${UPDATE_DIR}/${UPDATE_SCRIPT}
+fi
+
+extenstion=${FILES##*.}
+if [ ! -z ${FILES} ] && [ "tgz" == "${extenstion}" ] ; then
+    cp ${FILES} ${UPDATE_DIR}
+    MD5_SUM=`md5sum -b ${FILES} | cut -d ' ' -f 1`
+    echo "${CMD_FILES},${FILES},${MD5_SUM}" >> ${UPDATE_DIR}/${UPDATE_SCRIPT}
 fi
 
 zip -r ${OUTPUT} ${UPDATE_DIR}/*
