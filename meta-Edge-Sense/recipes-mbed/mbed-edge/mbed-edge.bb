@@ -8,7 +8,10 @@ SRC_URI = "file://edge-core-dev \
            file://pt-example \
            file://pt-example_1520 \
            file://mec \
-           file://mec.service"
+           file://mec.service \
+           file://arm_update_activate.sh \
+           file://arm_update_active_details.sh \
+           file://arm_update_prepare.sh"
 
 inherit systemd update-rc.d
 
@@ -28,6 +31,9 @@ do_install() {
     install -m 755 ${WORKDIR}/lorapt-example ${D}/${bindir}
     install -m 755 ${WORKDIR}/pt-example ${D}/${bindir}
     install -m 755 ${WORKDIR}/pt-example_1520 ${D}/${bindir}
+    install -m 755 ${WORKDIR}/arm_update_activate.sh ${D}/usr/sbin/
+    install -m 755 ${WORKDIR}/arm_update_active_details.sh ${D}/usr/sbin/
+    install -m 755 ${WORKDIR}/arm_update_prepare.sh ${D}/usr/sbin/
 
     # SysV
     if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
