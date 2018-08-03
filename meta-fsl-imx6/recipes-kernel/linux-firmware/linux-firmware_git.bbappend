@@ -12,6 +12,8 @@ RDEPENDS_${PN}-rtl8188ee += "${PN}-rtl-license"
 LICENSE_${PN}-sd8897 = "Firmware-Marvell"
 FILES_${PN}-sd8897 = " \
   /lib/firmware/mrvl/sd8897_uapsta.bin \
+  /lib/firmware/mrvl/pcie8897_uapsta.bin \
+
 "
 RDEPENDS_${PN}-sd8897 += "${PN}-marvell-license"
 
