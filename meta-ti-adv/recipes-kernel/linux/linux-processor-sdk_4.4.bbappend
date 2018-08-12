@@ -1,6 +1,6 @@
 BRANCH = "processor-sdk-linux-03.01.00"
 SRC_URI = "git://github.com/ADVANTECH-Corp/linux-ti.git;protocol=https;branch=${BRANCH}"
-SRCREV = "${AUTOREV}"
+SRCREV = "1d310208a847df1fbab865a7a537f23f1f8f435b"
 
 do_configure() {
     # Always copy the defconfig file to .config to keep consistency
