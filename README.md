@@ -16,9 +16,9 @@ This repository contains Advantech meta layers for Yocto.
 
 - Platform support for Qualcomm dragonboard 410c.
 
-### meta-ti-57xx
+### meta-ti-adv
 
-- Platform support for TI 57xx.
+- Platform support for both TI am57xx & am335x.
 
 ### meta-tools
 
@@ -27,3 +27,7 @@ This repository contains Advantech meta layers for Yocto.
 ### meta-WISE-PaaS
 
 - This layer provides Advantech add-on features, e.g. RMM, SUSI & SUSI-IOT.
+
+### meta-Edge-Sense
+
+- This layer provides additional packages for gateway solution, e.g. Arm Mbed, Node-RED, etc.
