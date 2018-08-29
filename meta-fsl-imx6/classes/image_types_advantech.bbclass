@@ -245,7 +245,7 @@ generate_imx_sdcard () {
 			;;
 			normal)
 			bbnote "dd normal mode file"
-			if [ -n "${SPL_BINARY}" ]; then
+			if [ -e "${DEPLOY_DIR_IMAGE}/${SPL_BINARY}" ]; then
 				dd if=${DEPLOY_DIR_IMAGE}/u-boot_crc.bin.crc of=${SDCARD_FILE} conv=notrunc seek=2 bs=512
 				dd if=${DEPLOY_DIR_IMAGE}/u-boot_crc.bin of=${SDCARD_FILE} conv=notrunc seek=3 bs=512
 			else
