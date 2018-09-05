@@ -6,6 +6,7 @@ After=network.target
 Type=idle
 Restart=always
 RestartSec=10
+ExecStartPre=/bin/sleep 10
 ExecStart=/usr/bin/edge-core -p 22225 -o 8081
 
 StandardOutput=syslog
