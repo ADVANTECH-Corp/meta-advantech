@@ -18,4 +18,4 @@ do_install() {
 # List the files for Package
 FILES_${PN} += "/tools"
 
-COMPATIBLE_MACHINE = "(mx6)"
+COMPATIBLE_MACHINE = "(mx6|mx7)"

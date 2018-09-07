@@ -5,10 +5,10 @@ SRCREV = "${AUTOREV}"
 
 
 PARALLEL_MAKE = ""
-UBOOT_MAKE_TARGET += "all"
-SPL_BINARY = "SPL"
+UBOOT_MAKE_TARGET_mx6 += "all"
+SPL_BINARY_mx6 = "SPL"
 
-do_deploy_append() {
+do_deploy_append_mx6() {
     install -d ${DEPLOYDIR}
     install ${S}/${config}/u-boot_crc.bin.crc ${DEPLOYDIR}/u-boot_crc.bin.crc
     install ${S}/${config}/u-boot_crc.bin ${DEPLOYDIR}/u-boot_crc.bin

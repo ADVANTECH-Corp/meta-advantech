@@ -11,4 +11,4 @@ do_install () {
         install -m 0755    ${WORKDIR}/advantech.conf       ${D}${sysconfdir}/modules-load.d	
 }
 
-COMPATIBLE_MACHINE = "(mx6)"
+COMPATIBLE_MACHINE = "(mx6|mx7)"

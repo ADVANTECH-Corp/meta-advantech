@@ -28,4 +28,4 @@ diag_sysroot_preprocess() {
     install -m 755 ${D}/usr/bin/key_event ${SYSROOT_DESTDIR}/usr/bin/
 }
 
-COMPATIBLE_MACHINE = "(mx6)"
+COMPATIBLE_MACHINE = "(mx6|mx7)"

@@ -19,4 +19,4 @@ do_configure() {
     oe_runconf
 }
 
-COMPATIBLE_MACHINE = "(mx6)"
+COMPATIBLE_MACHINE = "(mx6|mx7)"

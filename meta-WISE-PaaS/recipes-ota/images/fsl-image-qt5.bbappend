@@ -1,6 +1,6 @@
-IMAGE_INSTALL += " ota-script "
-IMAGE_INSTALL += " ota-rmm "
-IMAGE_INSTALL += " python-paho-mqtt libxmu "
+IMAGE_INSTALL_append_mx6 += " ota-script "
+IMAGE_INSTALL_append_mx6 += " ota-rmm "
+IMAGE_INSTALL_append_mx6 += " python-paho-mqtt libxmu "
 
 OTA_CONFIGS_DIR:="${THISDIR}/files"
 CACHE_PARTITION = "/dev/disk/by-label/cache"

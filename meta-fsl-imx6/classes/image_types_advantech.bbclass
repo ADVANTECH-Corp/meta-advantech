@@ -164,8 +164,10 @@ _generate_boot_image() {
 		;;
 		normal)
 		bbnote "copy normal u-boot file"
-		mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/u-boot_crc.bin.crc ::/u-boot_crc.bin.crc
-		mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/u-boot_crc.bin ::/u-boot_crc.bin
+		if [ -e "${DEPLOY_DIR_IMAGE}/u-boot_crc.bin.crc" ]; then
+			mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/u-boot_crc.bin.crc ::/u-boot_crc.bin.crc
+			mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/u-boot_crc.bin ::/u-boot_crc.bin
+		fi
 		;;
 	esac
 }
@@ -245,7 +247,7 @@ generate_imx_sdcard () {
 			;;
 			normal)
 			bbnote "dd normal mode file"
-			if [ -e "${DEPLOY_DIR_IMAGE}/${SPL_BINARY}" ]; then
+			if [ -e "${DEPLOY_DIR_IMAGE}/u-boot_crc.bin.crc" ]; then
 				dd if=${DEPLOY_DIR_IMAGE}/u-boot_crc.bin.crc of=${SDCARD_FILE} conv=notrunc seek=2 bs=512
 				dd if=${DEPLOY_DIR_IMAGE}/u-boot_crc.bin of=${SDCARD_FILE} conv=notrunc seek=3 bs=512
 			else

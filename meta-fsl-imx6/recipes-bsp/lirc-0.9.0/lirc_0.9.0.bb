@@ -24,7 +24,7 @@ FILES_${PN} += "/run/lirc"
 # Build-time dependencies
 DEPENDS = "libusb"
 
-COMPATIBLE_MACHINE = "(mx6)"
+COMPATIBLE_MACHINE = "(mx6|mx7)"
 
 # disable unneeded task at present
 do_package_qa[noexec] = "1"

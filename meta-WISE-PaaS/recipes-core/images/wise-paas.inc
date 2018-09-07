@@ -1,4 +1,4 @@
-IMAGE_INSTALL_append = " packagegroup-wise-paas "
+IMAGE_INSTALL_append_mx6 = " packagegroup-wise-paas "
 
 # Install for building RMM
 TOOLCHAIN_TARGET_TASK += "\
