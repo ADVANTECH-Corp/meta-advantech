@@ -5,7 +5,7 @@ SRCREV = "${AUTOREV}"
 
 
 PARALLEL_MAKE = ""
-UBOOT_MAKE_TARGET_mx6 += "all"
+UBOOT_MAKE_TARGET += "all"
 SPL_BINARY_mx6 = "SPL"
 
 do_deploy_append_mx6() {
