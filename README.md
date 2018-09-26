@@ -31,3 +31,6 @@ This repository contains Advantech meta layers for Yocto.
 ### meta-Edge-Sense
 
 - This layer provides additional packages for gateway solution, e.g. Arm Mbed, Node-RED, etc.
+
+### meta-timesys
+- This layer provide timesys scripts.
