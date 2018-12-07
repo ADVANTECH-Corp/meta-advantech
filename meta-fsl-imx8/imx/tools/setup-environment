@@ -43,10 +43,11 @@ directory <build-dir>. The build directory configuration is unchanged.
 "
 
     ls sources/*/conf/machine/*.conf > /dev/null 2>&1
+    ls sources/meta-advantech/meta-fsl-imx8/imx/*/conf/machine/*.conf > /dev/null 2>&1
     ls sources/meta-freescale-distro/conf/distro/fslc-*.conf > /dev/null 2>&1
     if [ $? -eq 0 ]; then
         echo -e "
-Supported machines: `echo; ls sources/*/conf/machine/*.conf \
+Supported machines: `echo; ls sources/*/conf/machine/*.conf ls sources/meta-advantech/meta-fsl-imx8/imx/*/conf/machine/*.conf\
 | sed s/\.conf//g | sed -r 's/^.+\///' | xargs -I% echo -e "\t%"`
 
 Supported Freescale's distros: `echo; ls sources/meta-freescale-distro/conf/distro/fslc-*.conf \
