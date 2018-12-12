@@ -1,0 +1,5 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+UBOOT_SRC = "git://github.com/ADVANTECH-Corp/uboot-imx6.git;protocol=https"
+SRCBRANCH = "imx_v2018.03_4.14.62_1.0.0_beta"
+SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
+SRCREV = "${AUTOREV}"
