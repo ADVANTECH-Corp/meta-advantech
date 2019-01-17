@@ -16,8 +16,8 @@ SRC_URI_dragonboard-410c[md5sum] = "b049ccdf0169d1b13f29b5ae8e6f5991"
 SRC_URI_dragonboard-410c += "file://rmmagent-Poky_2.1.3_apq8016-1.0.13.718f34f.run.tar.gz"
 SRC_URI_dragonboard-410c[md5sum] += "a9f94c2092060476bf73dd32d2bf31c7"
 
-SRC_URI_arago = "file://rmmagent-risc_yocto_ti_am57xx-3.3.11.7698.run.tar.gz"
-SRC_URI_arago[md5sum] = "e2adff98f69af90ea6df24b8dd6cb14a"
+SRC_URI_arago = "file://rmmagent-TI-am335x-3.3.23.8345.run.tar.gz"
+SRC_URI_arago[md5sum] = "5012b07adbfc02632bac481c17478b8e"
 
 
 S = "${WORKDIR}"
