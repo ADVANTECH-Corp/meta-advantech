@@ -4,6 +4,7 @@ THERMAL_ZONE0_TEMP="/sys/devices/virtual/thermal/thermal_zone0/temp"
 THERMAL_ZONE1_TEMP="/sys/devices/virtual/thermal/thermal_zone1/temp"
 COOLING_DEVICE0_STATE="/sys/class/thermal/cooling_device0/cur_state"
 COOLING_DEVICE1_STATE="/sys/class/thermal/cooling_device1/cur_state"
+COOLING_DEVICE2_STATE="/sys/class/thermal/cooling_device2/cur_state"
 CPU_FREQENCY="/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq"
 
 echo 0 > /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_temp
@@ -24,10 +25,13 @@ xterm -title cooling_device0 -geometry 80x4+10+210 -e watch -n 1 cat ${COOLING_D
 [ -e ${COOLING_DEVICE1_STATE} ] && \
 xterm -title cooling_device1 -geometry 80x4+10+310 -e watch -n 1 cat ${COOLING_DEVICE1_STATE} &
 
+[ -e ${COOLING_DEVICE2_STATE} ] && \
+xterm -title cooling_device2 -geometry 80x4+10+410 -e watch -n 1 cat ${COOLING_DEVICE2_STATE} &
+
 [ -e ${CPU_FREQENCY} ] && \
-xterm -title cpu_freq -geometry 80x4+10+410 -e watch -n 1 cat ${CPU_FREQENCY} &
+xterm -title cpu_freq -geometry 80x4+10+510 -e watch -n 1 cat ${CPU_FREQENCY} &
 
-xterm -title top -geometry 80x40+10+510 top &
+xterm -title top -geometry 80x40+720+310 -e top &
 
-stress -c 4
+stress -c 6
 #glmark2 --size 1280x720 --annotate --run-forever &
