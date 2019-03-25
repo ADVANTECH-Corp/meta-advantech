@@ -1,0 +1,13 @@
+diff --git a/core/arch/arm/plat-imx/conf.mk b/core/arch/arm/plat-imx/conf.mk
+index fc934d3..8431654 100644
+--- a/core/arch/arm/plat-imx/conf.mk
++++ b/core/arch/arm/plat-imx/conf.mk
+@@ -14,7 +14,7 @@ mx6ull-flavorlist = mx6ullevk
+ mx7d-flavorlist = mx7dsabresd
+ mx7s-flavorlist = mx7swarp7
+ mx7ulp-flavorlist = mx7ulpevk
+-mx8m-flavorlist = mx8mqevk
++mx8m-flavorlist = mx8mqevk mx8mqrom5720a1
+ mx8mm-flavorlist = mx8mmevk
+ mx8qm-flavorlist = mx8qmmek mx8qmlpddr4arm2
+ mx8qx-flavorlist = mx8qxpmek mx8qxplpddr4arm2
