@@ -19,7 +19,7 @@ RDEPENDS_${PN}-base = "\
    sqlite3 lua uci \
    curl curl-dev libxml2 libxml2-dev openssl openssl-dev lsb \
    mosquitto mosquitto-dev libdmclient libdmclient-dev \
-   packagegroup-sdk-target "
+   mosquitto-clients libmosquitto1 libmosquittopp1 packagegroup-sdk-target "
 
 SUMMARY_${PN}-addon = "Advantech proprietary packages"
 RDEPENDS_${PN}-addon = "\
