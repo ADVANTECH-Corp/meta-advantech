@@ -1,4 +1,8 @@
+IMAGE_FEATURES += " package-management "
+IMAGE_INSTALL += " haveged "
+
 ROOTFS_POSTPROCESS_COMMAND += "update_profile ;"
+ROOTFS_POSTPROCESS_COMMAND += "fix_haveged ;"
 
 update_profile() {
 sed -i "\
@@ -15,4 +19,8 @@ alias ll='ls -l'
 alias la='ls -al'
 alias l=ll
 EOF
+}
+
+fix_haveged() {
+    sed -i "s/\(ExecStart=.*\)/\1 --data=16/" ${IMAGE_ROOTFS}/lib/systemd/system/haveged.service
 }
