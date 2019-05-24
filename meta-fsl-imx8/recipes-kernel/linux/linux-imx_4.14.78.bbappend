@@ -7,7 +7,7 @@ SRCREV = "${AUTOREV}"
 DEFCONFIG ?= ""
 DEFCONFIG_mx8qm = "imx8qm_adv_defconfig"
 DEFCONFIG_mx8mq = "imx8mq_adv_defconfig"
-SCMVERSION_pn-linux-imx = ""
+SCMVERSION = "n"
 
 do_copy_defconfig_mx8 () {
     if [ "${DEFCONFIG}" == "" ]; then
