@@ -6,6 +6,7 @@ SRC_URI = "file://boottimes.sh \
 	   file://boottimes.service"
 
 inherit systemd
+RDEPENDS_${PN} += "bash"
 
 do_install() {
     install -d ${D}/tools
