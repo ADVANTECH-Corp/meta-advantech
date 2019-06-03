@@ -8,7 +8,9 @@ COOLING_DEVICE2_STATE="/sys/class/thermal/cooling_device2/cur_state"
 CPU_FREQENCY="/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq"
 
 echo 0 > /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_temp
+echo 0 > /sys/devices/virtual/thermal/thermal_zone0/trip_point_1_temp
 echo 0 > /sys/devices/virtual/thermal/thermal_zone1/trip_point_0_temp
+echo 0 > /sys/devices/virtual/thermal/thermal_zone1/trip_point_1_temp
 echo "disabled" > /sys/devices/virtual/thermal/thermal_zone0/mode
 echo "disabled" > /sys/devices/virtual/thermal/thermal_zone1/mode
 echo "performance" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
