@@ -6,16 +6,15 @@ inherit packagegroup
 PACKAGES = "\
    ${PN} \
    ${PN}-base \
-   ${PN}-addon \
    "
 
 RDEPENDS_${PN} = "\
    ${PN}-base \
-   ${PN}-addon \
    "
 
 SUMMARY_${PN}-base = "Yocto native packages"
 RDEPENDS_${PN}-base = "\
+   nodejs nodejs-npm zsh git git-perltools \
    sqlite3 lua uci libbsd \
    curl curl-dev libxml2 libxml2-dev openssl openssl-dev lsb \
    mosquitto mosquitto-dev libdmclient libdmclient-dev \
