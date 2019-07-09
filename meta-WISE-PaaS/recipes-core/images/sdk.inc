@@ -5,5 +5,4 @@ TOOLCHAIN_TARGET_TASK += "\
    c-ares libbsd \
    libevent libevent-dev \
    jansson jansson-dev \
-   libc6-dev \
    "
