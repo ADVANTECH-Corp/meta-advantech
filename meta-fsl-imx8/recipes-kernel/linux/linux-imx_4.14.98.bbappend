@@ -9,6 +9,16 @@ DEFCONFIG_mx8qm = "imx8qm_adv_defconfig"
 DEFCONFIG_mx8mq = "imx8mq_adv_defconfig"
 SCMVERSION = "n"
 
+do_copy_defconfig_mx6 () {
+    cp ${S}/arch/arm/configs/imx_v7_adv_defconfig ${B}/.config
+    cp ${S}/arch/arm/configs/imx_v7_adv_defconfig ${B}/../defconfig
+}
+
+do_copy_defconfig_mx7 () {
+    cp ${S}/arch/arm/configs/imx_v7_adv_imx7_defconfig ${B}/.config
+    cp ${S}/arch/arm/configs/imx_v7_adv_imx7_defconfig ${B}/../defconfig
+}
+
 do_copy_defconfig_mx8 () {
     if [ "${DEFCONFIG}" == "" ]; then
         echo "no defconfig defined"
