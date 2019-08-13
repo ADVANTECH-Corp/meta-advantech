@@ -14,8 +14,7 @@ IMAGE_INSTALL_append = " minicom st boottimes alsa-utils fbida iperf memtester p
 IMAGE_INSTALL_append = " netkit-ftp glmark2 ntpdate v4l-utils mtd-utils expect "
 IMAGE_INSTALL_append = " packagegroup-tools-bluetooth "
 IMAGE_INSTALL_append = " inetutils inetutils-telnet inetutils-telnetd "
-IMAGE_INSTALL_append = " gimp "
-IMAGE_INSTALL_append = " libevent "
+IMAGE_INSTALL_append = " gimp libevent sudo "
 
 # X resource database manager
 IMAGE_INSTALL_append = " xrdb "
