@@ -17,7 +17,7 @@ MAKE_TARGETS = "all"
 MODULES_INSTALL_TARGET = "install"
 
 # Generate modules tarball file
-addtask do_deploy before do_packagedata after do_package
+addtask do_deploy before do_packagedata after do_populate_sysroot
 
 MODULE_IMAGE_BASE_NAME ?= "modules-${PN}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
 MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
