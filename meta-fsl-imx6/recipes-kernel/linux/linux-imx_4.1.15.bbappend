@@ -1,7 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 SRCBRANCH = "imx_4.1.15_2.0.0_ga"
 KERNEL_SRC = "git://github.com/ADVANTECH-Corp/linux-imx6.git;protocol=https;branch=${SRCBRANCH}"
-SRCREV = "${AUTOREV}"
+SRCREV = "55931ea16a7802918f2ab283742f0da0d692c22b"
 
 # Skip getting GIT revision for local version
 SCMVERSION = "n"
