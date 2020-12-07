@@ -1,7 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 SRCBRANCH = "imx_v2016.03_4.1.15_2.0.0_ga"
 UBOOT_SRC = "git://github.com/ADVANTECH-Corp/uboot-imx6.git;protocol=https;branch=${SRCBRANCH}"
-SRCREV = "${AUTOREV}"
+SRCREV = "b4f1ec54410a61de3541e35cd58261508054239d"
 
 
 PARALLEL_MAKE = ""
