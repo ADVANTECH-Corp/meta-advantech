@@ -27,4 +27,5 @@ IMAGE_INSTALL_append_imx6dlrom7421a1 = " ecuevent keyevent"
 
 # Browser
 IMAGE_INSTALL += " firefox "
+IMAGE_INSTALL += " hostapd "
 
